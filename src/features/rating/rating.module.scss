@@ -7,10 +7,17 @@
 }
 
 .rating {
-    display: flex;
-    gap: 12px;
 
-    @media (max-width: 320px) {
-        gap: 8px;
+    .rating__stars {
+        display: flex;
+        flex-direction: row;
+        gap: 12px;
+
+        @media (max-width: 320px) {
+            gap: 8px;
+        }
+
     }
+
+
 }

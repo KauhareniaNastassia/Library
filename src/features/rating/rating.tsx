@@ -11,7 +11,7 @@ type RatingPropsType = {
 
 export const Rating: React.FC<RatingPropsType> = ({...props}) => <div className={css.rating}>
         {props.rating ? (
-                <div>
+                <div className={css.rating__stars}>
                     {[...Array(5)].map((_, index) => (
                         <img
                             // @ts-ignore

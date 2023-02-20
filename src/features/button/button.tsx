@@ -21,6 +21,7 @@ export const Button = (props: ButtonPropsType) => {
             style={props.buttonStyle}
             className={css.button_unactive}>занята до {props.bookedTill} </button>
     }
+
     return <button
         type="button"
         style={props.buttonStyle}
