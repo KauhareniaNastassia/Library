@@ -1,0 +1,51 @@
+@import '../../common/styles/variables/variables';
+@import '../../common/styles/mixins/mixins';
+
+.terms {
+    margin-bottom: 62px;
+
+    @media (max-width: 320px) {
+        margin: 24px 0;
+    }
+
+    .terms__title {
+        @include text(32px, 40px, 700, $main-text-color);
+        margin-bottom: 32px;
+
+        @media (max-width: 320px) {
+            @include text(18px, 28px, 700, $main-text-color);
+            margin-bottom: 24px;
+        }
+    }
+
+    ol {
+        list-style: none;
+        counter-reset: li;
+
+        li:before {
+            counter-increment: li;
+            content: counters(li, '.') '.';
+        }
+
+        .terms__points:not(:last-child) {
+            margin-bottom: 16px;
+        }
+
+        .terms__points {
+            @include text(16px, 24px, 600, $main-text-color);
+
+            .terms__points_subitems {
+                margin-left: 30px;
+                font-weight: 400;
+
+                @media (max-width: 320px) {
+                    @include text(15px, 20px, 400, $main-text-color);
+                }
+
+                li {
+                    margin-top: 16px;
+                }
+            }
+        }
+    }
+}

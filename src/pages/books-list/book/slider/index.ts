@@ -1,0 +1,2 @@
+export { BookSlider } from './slider';
+

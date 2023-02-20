@@ -1,0 +1,333 @@
+@import "src/common/styles/mixins/mixins";
+@import "src/common/styles/variables/variables";
+
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 42px;
+    margin: 42px 0;
+
+    @media (max-width: 768px) {
+        margin: 24px 0 48px 0;
+        gap: 48px;
+    }
+
+    @media (max-width: 320px) {
+        margin: 8px 0 20px 0;
+        gap: 20px;
+    }
+
+    .bookPage__path {
+        min-width: 100vw;
+        transform: translateX(-50%);
+        margin-left: 50%;
+        background: #F9F9FA;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 4px;
+        padding: 23px 165px;
+        @include text(14px, 18px, 400, $unActive-color);
+
+        @media (max-width: 768px) {
+            position: relative;
+            display: inline;
+            min-width: 768px;
+            padding: 20px 64px;
+            z-index: -1;
+
+            span {
+                margin-right: 4px;
+            }
+        }
+
+        @media (max-width: 320px) {
+            min-width: 320px;
+            padding: 20px 16px;
+            @include text(12px, 16px, 500, $unActive-color);
+        }
+    }
+
+
+    .bookPage__info {
+        display: grid;
+        grid-template-areas:
+            'c a'
+            'c s';
+        grid-template-columns: 445px 635px;
+        grid-column-gap: 30px;
+        grid-row-gap: 62px;
+
+        @media (max-width: 768px) {
+            grid-template-areas:
+            'c a'
+            's s';
+            grid-template-columns: 136px 472px;
+            grid-column-gap: 32px;
+            grid-row-gap: 48px;
+        }
+
+        @media (max-width: 320px) {
+            grid-template-areas:
+            'c'
+            'a'
+            's';
+            grid-template-columns: 288px;
+            grid-row-gap: 0;
+        }
+
+        .bookPage__info_cover {
+            grid-area: c;
+            width: 445px;
+            height: 593px;
+            border-radius: 10px;
+            border: 1px solid $unActive-color;
+            background: #F9F9FA;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            @media (max-width: 768px) {
+                grid-area: c;
+                width: 136px;
+                height: 198px;
+                border-radius: 10px;
+            }
+
+            @media (max-width: 320px) {
+                grid-area: c;
+                width: 188px;
+                height: 260px;
+                margin: 0 50px 16px 50px;
+            }
+
+            .bookList__item_cover {
+                @media (max-width: 768px) {
+                    width: 136px;
+                    height: 100%;
+                    border-radius: 10px;
+                }
+
+                @media (max-width: 320px) {
+                    width: 188px;
+                    height: 260px;
+                }
+            }
+        }
+
+        .bookPage__info_about {
+            grid-area: a;
+            display: flex;
+            flex-direction: column;
+
+            .bookPage__info_title {
+                letter-spacing: 0.1px;
+                @include text(32px, 40px, 700, $main-text-color);
+                margin-bottom: 24px;
+
+                @media (max-width: 768px) {
+                    @include text(24px, 30px, 700, $main-text-color);
+                    margin-bottom: 32px;
+                }
+
+                @media (max-width: 320px) {
+                    @include text(18px, 28px, 700, $main-text-color);
+                    margin-bottom: 8px;
+                }
+            }
+
+            .bookPage__info_author {
+                letter-spacing: 0.1px;
+                @include text(18px, 28px, 700, $unActive-color);
+                margin-bottom: 32px;
+
+                @media (max-width: 768px) {
+                    @include text(14px, 18px, 600, $main-text-color);
+                }
+
+                @media (max-width: 320px) {
+                    @include text(12px, 18px, 400, $main-text-color);
+                    margin-bottom: 42px;
+                }
+            }
+
+            .bookPage__info_button {
+                width: 350px;
+                height: 52px;
+
+                @media (max-width: 768px) {
+                    width: 306px;
+                    height: 52px;
+                }
+
+                @media (max-width: 320px) {
+                    width: 288px;
+                    height: 40px;
+                    margin-bottom: 42px;
+                }
+            }
+        }
+
+        .bookPage__info_summary {
+            grid-area: s;
+
+            .bookPage__info_summary_title {
+                @include text(18px, 28px, 700, $main-text-color);
+                margin-bottom: 32px;
+
+                @media (max-width: 768px) {
+                    @include text(16px, 24px, 600, $main-text-color);
+                }
+
+                @media (max-width: 320px) {
+                    @include text(18px, 28px, 700, $main-text-color);
+                    margin-bottom: 16px;
+                }
+            }
+
+            .bookPage__info_summary_content {
+                @include text(16px, 24px, 400, $main-text-color);
+
+                p:not(:last-child) {
+                    margin-bottom: 24px;
+
+                    @media (max-width: 320px) {
+                        margin-bottom: 0px;
+                    }
+                }
+
+                @media (max-width: 768px) {
+                    @include text(16px, 24px, 400, $main-text-color);
+                }
+
+                @media (max-width: 320px) {
+                    @include text(12px, 18px, 400, $main-text-color);
+                }
+            }
+        }
+    }
+
+    .bookPage__review {
+        display: flex;
+        flex-direction: column;
+        gap: 62px;
+
+        @media (max-width: 768px) {
+            gap: 52px;
+            margin-top: 4px;
+        }
+
+        @media (max-width: 320px) {
+            gap: 24px;
+            margin-top: 0;
+        }
+
+        .bookPage__review_blockTitle {
+            @include text(18px, 28px, 700, $main-text-color);
+
+            @media (max-width: 768px) {
+                @include text(16px, 24px, 600, $main-text-color);
+            }
+
+            @media (max-width: 320px) {
+                @include text(18px, 28px, 700, $main-text-color);
+                margin-bottom: 16px;
+            }
+
+            .bookPage__review_blockTitle_toggle {
+                display: flex;
+                gap: 24px;
+
+                .bookPage__review_blockTitle_count {
+                    margin-left: 6px;
+                    @include text(14px, 24px, 400, $unActive-color);
+                }
+
+                .bookPage__review_blockTitle_toggleBtn {
+                    border: none;
+                    background-color: #FFFFFF;
+                }
+                .bookPage__review_blockTitle_toggleBtn_rotate {
+                    border: none;
+                    background-color: #FFFFFF;
+                    transform: rotate(180deg);
+                }
+            }
+
+
+
+            &::after {
+                content: '';
+                display: block;
+                margin: 16px 0 0 0 ;
+                height: 1px;
+                width: 350px;
+                background: #EBEBEB;
+
+                @media (max-width: 768px) {
+                    width: 305px;
+                }
+
+                @media (max-width: 320px) {
+                    display: none;
+                }
+            }
+        }
+
+        .bookPage__review_rating {
+            @media (max-width: 320px) {
+                display: flex;
+                flex-direction: column;
+
+            }
+
+            .bookPage__review_rating_count {
+                display: inline-flex;
+                align-items: center;
+                gap: 24px;
+                margin-top: 16px;
+                @include text(18px, 28px, 700, $main-text-color)
+            }
+        }
+
+
+        .bookPage__review_items {
+            display: flex;
+            flex-direction: column;
+            gap: 42px;
+            max-width: 730px;
+
+            @media (max-width: 320px) {
+                margin-top: 16px;
+                gap: 32px;
+            }
+        }
+
+        .bookPage__review_button {
+            width: 350px;
+            height: 52px;
+            text-transform: uppercase;
+            @include text(16px, 24px, 600, #FFFFFF);
+            background: linear-gradient(233.73deg, #F83600 -16.08%, #F9D423 327.37%);
+            border-radius: 30px;
+            border: none;
+            letter-spacing: 0.2px;
+
+            @media (max-width: 768px) {
+                width: 100%;
+                @include text(16px, 150%, 600, #FFFFFF);
+                margin-top: -10px;
+            }
+
+            @media (max-width: 320px) {
+                margin-top: -4px;
+                height: 40px;
+            }
+        }
+    }
+
+}
+

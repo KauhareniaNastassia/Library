@@ -1,0 +1,36 @@
+.wrapper {
+    max-width:1110px;
+    display:flex;
+    margin:0 auto;
+    flex-direction:column;
+    min-height: 100vh;
+
+
+    .content__block {
+
+        min-height: calc(100vh - 105px - 56px) ;
+        margin-bottom: 42px;
+
+        @media (max-width:768px) {
+            margin-bottom: 48px;
+        }
+
+        @media (max-width:320px) {
+            margin-bottom: 20px;
+        }
+    }
+
+    .footer__block {
+        flex-shrink: 0;
+    }
+
+    @media (max-width:768px) {
+        max-width:640px;
+        left: 64px;
+    }
+
+    @media (max-width:320px) {
+        max-width:288px;
+        left:16px;
+    }
+}

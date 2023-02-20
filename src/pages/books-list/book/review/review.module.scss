@@ -1,0 +1,69 @@
+@import "../../../../common/styles/mixins/mixins";
+@import "../../../../common/styles/variables/variables";
+
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    @media (max-width: 320px) {
+        gap: 8px;
+    }
+
+    .review__userInfo {
+        display: flex;
+        gap: 24px;
+        align-items: center;
+
+        @media (max-width: 320px) {
+            display: grid;
+            grid-template-areas:
+            'a d';
+            grid-template-columns: 32px 1fr;
+            grid-column-gap: 18px;
+            grid-row-gap: 3px;
+        }
+
+        .review__userInfo_avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 100%;
+
+            @media (max-width: 320px) {
+                grid-area: a;
+            }
+        }
+
+        .review__userInfo_userData {
+            display: flex;
+            flex-direction: row;
+            gap: 24px;
+
+            @media (max-width: 320px) {
+                grid-area: d;
+                display: flex;
+                flex-direction: column;
+                gap: 3px
+            }
+
+            .review__userInfo_name,
+            .review__userInfo_date {
+                @include text(16px, 24px, 400, $unActive-color);
+
+                @media (max-width: 320px) {
+                    @include text(15px, 20px, 400, $unActive-color);
+                    grid-area: d;
+                }
+            }
+        }
+    }
+
+    .review__message {
+        @include text(16px, 24px, 400, $main-text-color);
+
+        @media (max-width: 320px) {
+            @include text(15px, 20px, 400, $main-text-color);
+        };
+    }
+}

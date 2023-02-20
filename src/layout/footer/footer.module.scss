@@ -1,0 +1,36 @@
+@import '../../common/styles/mixins/mixins';
+@import '../../common/styles/variables/variables';
+
+.wrapper {
+    display: flex;
+    border-top: 1px solid #BFC4C9;
+    padding: 16px 0;
+    justify-content: space-between;
+    max-height:50px;
+
+    @media (max-width: 320px) {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 16px 0px 8px 0px;
+        align-items: center;
+        max-height:104px;
+    }
+
+    span {
+        @include text(16px, 24px, 400, $main-text-color);
+
+        @media (max-width: 320px) {
+            width: 180px;
+            @include text(15px, 20px, 400, $main-text-color);
+            text-align: center;
+        }
+    }
+
+    .social {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 24px;
+    }
+}
