@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/Library/static/css/main.2a2204c4.css",
+    "main.js": "/Library/static/js/main.ccbe4032.js",
+    "static/media/avatar.svg": "/Library/static/media/avatar.958064d0ab9f5ba898e1db6419f52137.svg",
+    "static/media/book-cover.png": "/Library/static/media/book-cover.ac77e35f38547f499016.png",
+    "static/media/logo-clevertec.svg": "/Library/static/media/logo-clevertec.50d13a224f362513f21bd0cf4fb3f520.svg",
+    "static/media/instagram-logo.svg": "/Library/static/media/instagram-logo.bf0e437e0ca1c90fb3f7c8961e5e6541.svg",
+    "static/media/tile-icon.svg": "/Library/static/media/tile-icon.7848f0038344d592068982cfde10329f.svg",
+    "static/media/cancel-icon.svg": "/Library/static/media/cancel-icon.157f00cfa41d479f0a2e4bdd032e69e2.svg",
+    "static/media/vk-logo.svg": "/Library/static/media/vk-logo.cec79a7ecdbc915aed26c5a4ab1ff5c2.svg",
+    "static/media/default-book-cover.svg": "/Library/static/media/default-book-cover.4ac806c5257f4fdf7a3cf5bf00e7748f.svg",
+    "static/media/rating-icon.svg": "/Library/static/media/rating-icon.2b5735f33e6f5fe12612e09a1a27a128.svg",
+    "static/media/list-icon.svg": "/Library/static/media/list-icon.afa71c4c033b3e43b9534eb734f8c8d9.svg",
+    "static/media/search-icon.svg": "/Library/static/media/search-icon.9ac2de41ffa0689b64a6f74726a6b053.svg",
+    "static/media/star.svg": "/Library/static/media/star.49846d614da46385c83479613bee4a48.svg",
+    "static/media/sidebar-arrow-icon.svg": "/Library/static/media/sidebar-arrow-icon.d0f329975f43f69d685890c091d53544.svg",
+    "index.html": "/Library/index.html",
+    "static/media/linkedin-logo.svg": "/Library/static/media/linkedin-logo.7e716a127ab3f8577a17f83bfefdacc9.svg",
+    "static/media/default-star.svg": "/Library/static/media/default-star.543b964218059add7570c74821c98f4a.svg",
+    "static/media/facebook-logo.svg": "/Library/static/media/facebook-logo.106e7fb630d241320112014b9985342c.svg",
+    "main.2a2204c4.css.map": "/Library/static/css/main.2a2204c4.css.map",
+    "main.ccbe4032.js.map": "/Library/static/js/main.ccbe4032.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2a2204c4.css",
+    "static/js/main.ccbe4032.js"
+  ]
+}
