@@ -42,8 +42,8 @@ export type BookingType = {
 export type DeliveryType = {
     id: number,
     handed: boolean,
-    dateHandedFrom: Date | null,
-    dateHandedTo: Date | null,
+    dateHandedFrom: string | null,
+    dateHandedTo: string | null,
     recipientId: number | null,
     recipientFirstName: string | null,
     recipientLastName: string | null

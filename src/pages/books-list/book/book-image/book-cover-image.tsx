@@ -8,18 +8,23 @@ import "swiper/css/thumbs";
 
 // import required modules
 import SwiperCore, {Navigation} from "swiper";
-import {BookImage} from "../../../../redux/books-reducer";
+
 import defaultBookCover from '../../../../assets/img/defaultCatIcon.svg'
+import {ImageType} from "../../../../api/books-list-api";
+import {converterURLImages} from "../../../../hooks/converter-URL-images";
 
 
 SwiperCore.use([Navigation])
 
 type BookCoverImagePropsType = {
-    image: BookImage[]
+    image: ImageType[]
 }
 
-export const BookCoverImage = (props: BookCoverImagePropsType) =>{
-    if (props.image.length) return <img src={props.image[0].image} className='image' alt='book' />;
+export const BookCoverImage:React.FC<BookCoverImagePropsType> = ({image}) =>{
+
+    let bookIMG = converterURLImages(image)
+
+    if (image.length) return <img src={bookIMG[0]} className='image' alt='book' />;
 
     return <img src={defaultBookCover} className='image' alt='book-empty' />;
 };

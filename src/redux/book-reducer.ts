@@ -2538,10 +2538,40 @@
 
 
 import {ReviewType} from './reviews-reducer';
+import {bookApi, BookResponseType, CommentsType, UserCommentType} from "../api/book-api";
+import {AppThunkType} from "./store";
+import {ImageType} from "../api/books-list-api";
 
 
 const initialState: InitialBookStateType = {
-    id: '63ca71c94c9bb5ba1cefd584',
+
+    book: {
+        id: 0,
+        title: '',
+        rating: 0,
+        issueYear: '',
+        description: '',
+        publish: '',
+        pages: '',
+        cover: '',
+        weight: '',
+        format: '',
+        ISBN: '',
+        producer: '',
+        authors: [],
+        images: [
+            {
+                url: ''
+            }
+        ],
+        categories: [],
+        comments: null ,
+        booking: null,
+        delivery: null,
+        histories: null,
+    },
+
+    /*id: '63ca71c94c9bb5ba1cefd584',
     image: [
         {
             imageId: 'asdf',
@@ -2559,29 +2589,50 @@ const initialState: InitialBookStateType = {
     year: 2019,
     isBooked: false,
     bookedTill: '',
-    review: []
+    review: []*/
 }
 
 
-export const bookReducer = (state = initialState): InitialBookStateType => state
+export const bookReducer = (state: InitialBookStateType = initialState, action: BookActionsType): InitialBookStateType => {
+    switch (action.type) {
+        case "book/SET-BOOK":
+            return {...state, book: action.book}
+
+        default:
+            return state
+    }
+}
+
 
 //  actions
+export const setBookAC = (book: BookResponseType) => ({
+    type: 'book/SET-BOOK',
+    book
+} as const)
+
+
+//  thunk
+
+export const getBookTC = (id: number): AppThunkType =>
+    async (dispatch) => {
+
+        try {
+            const res = await bookApi.getBook(id)
+            dispatch(setBookAC(res.data))
+        } catch (e) {
+
+        }
+    }
 
 
 //  types
 
+export type BookActionsType =
+    | ReturnType<typeof setBookAC>
+
+
 type InitialBookStateType = {
-    id: string,
-    image: BookImage[],
-    category: string,
-    categoryForPath: string,
-    author: string,
-    title: string,
-    rating: number,
-    year: number,
-    isBooked: boolean,
-    bookedTill: string
-    review: ReviewType[]
+    book: BookResponseType
 }
 
 export type BookImage = {

@@ -11,8 +11,7 @@ import {
 
 export const bookApi = {
     getBook(id: number) {
-        return instance.get<BookResponseType>(` /api/books/${id}`)
-            .then(res => res.data)
+        return instance.get<BookResponseType>(`/api/books/${id}`)
     }
 }
 
@@ -20,7 +19,7 @@ export const bookApi = {
 
 //===========TYPES=========
 
-type BookResponseType = {
+export type BookResponseType = {
     id: number,
     title: string,
     rating: number | null,
@@ -46,7 +45,7 @@ export type CommentsType = {
     id: number | null,
     rating: number,
     text: string | null,
-    createdAt: Date,
+    createdAt: string,
     user: UserCommentType
 }
 export type UserCommentType = {
