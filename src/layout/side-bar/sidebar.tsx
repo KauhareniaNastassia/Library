@@ -1,13 +1,12 @@
-import {useSelector} from 'react-redux';
 import {useEffect, useState} from "react";
 
 import {NavLink, useLocation} from 'react-router-dom';
 import css from './sidebar.module.scss'
-import {AppRootStateType} from '../../redux/store';
-import {GenreBarItemType} from '../../redux/category-reducer';
+import {getCategoriesListTC} from '../../redux/category-reducer';
 import sidebarArrowIcon from '../../assets/img/sidebar-arrow-icon.svg';
 import {SidebarMainItem} from "./sidebar-main-item";
 import {SidebarShowcaseItem} from "./sidebar-showcase-item";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 
 
 type SidebarPropsType = {
@@ -16,23 +15,29 @@ type SidebarPropsType = {
 }
 
 export const Sidebar = (props: SidebarPropsType) => {
-    const genreItems = useSelector<AppRootStateType, GenreBarItemType[]>((state) => state.genreList.items)
 
+    const categories = useAppSelector(state => state.categories.items)
+const dispatch = useAppDispatch()
     const location = useLocation()
 
     const [showMenu, setShowMenu] = useState(true)
     const [activeShowcase, setActiveShowcase] = useState<boolean>(true)
 
 
-useEffect(() => {
-    if (props.showMenuBtn === true) {
-        setShowMenu(false)
-    }
-    if (props.showMenuBtn === true && !location.pathname.includes('books')) {
-        setActiveShowcase(false)
-    }
+    useEffect(() => {
+        if (props.showMenuBtn === true) {
+            setShowMenu(false)
+        }
+        if (props.showMenuBtn === true && !location.pathname.includes('books')) {
+            setActiveShowcase(false)
+        }
 
-}, [props.showMenuBtn, location.pathname])
+    }, [props.showMenuBtn, location.pathname])
+
+
+    useEffect( () => {
+        dispatch(getCategoriesListTC())
+    }, [] )
 
 
     return <nav className={css.sidebar}>
@@ -46,7 +51,7 @@ useEffect(() => {
                              ? `${css.active_link} ${css.sidebar__showcase_active}`
                              : css.sidebar__showcase_unActive}
                          onClick={() => setActiveShowcase(true)}
-                         >
+                >
 
                     <div className={css.sidebar__showcase_title}>
                         <div>
@@ -77,13 +82,13 @@ useEffect(() => {
                             </div>
 
                             <ul>
-                                {genreItems.map((item) =>
+                                {categories.map((category) =>
                                     <SidebarShowcaseItem
-                                        key={item.genreId}
-                                        genreId={item.genreId}
-                                        category={item.category}
-                                        name={item.name}
-                                        length={item.content.length}
+                                        key={category.id}
+                                        categoryId={category.id}
+                                        category={category.path}
+                                        name={category.name}
+
                                         closeSideBar={props.closeSideBar}
                                     />
                                 )}

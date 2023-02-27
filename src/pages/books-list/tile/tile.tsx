@@ -8,20 +8,17 @@ import defaultBookCover from '../../../assets/img/default-book-cover.svg'
 import {Rating} from '../../../features/rating';
 import {Button} from '../../../features/button';
 import {useAppDispatch, useAppSelector} from "../../../hooks/hooks";
+import {BookListResponseType} from "../../../api/books-list-api";
 
+type TilePropsType = {
+    selectCategoryBooks: BookListResponseType[]
+}
 
-export const Tile = () => {
-    const dispatch = useAppDispatch()
-    const books = useAppSelector((state) => state.books.books)
-
-
-    useEffect( () => {
-       dispatch(getBooksTC())
-    }, [dispatch])
+export const Tile:React.FC<TilePropsType> = ({selectCategoryBooks}) => {
 
     return <div className={css.wrapper_tile}>
 
-        {books.map((item) =>
+        {selectCategoryBooks.map((item) =>
             <div key={item.id}>
                 <NavLink to={`/books/${item.categories}/${item.id}`}>
 

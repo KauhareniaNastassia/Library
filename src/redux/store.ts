@@ -1,6 +1,6 @@
 import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
 import thunk, {ThunkAction, ThunkDispatch} from "redux-thunk";
-import {categoryReducer} from './category-reducer';
+import {CategoriesListActionTypes, categoryReducer} from './category-reducer';
 import {BookListActionTypes, booksReducer} from './books-reducer';
 import {BookActionsType, bookReducer} from './book-reducer';
 import {reviewsReducer} from './reviews-reducer';
@@ -9,8 +9,7 @@ import {reviewsReducer} from './reviews-reducer';
 const RootReducer = combineReducers({
     books: booksReducer,
     book: bookReducer,
-
-    genreList: categoryReducer,
+    categories: categoryReducer,
 
     reviews: reviewsReducer
 
@@ -29,7 +28,7 @@ export type AppRootStateType = ReturnType<typeof store.getState>
 export type AppActionsType =
     | BookListActionTypes
     | BookActionsType
-
+    | CategoriesListActionTypes
 
 
 export type AppDispatchType = ThunkDispatch<AppRootStateType, unknown, AppActionsType>

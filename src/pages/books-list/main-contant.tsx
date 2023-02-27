@@ -1,4 +1,5 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
+import {NavLink, useParams} from 'react-router-dom';
 import css from './main-contant.module.scss'
 import ratingIcon from '../../assets/img/rating-icon.svg';
 import tileIcon from '../../assets/img/tile-icon.svg';
@@ -7,6 +8,9 @@ import {Tile} from './tile';
 import {List} from './list';
 import {useOnClickOutside} from "../../hooks/use-on-click-outside";
 import {InputSearch} from "../../features/search-input";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
+import {BookListResponseType} from "../../api/books-list-api";
+import {getBooksTC} from "../../redux/books-reducer";
 
 
 export const MainContent = () => {
@@ -14,6 +18,20 @@ export const MainContent = () => {
     const [isActive, setIsActive] = useState(true);
     const [searchOpen, setSearchOpen] = useState(false)
     const node = useRef<HTMLDivElement>(null);
+    const dispatch = useAppDispatch()
+    const {category} = useParams()
+    const books = useAppSelector((state) => state.books.books)
+    const currentCategory = useAppSelector(state => state.categories.items.find(el => el.path === category))
+    const booksInThisCategory = books.filter((book) => book.categories?.find((ctgrs) => ctgrs === currentCategory?.name))
+
+
+    let selectCategoryBooks: BookListResponseType[] = []
+
+    if (category === 'all') {
+        selectCategoryBooks = books
+    } else {
+        selectCategoryBooks = booksInThisCategory
+    }
 
     const onTileButtonClickHandler = () => {
         setIsActive(true)
@@ -30,6 +48,13 @@ export const MainContent = () => {
     }
 
     useOnClickOutside(node, closeSearch);
+
+    useEffect( () => {
+        dispatch(getBooksTC())
+    }, [])
+
+
+
 
     return <section className={css.wrapper}>
         <section className={!searchOpen ? css.filterBar : css.filterBar__search_open}>
@@ -70,10 +95,11 @@ export const MainContent = () => {
             </div>
         </section>
 
-        {show ? <Tile/> : <List/>}
+        {show
+            ? <Tile selectCategoryBooks={selectCategoryBooks}/>
+            : <List selectCategoryBooks={selectCategoryBooks}/>}
 
     </section>
-
 
 }
 

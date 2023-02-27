@@ -1,28 +1,23 @@
 import React, {useEffect} from 'react';
-import {useSelector} from 'react-redux';
-import {NavLink} from 'react-router-dom';
+import {NavLink, useParams} from 'react-router-dom';
 import css from './list.module.scss'
 import bookCover from '../../../assets/img/book-cover.png'
 import defaultBookCover from '../../../assets/img/default-book-cover.svg'
-import {AppRootStateType} from '../../../redux/store';
-import {BookType, getBooksTC} from '../../../redux/books-reducer';
+import {getBooksTC} from '../../../redux/books-reducer';
 import {Rating} from '../../../features/rating';
 import {Button} from '../../../features/button';
 import {useAppDispatch, useAppSelector} from "../../../hooks/hooks";
+import {BookListResponseType} from "../../../api/books-list-api";
 
+type ListPropsType = {
+    selectCategoryBooks: BookListResponseType[]
+}
 
-export const List = () => {
-    const dispatch = useAppDispatch()
-    const books = useAppSelector((state) => state.books.books)
+export const List:React.FC<ListPropsType> = ({selectCategoryBooks}) => {
 
-
-
-    useEffect( () => {
-        dispatch(getBooksTC())
-    }, [dispatch])
     return <div className={css.wrapper_list}>
 
-        {books.map((item) =>
+        {selectCategoryBooks.map((item) =>
 
             <div key={item.id}>
 

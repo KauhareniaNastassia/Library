@@ -4,7 +4,6 @@ import {instance} from "./instance";
 export const booksListApi = {
     getBookList() {
         return instance.get<BookListResponseType[]>(`/api/books`)
-
     }
 }
 
