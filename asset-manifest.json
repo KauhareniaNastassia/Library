@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Library/static/css/main.4b786533.css",
-    "main.js": "/Library/static/js/main.1c14daba.js",
+    "main.js": "/Library/static/js/main.621248d4.js",
     "static/media/avatar.svg": "/Library/static/media/avatar.958064d0ab9f5ba898e1db6419f52137.svg",
     "static/media/default-user-photo.svg": "/Library/static/media/default-user-photo.595900639f7474ce0352a9f7b5564213.svg",
     "static/media/book-cover.png": "/Library/static/media/book-cover.ac77e35f38547f499016.png",
@@ -23,10 +23,10 @@
     "static/media/review-arrow-up.svg": "/Library/static/media/review-arrow-up.65ba9ad1c1cac85978dd4f789d99c209.svg",
     "static/media/facebook-logo.svg": "/Library/static/media/facebook-logo.106e7fb630d241320112014b9985342c.svg",
     "main.4b786533.css.map": "/Library/static/css/main.4b786533.css.map",
-    "main.1c14daba.js.map": "/Library/static/js/main.1c14daba.js.map"
+    "main.621248d4.js.map": "/Library/static/js/main.621248d4.js.map"
   },
   "entrypoints": [
     "static/css/main.4b786533.css",
-    "static/js/main.1c14daba.js"
+    "static/js/main.621248d4.js"
   ]
 }
