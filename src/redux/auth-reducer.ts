@@ -2600,6 +2600,20 @@ export const loginTC = (data: LoginRequestDataType): AppThunkType =>
         }
     }
 
+export const logoutTC = (): AppThunkType =>
+    async (dispatch) => {
+        console.log("TC")
+        try {
+            const res = await authApi.logout()
+
+            dispatch(isLoggedInAC(false))
+
+
+        } catch (e) {
+
+        }
+    }
+
 
 //  types
 

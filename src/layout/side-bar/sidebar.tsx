@@ -7,6 +7,7 @@ import sidebarArrowIcon from '../../assets/img/sidebar-arrow-icon.svg';
 import {SidebarMainItem} from "./sidebar-main-item";
 import {SidebarShowcaseItem} from "./sidebar-showcase-item";
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
+import {loginTC, logoutTC} from "../../redux/auth-reducer";
 
 
 type SidebarPropsType = {
@@ -17,11 +18,17 @@ type SidebarPropsType = {
 export const Sidebar = (props: SidebarPropsType) => {
 
     const categories = useAppSelector(state => state.categories.items)
-const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch()
     const location = useLocation()
 
     const [showMenu, setShowMenu] = useState(true)
     const [activeShowcase, setActiveShowcase] = useState<boolean>(true)
+
+
+    const onClickLogoutHandler = () => {
+        console.log('logout')
+        dispatch(logoutTC())
+    }
 
 
     useEffect(() => {
@@ -35,9 +42,9 @@ const dispatch = useAppDispatch()
     }, [props.showMenuBtn, location.pathname])
 
 
-    useEffect( () => {
+    /*useEffect(() => {
         dispatch(getCategoriesListTC())
-    }, [] )
+    }, [])*/
 
 
     return <nav className={css.sidebar}>
@@ -120,12 +127,16 @@ const dispatch = useAppDispatch()
                 setActiveShowcase={() => setActiveShowcase(false)}
                 closeSideBar={props.closeSideBar}
             />
-            <SidebarMainItem
-                path="/logout"
-                title='Выход'
-                setActiveShowcase={() => setActiveShowcase(false)}
-                closeSideBar={props.closeSideBar}
-            />
+            <div onClick={onClickLogoutHandler}>
+                <SidebarMainItem
+                    path="/login"
+                    title='Выход'
+                    setActiveShowcase={() => setActiveShowcase(false)}
+                    closeSideBar={props.closeSideBar}
+                    onClickLogoutHandler={onClickLogoutHandler}
+                />
+            </div>
+
         </div>
 
     </nav>

@@ -7,17 +7,40 @@ type SidebarMainItemPropsType = {
     setActiveShowcase: () => void
     title: string
     closeSideBar?: () => void
+    onClickLogoutHandler?: () => void
 }
 
 
+export const SidebarMainItem: React.FC<SidebarMainItemPropsType> = ({
+                                                                        path,
+                                                                        setActiveShowcase,
+                                                                        title,
+                                                                        closeSideBar,
+                                                                        onClickLogoutHandler
+                                                                    }) => {
 
-export const SidebarMainItem = (props: SidebarMainItemPropsType) => <h3 className={css.item} >
-        <NavLink to={props.path}
-                 className={({isActive}) => isActive ? css.active_link : ''}
-                 onClick={props.closeSideBar ? props.closeSideBar :  props.setActiveShowcase}>
-            {props.title}
-        </NavLink>
-    </h3>
+
+    const onClickHandler = () => {
+        if (closeSideBar) {
+            closeSideBar()
+        } else {
+            setActiveShowcase()
+        }
+        if (onClickLogoutHandler) {
+            onClickLogoutHandler()
+        }
+    }
+
+    return (
+        <h3 className={css.item}>
+            <NavLink to={path}
+                     className={({isActive}) => isActive ? css.active_link : ''}
+                     onClick={onClickHandler}>
+                {title}
+            </NavLink>
+        </h3>
+    )
+}
 
 
 
