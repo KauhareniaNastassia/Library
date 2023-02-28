@@ -2570,26 +2570,6 @@ const initialState: InitialBookStateType = {
         delivery: null,
         histories: null,
     },
-
-    /*id: '63ca71c94c9bb5ba1cefd584',
-    image: [
-        {
-            imageId: 'asdf',
-            image: 'cvbnm,.'
-        },
-        {
-            imageId: 'QWASERDT',
-            image: 'swezrxthcyvu'
-        }],
-    category: 'business',
-    categoryForPath: 'Бизнес-книги',
-    author: 'Адитья Бхаргава',
-    title: 'Грокаем алгоритмы. Иллюстрированное пособие для программистов',
-    rating: 0,
-    year: 2019,
-    isBooked: false,
-    bookedTill: '',
-    review: []*/
 }
 
 
@@ -2609,6 +2589,7 @@ export const setBookAC = (book: BookResponseType) => ({
     type: 'book/SET-BOOK',
     book
 } as const)
+
 
 
 //  thunk

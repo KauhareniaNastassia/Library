@@ -19,9 +19,6 @@ export const MainPage:React.FC = () => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 
 
-    /*if (isLoggedIn) {
-        return <Loader/>
-    }*/
 
     useEffect(() => {
         dispatch(getCategoriesListTC())
@@ -29,6 +26,8 @@ export const MainPage:React.FC = () => {
 
     return (
         <section className={css.wrapper}>
+
+
             <div className={css.header__block}>
                 <Header/>
             </div>

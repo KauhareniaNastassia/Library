@@ -53,9 +53,6 @@ export const MainContent = () => {
         dispatch(getBooksTC())
     }, [])
 
-
-
-
     return <section className={css.wrapper}>
         <section className={!searchOpen ? css.filterBar : css.filterBar__search_open}>
             <div className={css.filterBar_left}>
