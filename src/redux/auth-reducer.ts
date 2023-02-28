@@ -2540,6 +2540,7 @@
 import {bookApi, BookResponseType} from "../api/book-api";
 import {AppThunkType} from "./store";
 import {authApi, AuthResponseType, AuthUserResponseType, LoginRequestDataType} from "../api/auth-api";
+import {setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
 
 
 const initialState: InitialAuthStateType = {
@@ -2587,6 +2588,7 @@ export const setLoginDataAC = (data: AuthResponseType) => ({
 
 export const loginTC = (data: LoginRequestDataType): AppThunkType =>
     async (dispatch) => {
+        dispatch(setAppStatusAC('loading'))
         console.log("TC")
         try {
             const res = await authApi.login(data)
@@ -2602,13 +2604,14 @@ export const loginTC = (data: LoginRequestDataType): AppThunkType =>
 
 export const logoutTC = (): AppThunkType =>
     async (dispatch) => {
+        dispatch(setAppStatusAC('loading'))
         console.log("TC")
         try {
             const res = await authApi.logout()
 
             dispatch(isLoggedInAC(false))
-
-
+            dispatch(setAppStatusAC('succeeded'))
+            dispatch(setAppSuccessMessageAC('success'))
         } catch (e) {
 
         }

@@ -2541,6 +2541,7 @@ import {BookListActionTypes, BookType, setBooksAC} from './books-reducer';
 import {categoriesApi, CategoryItemType} from "../api/categories-api";
 import {AppThunkType} from "./store";
 import {booksListApi} from "../api/books-list-api";
+import {setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
 
 const initialState: InitialCategoryStateType = {
     items: [] as CategoryItemType[]
@@ -2573,11 +2574,12 @@ export const setCategoriesListAC = (categories: CategoryItemType[]) => ({
 export const getCategoriesListTC = (): AppThunkType =>
 
     async (dispatch) => {
-
+        dispatch(setAppStatusAC('loading'))
         try {
             const res = await categoriesApi.getCategoriesList()
             dispatch(setCategoriesListAC(res.data))
-
+            dispatch(setAppStatusAC('succeeded'))
+            dispatch(setAppSuccessMessageAC('success'))
         } catch (e) {
             console.log(e)
         }

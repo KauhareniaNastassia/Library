@@ -12,11 +12,12 @@ import {MainContent} from '../books-list'
 import {Login} from "../auth/login/login";
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 import {getCategoriesListTC} from "../../redux/category-reducer";
+import {Loader} from "../../assets/loader/loader";
 
 
 export const MainPage:React.FC = () => {
     const dispatch = useAppDispatch()
-    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
+    const status = useAppSelector(state => state.app.status)
 
 
 
@@ -27,6 +28,7 @@ export const MainPage:React.FC = () => {
     return (
         <section className={css.wrapper}>
 
+            {status === 'loading' && <Loader/>}
 
             <div className={css.header__block}>
                 <Header/>
@@ -43,7 +45,7 @@ export const MainPage:React.FC = () => {
                     <Route path="/books/:category/:bookId" element={<BookPage/>}/>
                     <Route path="/profile" element={<ProfilePage/>}/>
 
-                    <Route path='/login' element={<Login/>}/>
+                    <Route path='/auth' element={<Login/>}/>
                 </Routes>
             </div>
 

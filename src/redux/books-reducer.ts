@@ -1,6 +1,7 @@
 import {ReviewType} from "./reviews-reducer";
 import {BookListResponseType, booksListApi} from "../api/books-list-api";
 import {AppThunkType} from "./store";
+import {setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
 
 const initialState: InitialBooksStateType = {
     books: [] as BookListResponseType[]
@@ -32,11 +33,12 @@ export const setBooksAC = (books: BookListResponseType[]) => ({
 
 export const getBooksTC = (): AppThunkType =>
     async (dispatch) => {
-
+        dispatch(setAppStatusAC('loading'))
         try {
             const res = await booksListApi.getBookList()
             dispatch(setBooksAC(res.data))
-
+            dispatch(setAppStatusAC('succeeded'))
+            dispatch(setAppSuccessMessageAC('success'))
         } catch (e) {
             console.log(e)
         }
