@@ -8,32 +8,22 @@ import {Review} from './review';
 import {Button} from '../../../features/button';
 import reviewArrowUpIcon from '../../../assets/img/review-arrow-up.svg';
 import {useAppDispatch, useAppSelector} from "../../../hooks/hooks";
-import {BookSlider} from "./slider";
 import {BookCoverImage} from "./book-image/book-cover-image";
-import {getBooksTC} from "../../../redux/books-reducer";
 import {getBookTC} from "../../../redux/book-reducer";
 
 export const BookPage = () => {
     const dispatch = useAppDispatch()
-    const {bookId, category} = useParams()
-
-    //const book = useAppSelector((state) => state.books.books.find(book => book.id === params.bookId))
+    const {bookId} = useParams()
 
     const book = useAppSelector((state) => state.book.book)
-
 
     const [showReviews, setShowReviews] = useState(true)
 
     useEffect(() => {
-
             dispatch(getBookTC(Number(bookId)))
-
-
     }, [dispatch, bookId])
 
     return <section className={css.wrapper}>
-
-
         <>
             <div className={css.bookPage__path}>
                 <span>{book.categories}</span><span>/</span><span>{book.title}</span>
@@ -65,8 +55,9 @@ export const BookPage = () => {
                                 fontSize: '16px',
                                 lineHeight: '24px'
                             }}
-                            isBooked={book.booking?.order}
-                            bookedTill={book.booking?.dateOrder?.toString()}/>
+                            isBooked={book.booking?.order}//забронирована
+                            dateHanded={book.delivery?.dateHandedFrom?.toString()}
+                            handed={book.delivery?.handed}/>
                     </div>
 
                 </div>

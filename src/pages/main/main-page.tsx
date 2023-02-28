@@ -9,6 +9,8 @@ import {Header} from '../../layout/header';
 import {LayoutMainPage} from '../../layout/layout-main-page';
 import {Footer} from '../../layout/footer';
 import {MainContent} from '../books-list'
+import {LoginForm} from "../auth/login/login-form/login-form";
+import {Login} from "../auth/login/login";
 
 
 export const MainPage = () => (
@@ -27,6 +29,8 @@ export const MainPage = () => (
                 </Route>
                 <Route path="/books/:category/:bookId" element={<BookPage/>}/>
                 <Route path="/profile" element={<ProfilePage/>}/>
+
+                <Route path='/login' element={<Login/>}/>
             </Routes>
         </div>
 

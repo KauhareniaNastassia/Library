@@ -3,15 +3,17 @@ import thunk, {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {CategoriesListActionTypes, categoryReducer} from './category-reducer';
 import {BookListActionTypes, booksReducer} from './books-reducer';
 import {BookActionsType, bookReducer} from './book-reducer';
-import {reviewsReducer} from './reviews-reducer';
+import {appReducer} from "./app-reducer";
+import {AuthActionsType, authReducer} from "./auth-reducer";
 
 
 const RootReducer = combineReducers({
     books: booksReducer,
     book: bookReducer,
     categories: categoryReducer,
+    app: appReducer,
+    auth: authReducer,
 
-    reviews: reviewsReducer
 
 })
 
@@ -29,6 +31,7 @@ export type AppActionsType =
     | BookListActionTypes
     | BookActionsType
     | CategoriesListActionTypes
+    | AuthActionsType
 
 
 export type AppDispatchType = ThunkDispatch<AppRootStateType, unknown, AppActionsType>

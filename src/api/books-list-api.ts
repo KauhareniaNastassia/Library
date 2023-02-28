@@ -1,9 +1,9 @@
-import {instance} from "./instance";
+import {customInstance, instance} from "./instance";
 
 
 export const booksListApi = {
     getBookList() {
-        return instance.get<BookListResponseType[]>(`/api/books`)
+        return customInstance.get<BookListResponseType[]>(`/api/books`)
     }
 }
 

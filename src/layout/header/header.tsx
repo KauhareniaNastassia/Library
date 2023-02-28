@@ -3,9 +3,14 @@ import userAvatar from '../../assets/img/avatar.svg'
 import css from './header.module.scss'
 import clevertecLogoImg from '../../assets/img/logo-clevertec.svg'
 import {BurgerMenu} from '../../features/burger-menu';
+import React from "react";
+import {useAppSelector} from "../../hooks/hooks";
 
-export const Header = () => (
-    <section className={css.header}>
+export const Header:React.FC = () => {
+
+    const profile = useAppSelector(state => state.auth.userInfo.profile)
+
+    return (<section className={css.header}>
         <div className={css.header__logo}>
             <NavLink to='/'>
                  <img src={clevertecLogoImg} alt='Cleverland logo'/>
@@ -20,10 +25,10 @@ export const Header = () => (
             Библиотека
         </div>
         <div className={css.header__user}>
-            <span>Привет, Иван!</span>
+            <span>Привет, {profile.firstName}!</span>
             <NavLink to='/profile'>
                 <img src={userAvatar} alt='User avatar'/>
             </NavLink>
         </div>
     </section>
-);
+)};

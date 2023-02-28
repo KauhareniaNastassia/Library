@@ -13,7 +13,7 @@ type ListPropsType = {
     selectCategoryBooks: BookListResponseType[]
 }
 
-export const List:React.FC<ListPropsType> = ({selectCategoryBooks}) => {
+export const List: React.FC<ListPropsType> = ({selectCategoryBooks}) => {
 
     return <div className={css.wrapper_list}>
 
@@ -26,7 +26,9 @@ export const List:React.FC<ListPropsType> = ({selectCategoryBooks}) => {
                     <div className={css.bookList__item}>
 
                         <div className={css.bookList__item_coverWrapper}>
-                            <img src={item.image?.url.length ? bookCover : defaultBookCover}
+                            <img src={item.image?.url.length
+                                ? `https://strapi.cleverland.by${item.image.url}`
+                                : defaultBookCover}
                                  alt="Book cover"
                                  className={css.bookList__item_cover}/>
                         </div>
@@ -51,8 +53,9 @@ export const List:React.FC<ListPropsType> = ({selectCategoryBooks}) => {
 
                                 <div className={css.bookList__item_button}>
                                     <Button
-                                        isBooked={item.booking?.order}
-                                        bookedTill={item.booking?.dateOrder?.toString()}/>
+                                        isBooked={item.booking?.order}//забронирована
+                                        dateHanded={item.delivery?.dateHandedFrom?.toString()}
+                                        handed={item.delivery?.handed}/>
                                 </div>
                             </div>
                         </div>

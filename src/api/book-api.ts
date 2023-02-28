@@ -1,4 +1,4 @@
-import {instance} from "./instance";
+import {customInstance, instance} from "./instance";
 import {
     AuthorsType,
     BookingType,
@@ -11,7 +11,7 @@ import {
 
 export const bookApi = {
     getBook(id: number) {
-        return instance.get<BookResponseType>(`/api/books/${id}`)
+        return customInstance.get<BookResponseType>(`/api/books/${id}`)
     }
 }
 

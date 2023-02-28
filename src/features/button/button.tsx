@@ -1,30 +1,38 @@
 import React, {CSSProperties} from 'react';
 import css from './button.module.scss'
+import {format} from 'date-fns'
 
 type ButtonPropsType = {
     isBooked?: boolean
-    bookedTill?: string
+    dateHanded?: string
+    handed?: boolean
     buttonStyle?: CSSProperties
 }
 
-export const Button = (props: ButtonPropsType) => {
+export const Button: React.FC<ButtonPropsType> = ({isBooked, dateHanded, handed, buttonStyle}) => {
 
-    if (props.isBooked) {
+    let arr = dateHanded?.slice(5, 10).split('-');
+    if (arr) {
+        [arr[0], arr[1]] = [arr[1], arr[0]];
+    }
+    let date = arr?.join('.')
+
+    if (isBooked) {
         return <button
             type="button"
-            style={props.buttonStyle}
+            style={buttonStyle}
             className={css.button_reserved}>забронирована</button>
     }
-    if (!props.isBooked && props.bookedTill !== '') {
+    if (handed === true) {
         return <button
             type="button"
-            style={props.buttonStyle}
-            className={css.button_unactive}>занята до {props.bookedTill} </button>
+            style={buttonStyle}
+            className={css.button_unactive}>занята до {date} </button>
     }
 
     return <button
         type="button"
-        style={props.buttonStyle}
+        style={buttonStyle}
         className={css.button_active}> забронировать </button>
 
 

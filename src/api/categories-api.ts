@@ -1,9 +1,10 @@
-import {instance} from "./instance";
+import {customInstance, instance} from "./instance";
+
 
 
 export const categoriesApi = {
     getCategoriesList() {
-        return instance.get<CategoryItemType[]>(`/api/categories`)
+        return customInstance.get<CategoryItemType[]>(`/api/categories`)
     }
 }
 
