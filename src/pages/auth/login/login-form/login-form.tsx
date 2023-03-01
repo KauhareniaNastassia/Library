@@ -1,16 +1,21 @@
-import React from "react";
+import React, {useState} from "react";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {useAppDispatch, useAppSelector} from "../../../../hooks/hooks";
 import {loginTC} from "../../../../redux/auth-reducer";
 import {Navigate, NavLink} from "react-router-dom";
 import {LoginRequestDataType} from "../../../../api/auth-api";
 import css from './login-form.module.scss'
+import eyeOpen from '../../../../assets/img/eye-open.svg'
+import eyeClose from '../../../../assets/img/eye-close.svg'
+import {Simulate} from "react-dom/test-utils";
+import input = Simulate.input;
 
 
 export const LoginForm = () => {
     const dispatch = useAppDispatch()
-    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
-    const status = useAppSelector(state => state.app.status)
+    const [isShowPassword, setIsShowPassword] = useState(false)
+    const [password, setPassword] = useState('')
+    const status = useAppSelector(status => status.app.status)
 
     const {register, control, handleSubmit, formState: {errors}} = useForm<LoginRequestDataType>({
         defaultValues: {
@@ -30,7 +35,6 @@ export const LoginForm = () => {
     }
 
 
-
     return <form onSubmit={handleSubmit(onSubmit)}
                  onKeyDown={(e) => onEnterPress(e.key)}>
         <div className={css.wrapper_loginForm}>
@@ -42,16 +46,16 @@ export const LoginForm = () => {
                 <div className={css.loginForm__input_wrapper}>
                     <div className={css.loginForm__input_item}>
                         <input
-                           /* onFocus={}*/
-
+                            /* onFocus={}*/
                             className={css.loginForm__input}
                             type='text'
                             id='identifier'
+
                             placeholder=' '
 
                             {...register('identifier', {
                                 /*onBlur:() => {},*/
-                                required: 'Identifier is required',
+                                required: true
                                 /*pattern: {
                                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
                                     message: 'Enter valid email please'
@@ -67,17 +71,27 @@ export const LoginForm = () => {
 
                         <input
                             className={css.loginForm__input}
-                            type='password'
+                            type={isShowPassword ? 'text' : 'password'}
                             id='password'
-                            placeholder=' '
+                            placeholder=''
+
+
                             {...register('password', {
                                 required: 'Password is required',
                                 /*pattern: {
                                     minLength: {
                                     value: 8, message: 'Password must be more than 8 characters'
                                 }*/
-                            })}/>
-                        <label className={css.loginForm__label}  htmlFor='password'>Пароль</label>
+                            })}
+
+                        />
+                        <label className={css.loginForm__label} htmlFor='password'>Пароль</label>
+
+                        <button className={css.loginForm__input_eyeBtn} onClick={() => {
+                            setIsShowPassword(!isShowPassword)
+                        }}>
+                            <img src={isShowPassword ? eyeOpen : eyeClose}/>
+                        </button>
 
                         {errors.password && <div style={{color: 'red'}}>{errors.password.message}</div>}
                     </div>
@@ -94,15 +108,15 @@ export const LoginForm = () => {
                     className={css.loginForm_submitBTN}
                     type='submit'
                     value='ВХОД'
-                    /*disabled={status === 'loading'}*//>
+                    disabled={status === 'loading'}/>
 
 
                 <div className={css.loginForm_registrationBlock}>
                     <span className={css.loginForm_registrationBlock_message}>Нет учетной записи?</span>
-                    <NavLink to={'/registration'} className={css.loginForm_registrationBlock_link}><span>РЕГИСТРАЦИЯ</span></NavLink>
+                    <NavLink to={'/registration'}
+                             className={css.loginForm_registrationBlock_link}><span>РЕГИСТРАЦИЯ</span></NavLink>
                 </div>
             </div>
-
 
 
         </div>

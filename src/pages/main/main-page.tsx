@@ -59,6 +59,8 @@ export const MainPage: React.FC = () => {
 
                     <Route element={<AuthLayout/>}>
                         <Route path="/auth" element={<LoginForm/>}/>
+                        <Route path="/registration" element={<LoginForm/>}/>
+                        <Route path="/password-recovery" element={<LoginForm/>}/>
                     </Route>
                 </Routes>
             </div>
