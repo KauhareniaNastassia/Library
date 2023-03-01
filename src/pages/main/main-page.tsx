@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Navigate, Route, Routes} from 'react-router-dom';
+import {Navigate, Route, Routes, useNavigate} from 'react-router-dom';
 import {Terms} from '../terms';
 import {Contract} from '../contract';
 import {BookPage} from '../books-list/book';
@@ -9,26 +9,38 @@ import {Header} from '../../layout/header';
 import {LayoutMainPage} from '../../layout/layout-main-page';
 import {Footer} from '../../layout/footer';
 import {MainContent} from '../books-list'
-import {Login} from "../auth/login/login";
+import {AuthLayout} from "../auth/login/auth-layout";
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 import {getCategoriesListTC} from "../../redux/category-reducer";
 import {Loader} from "../../common/loader/loader";
+import {getBooksTC} from "../../redux/books-reducer";
+import {LoginForm} from "../auth/login/login-form/login-form";
 
 
-export const MainPage:React.FC = () => {
+export const MainPage: React.FC = () => {
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
     const status = useAppSelector(state => state.app.status)
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 
 
 
     useEffect(() => {
-        dispatch(getCategoriesListTC())
-    }, [])
+        if(isLoggedIn) {
+            dispatch(getCategoriesListTC())
+            /*dispatch(getBooksTC())*/
+        } else {
+            navigate('/auth')
+        }
+
+    }, [isLoggedIn, dispatch])
+
+
 
     return (
         <section className={css.wrapper}>
 
-            {status === 'loading' && <Loader/>  }
+            {status === 'loading' && <Loader/>}
 
             <div className={css.header__block}>
                 <Header/>
@@ -45,7 +57,9 @@ export const MainPage:React.FC = () => {
                     <Route path="/books/:category/:bookId" element={<BookPage/>}/>
                     <Route path="/profile" element={<ProfilePage/>}/>
 
-                    <Route path='/auth' element={<Login/>}/>
+                    <Route element={<AuthLayout/>}>
+                        <Route path="/auth" element={<LoginForm/>}/>
+                    </Route>
                 </Routes>
             </div>
 

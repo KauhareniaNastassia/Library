@@ -20,20 +20,15 @@ export const LoginForm = () => {
         mode: 'onTouched',
     });
 
-    const onSubmit: SubmitHandler<LoginRequestDataType> = (data) => {
+    const onSubmit = (data: LoginRequestDataType) => {
         console.log(data)
         dispatch(loginTC(data))
     }
-
 
     const onEnterPress = (key: string) => {
         key === 'Enter' && handleSubmit(onSubmit)
     }
 
-
-    if (isLoggedIn) {
-        return <Navigate to='/'/>
-    }
 
 
     return <form onSubmit={handleSubmit(onSubmit)}
@@ -47,11 +42,15 @@ export const LoginForm = () => {
                 <div className={css.loginForm__input_wrapper}>
                     <div className={css.loginForm__input_item}>
                         <input
+                           /* onFocus={}*/
+
                             className={css.loginForm__input}
                             type='text'
-                            aria-label='losd'
-                            placeholder=''
+                            id='identifier'
+                            placeholder=' '
+
                             {...register('identifier', {
+                                /*onBlur:() => {},*/
                                 required: 'Identifier is required',
                                 /*pattern: {
                                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
@@ -59,7 +58,7 @@ export const LoginForm = () => {
                                 }*/
                             })}
                         />
-                        <label className={css.loginForm__label}>Логин</label>
+                        <label className={css.loginForm__label} htmlFor='identifier'>Логин</label>
                         {errors.identifier && <div style={{color: 'red'}}>{errors.identifier.message}</div>}
 
                     </div>
@@ -69,7 +68,8 @@ export const LoginForm = () => {
                         <input
                             className={css.loginForm__input}
                             type='password'
-
+                            id='password'
+                            placeholder=' '
                             {...register('password', {
                                 required: 'Password is required',
                                 /*pattern: {
@@ -77,7 +77,7 @@ export const LoginForm = () => {
                                     value: 8, message: 'Password must be more than 8 characters'
                                 }*/
                             })}/>
-                        <label className={css.loginForm__label}>Пароль</label>
+                        <label className={css.loginForm__label}  htmlFor='password'>Пароль</label>
 
                         {errors.password && <div style={{color: 'red'}}>{errors.password.message}</div>}
                     </div>
@@ -90,15 +90,16 @@ export const LoginForm = () => {
 
 
             <div className={css.loginForm_buttonBlock}>
-                <button
+                <input
                     className={css.loginForm_submitBTN}
                     type='submit'
-                    disabled={status === 'loading'}>
-                    ВХОД
-                </button>
+                    value='ВХОД'
+                    /*disabled={status === 'loading'}*//>
+
+
                 <div className={css.loginForm_registrationBlock}>
                     <span className={css.loginForm_registrationBlock_message}>Нет учетной записи?</span>
-                    <NavLink to={'/'} className={css.loginForm_registrationBlock_link}><span>РЕГИСТРАЦИЯ</span></NavLink>
+                    <NavLink to={'/registration'} className={css.loginForm_registrationBlock_link}><span>РЕГИСТРАЦИЯ</span></NavLink>
                 </div>
             </div>
 
