@@ -272,7 +272,7 @@
                 }
 
                 @media (max-width: 320px) {
-                    display: none;
+                    width: 288px;
                 }
             }
         }
@@ -299,10 +299,16 @@
             flex-direction: column;
             gap: 42px;
             max-width: 730px;
+            margin-top: 16px;
 
             @media (max-width: 320px) {
                 margin-top: 16px;
                 gap: 32px;
+            }
+
+            @media (max-width: 320px) {
+                margin-top: 8px;
+
             }
         }
 

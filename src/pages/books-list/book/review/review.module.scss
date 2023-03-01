@@ -56,6 +56,12 @@
                     grid-area: d;
                 }
             }
+
+          .review__userInfo_name {
+            @media (max-width: 320px) {
+              display: inline-flex;
+            }
+          }
         }
     }
 

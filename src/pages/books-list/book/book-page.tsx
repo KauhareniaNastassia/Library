@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useParams} from "react-router-dom";
+import {Link, NavLink, useParams} from "react-router-dom";
 import css from './book-page.module.scss'
 import {Rating} from '../../../features/rating';
 
@@ -13,7 +13,7 @@ import {getBookTC} from "../../../redux/book-reducer";
 
 export const BookPage = () => {
     const dispatch = useAppDispatch()
-    const {bookId} = useParams()
+    const {bookId, category} = useParams()
 
     const book = useAppSelector((state) => state.book.book)
 
@@ -26,7 +26,8 @@ export const BookPage = () => {
     return <section className={css.wrapper}>
         <>
             <div className={css.bookPage__path}>
-                <span>{book.categories}</span><span>/</span><span>{book.title}</span>
+                <Link to={`/books/${category}`}><span>{book.categories}</span></Link>
+                <span>/</span><span>{book.title}</span>
             </div>
             <div className={css.bookPage__info}>
                 <div className={css.bookPage__info_cover}>
