@@ -2540,7 +2540,8 @@
 import {bookApi, BookResponseType} from "../api/book-api";
 import {AppThunkType} from "./store";
 import {authApi, AuthResponseType, AuthUserResponseType, LoginRequestDataType} from "../api/auth-api";
-import {setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
+import {setAppErrorAC, setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
+import {AxiosError} from "axios/index";
 
 
 const initialState: InitialAuthStateType = {
@@ -2597,8 +2598,13 @@ export const loginTC = (data: LoginRequestDataType): AppThunkType =>
 
             dispatch(setLoginDataAC(res.data))
             console.log(res.data.user)
-        } catch (e) {
 
+            dispatch(setAppStatusAC('succeeded'))
+            dispatch(setAppSuccessMessageAC('success'))
+        } catch (err) {
+            const error = err as AxiosError
+            dispatch(setAppStatusAC('failed'))
+            dispatch(setAppErrorAC(error.message))
         }
     }
 
@@ -2612,8 +2618,10 @@ export const logoutTC = (): AppThunkType =>
             dispatch(isLoggedInAC(false))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
-        } catch (e) {
-
+        } catch (err) {
+            const error = err as AxiosError
+            dispatch(setAppStatusAC('failed'))
+            dispatch(setAppErrorAC(error.message))
         }
     }
 

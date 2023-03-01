@@ -1,7 +1,8 @@
 import {ReviewType} from "./reviews-reducer";
 import {BookListResponseType, booksListApi} from "../api/books-list-api";
 import {AppThunkType} from "./store";
-import {setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
+import {setAppErrorAC, setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
+import {AxiosError} from "axios/index";
 
 const initialState: InitialBooksStateType = {
     books: [] as BookListResponseType[]
@@ -39,8 +40,10 @@ export const getBooksTC = (): AppThunkType =>
             dispatch(setBooksAC(res.data))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
-        } catch (e) {
-            console.log(e)
+        } catch (err) {
+            const error = err as AxiosError
+            dispatch(setAppStatusAC('failed'))
+            dispatch(setAppErrorAC(error.message))
         }
     }
 

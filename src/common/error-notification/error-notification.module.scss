@@ -1,0 +1,63 @@
+@import '../../common/styles/mixins/mixins';
+@import '../../common/styles/variables/variables';
+
+.wrapper_error {
+  display: flex;
+  width: 100%;
+  z-index: 10;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 32px;
+  gap: 10px;
+  position: absolute;
+  background-color: rgba(254, 235, 234, 1);
+
+  top: 29px;
+  border: 1.5px solid #F42C4F;
+  border-radius: 5px;
+
+  @media (max-width: 768px) {
+    padding: 24px 16px;
+  }
+
+  @media (max-width: 320px) {
+    padding: 12px 12px 16px;
+    align-items: start;
+  }
+
+  .error_icon {
+    width: 32px;
+
+    @media (max-width: 768px) {
+      width: 24px;
+    }
+  }
+
+  .error_message {
+    @include text(16px, 24px, 600, $main-text-color);
+    width: 950px;
+
+    @media (max-width: 768px) {
+      width: 546px;
+      @include text(14px, 18px, 600, $main-text-color);
+    }
+
+    @media (max-width: 320px) {
+      width: 186px;
+    }
+  }
+
+  .error_button {
+    border: none;
+    background-color: rgba(254, 235, 234, 1);
+    width: 24px;
+
+    @media (max-width: 768px) {
+      width: 16px;
+    }
+
+    @media (max-width: 320px) {
+      width: 16px;
+    }
+  }
+}

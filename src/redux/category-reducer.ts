@@ -2541,7 +2541,8 @@ import {BookListActionTypes, BookType, setBooksAC} from './books-reducer';
 import {categoriesApi, CategoryItemType} from "../api/categories-api";
 import {AppThunkType} from "./store";
 import {booksListApi} from "../api/books-list-api";
-import {setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
+import {setAppErrorAC, setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
+import {AxiosError} from "axios/index";
 
 const initialState: InitialCategoryStateType = {
     items: [] as CategoryItemType[]
@@ -2580,8 +2581,10 @@ export const getCategoriesListTC = (): AppThunkType =>
             dispatch(setCategoriesListAC(res.data))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
-        } catch (e) {
-            console.log(e)
+        } catch (err) {
+            const error = err as AxiosError
+            dispatch(setAppStatusAC('failed'))
+            dispatch(setAppErrorAC(error.message))
         }
     }
 

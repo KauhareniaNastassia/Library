@@ -12,7 +12,7 @@ import {MainContent} from '../books-list'
 import {Login} from "../auth/login/login";
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 import {getCategoriesListTC} from "../../redux/category-reducer";
-import {Loader} from "../../assets/loader/loader";
+import {Loader} from "../../common/loader/loader";
 
 
 export const MainPage:React.FC = () => {
@@ -28,7 +28,7 @@ export const MainPage:React.FC = () => {
     return (
         <section className={css.wrapper}>
 
-            {status === 'loading' && <Loader/>}
+            {status === 'loading' && <Loader/>  }
 
             <div className={css.header__block}>
                 <Header/>

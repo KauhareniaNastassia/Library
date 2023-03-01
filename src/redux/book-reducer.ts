@@ -2541,7 +2541,8 @@ import {ReviewType} from './reviews-reducer';
 import {bookApi, BookResponseType, CommentsType, UserCommentType} from "../api/book-api";
 import {AppThunkType} from "./store";
 import {ImageType} from "../api/books-list-api";
-import {setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
+import {setAppErrorAC, setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
+import {AxiosError} from "axios";
 
 
 const initialState: InitialBookStateType = {
@@ -2603,8 +2604,10 @@ export const getBookTC = (id: number): AppThunkType =>
             dispatch(setBookAC(res.data))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
-        } catch (e) {
-
+        } catch (err) {
+            const error = err as AxiosError
+            dispatch(setAppStatusAC('failed'))
+            dispatch(setAppErrorAC(error.message))
         }
     }
 
