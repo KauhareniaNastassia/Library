@@ -22,9 +22,9 @@ export const RegistrationStep1: React.FC<RegistrationStep1PropsType> = ({registe
                         <input
                             className={css.registration__input}
                             type='text'
-                            id='login'
+                            id='username'
                             placeholder=' '
-                            {...register('login', {
+                            {...register('username', {
                                 /*onBlur:() => {},*/
                                 required: true
                                 /*pattern: {
@@ -33,7 +33,7 @@ export const RegistrationStep1: React.FC<RegistrationStep1PropsType> = ({registe
                                 }*/
                             })}
                         />
-                        <label className={css.registration__label} htmlFor='login'>Придумайте логин для
+                        <label className={css.registration__label} htmlFor='username'>Придумайте логин для
                             входа</label>
 
                     <div className={css.registration_message}>
@@ -41,7 +41,7 @@ export const RegistrationStep1: React.FC<RegistrationStep1PropsType> = ({registe
                             <p >Используйте для логина латинский алфавит и цифры</p>}
                     </div>
 
-                    {errors.identifier && <div style={{color: 'red'}}>{errors.identifier.message}</div>}
+                    {errors.username && <div style={{color: 'red'}}>{errors.username.message}</div>}
 
                 </div>
 

@@ -8,6 +8,8 @@ import {Shema1} from "../../../utils/validate/registration-validate/shema1";
 import css from "./registration-form.module.scss";
 import {NavLink} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../../hooks/hooks";
+import {LoginRequestDataType} from "../../../api/auth-api";
+import {loginTC} from "../../../redux/auth-reducer";
 
 
 export interface InputTypesRegistration {
@@ -23,7 +25,7 @@ export interface InputTypesRegistration {
 export const RegistrationForm: React.FC = () => {
     const dispatch = useAppDispatch()
     const status = useAppSelector(status => status.app.status)
-    const [stepOfRegistration, setStepOfRegistration] = useState(1)
+    const [stepOfRegistration, setStepOfRegistration] = useState<number>(1)
 
     let buttonValue
     if(stepOfRegistration === 1){
@@ -36,25 +38,27 @@ export const RegistrationForm: React.FC = () => {
 
 
     const {register, handleSubmit, formState: {errors}, setValue} = useForm<InputTypesRegistration>({
-        /*defaultValues: {
+        defaultValues: {
             username: '',
             password: '',
             firstName: '',
             lastName: '',
             email: '',
             phone: '',
-        },*/
-        mode: 'all',
-        resolver: yupResolver(Shema1)
+        },
+        mode: 'onChange',
+        /*resolver: yupResolver(Shema1)*/
     });
 
-    const onSubmit: SubmitHandler<InputTypesRegistration> = (data: InputTypesRegistration) => {
-        setStepOfRegistration((stepOfRegistration) => stepOfRegistration + 1)
-        console.log(stepOfRegistration)
-        if (stepOfRegistration === 3) {
-            console.log(data)
-        }
+   /* const onSubmit: SubmitHandler<InputTypesRegistration> = data => {
+       /!* setStepOfRegistration((stepOfRegistration) => stepOfRegistration + 1)*!/
+        console.log(data)
 
+
+    }*/
+    const onSubmit = (data: InputTypesRegistration) => {
+        console.log(data)
+        setStepOfRegistration((stepOfRegistration) => stepOfRegistration + 1)
     }
 
 
@@ -66,8 +70,8 @@ export const RegistrationForm: React.FC = () => {
             </div>
 
             {stepOfRegistration === 1 && <RegistrationStep1 register={register} errors={errors}/>}
-            {stepOfRegistration === 2 && <RegistrationStep2 setStepOfRegistration={setStepOfRegistration}/>}
-            {stepOfRegistration === 3 && <RegistrationStep3 setStepOfRegistration={setStepOfRegistration}/>}
+            {stepOfRegistration === 2 && <RegistrationStep2 register={register} errors={errors}/>}
+            {stepOfRegistration === 3 && <RegistrationStep3 register={register} errors={errors}/>}
 
 
             <div className={css.registration_buttonBlock}>
@@ -77,7 +81,6 @@ export const RegistrationForm: React.FC = () => {
                     value={buttonValue}
                     disabled={status === 'loading'}
                 />
-
 
                 <div className={css.registration_navigateToLogin}>
                     <span className={css.registration_navigateToLogin_message}>Есть учетная запись?</span>

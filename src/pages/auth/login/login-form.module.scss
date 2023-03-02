@@ -50,9 +50,8 @@
           }
         }
 
-        input:focus-within ~ label ,
-        input:not(:placeholder-shown) ~ label
-        {
+        input:focus-within ~ label,
+        input:not(:placeholder-shown) ~ label {
           @include text(12px, 16px, 500, rgba(167, 167, 167, 1));
           transform: translateY(-13px);
         }
@@ -70,13 +69,18 @@
 
         }
 
-        .loginForm__input_eyeBtn {
+        input:not(:placeholder-shown) ~ .loginForm__input_eyeBtn {
+          visibility: visible;
           position: absolute;
           top: 40%;
           transform: translateY(-50%);
           right: 12px;
           border: none;
           background-color: transparent;
+        }
+
+        .loginForm__input_eyeBtn {
+          visibility: hidden;
         }
       }
     }
