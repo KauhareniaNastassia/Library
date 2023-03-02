@@ -1,12 +1,12 @@
 import React, {useState} from "react";
 import {SubmitHandler, useForm} from "react-hook-form";
-import {useAppDispatch, useAppSelector} from "../../../../hooks/hooks";
-import {loginTC} from "../../../../redux/auth-reducer";
+import {useAppDispatch, useAppSelector} from "../../../hooks/hooks";
+import {loginTC} from "../../../redux/auth-reducer";
 import {Navigate, NavLink} from "react-router-dom";
-import {LoginRequestDataType} from "../../../../api/auth-api";
+import {LoginRequestDataType} from "../../../api/auth-api";
 import css from './login-form.module.scss'
-import eyeOpen from '../../../../assets/img/eye-open.svg'
-import eyeClose from '../../../../assets/img/eye-close.svg'
+import eyeOpen from '../../../assets/img/eye-open.svg'
+import eyeClose from '../../../assets/img/eye-close.svg'
 import {Simulate} from "react-dom/test-utils";
 import input = Simulate.input;
 
@@ -17,12 +17,12 @@ export const LoginForm = () => {
     const [password, setPassword] = useState('')
     const status = useAppSelector(status => status.app.status)
 
-    const {register, control, handleSubmit, formState: {errors}} = useForm<LoginRequestDataType>({
+    const {register, handleSubmit, formState: {errors, isValid, isDirty}} = useForm<LoginRequestDataType>({
         defaultValues: {
             identifier: '',
             password: '',
         },
-        mode: 'onTouched',
+        mode: 'onChange',
     });
 
     const onSubmit = (data: LoginRequestDataType) => {
@@ -30,13 +30,10 @@ export const LoginForm = () => {
         dispatch(loginTC(data))
     }
 
-    const onEnterPress = (key: string) => {
-        key === 'Enter' && handleSubmit(onSubmit)
-    }
 
 
-    return <form onSubmit={handleSubmit(onSubmit)}
-                 onKeyDown={(e) => onEnterPress(e.key)}>
+
+    return <form onSubmit={handleSubmit(onSubmit)}>
         <div className={css.wrapper_loginForm}>
             <h3 className={css.loginForm__title}>Вход в личный кабинет</h3>
 
@@ -73,7 +70,7 @@ export const LoginForm = () => {
                             className={css.loginForm__input}
                             type={isShowPassword ? 'text' : 'password'}
                             id='password'
-                            placeholder=''
+                            placeholder=' '
 
 
                             {...register('password', {
@@ -86,6 +83,8 @@ export const LoginForm = () => {
 
                         />
                         <label className={css.loginForm__label} htmlFor='password'>Пароль</label>
+
+
 
                         <button className={css.loginForm__input_eyeBtn} onClick={() => {
                             setIsShowPassword(!isShowPassword)

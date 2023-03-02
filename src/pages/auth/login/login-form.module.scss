@@ -1,5 +1,5 @@
-@import 'src/common/styles/mixins/mixins.scss';
-@import 'src/common/styles/variables/variables.sass';
+@import '../../../common/styles/mixins/mixins';
+@import '../../../common/styles/variables/variables';
 
 
 .wrapper_loginForm {
@@ -50,8 +50,8 @@
           }
         }
 
-        input:focus ~ label /*,
-        input:valid ~ label*/
+        input:focus-within ~ label ,
+        input:not(:placeholder-shown) ~ label
         {
           @include text(12px, 16px, 500, rgba(167, 167, 167, 1));
           transform: translateY(-13px);

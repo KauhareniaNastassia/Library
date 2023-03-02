@@ -9,12 +9,14 @@ import {Header} from '../../layout/header';
 import {LayoutMainPage} from '../../layout/layout-main-page';
 import {Footer} from '../../layout/footer';
 import {MainContent} from '../books-list'
-import {AuthLayout} from "../auth/login/auth-layout";
+
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 import {getCategoriesListTC} from "../../redux/category-reducer";
 import {Loader} from "../../common/loader/loader";
 import {getBooksTC} from "../../redux/books-reducer";
-import {LoginForm} from "../auth/login/login-form/login-form";
+import {LoginForm} from "../auth/login/login-form";
+import {AuthLayout} from "../auth/auth-layout";
+import {RegistrationForm} from "../auth/registration/registration-form";
 
 
 export const MainPage: React.FC = () => {
@@ -59,7 +61,7 @@ export const MainPage: React.FC = () => {
 
                     <Route element={<AuthLayout/>}>
                         <Route path="/auth" element={<LoginForm/>}/>
-                        <Route path="/registration" element={<LoginForm/>}/>
+                        <Route path="/registration" element={<RegistrationForm/>}/>
                         <Route path="/password-recovery" element={<LoginForm/>}/>
                     </Route>
                 </Routes>

@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
-import {LoginForm} from "./login-form/login-form";
-import css from './login.module.scss'
-import {useAppSelector} from "../../../hooks/hooks";
+import {LoginForm} from "./login/login-form";
+import css from './auth-layout.module.scss'
+import {useAppSelector} from "../../hooks/hooks";
 import {Navigate, Outlet, useNavigate} from "react-router-dom";
-import {Loader} from "../../../common/loader/loader";
+import {Loader} from "../../common/loader/loader";
 
 export const AuthLayout:React.FC = () => {
     const navigate = useNavigate();
