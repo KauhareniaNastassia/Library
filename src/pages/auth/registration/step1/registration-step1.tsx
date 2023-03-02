@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import css from "./registration-step1.module.scss";
 import eyeOpen from "../../../../assets/img/eye-open.svg";
 import eyeClose from "../../../../assets/img/eye-close.svg";
@@ -7,11 +7,13 @@ import eyeClose from "../../../../assets/img/eye-close.svg";
 type RegistrationStep1PropsType = {
     errors: any;
     register: any;
+    getFieldState: any
 }
 
 
-export const RegistrationStep1: React.FC<RegistrationStep1PropsType> = ({register, errors}) => {
-
+export const RegistrationStep1: React.FC<RegistrationStep1PropsType> = ({register, errors, getFieldState}) => {
+const [focusUsername, setFocusUserName] = useState(false)
+const [focusPassword, setFocusPassword] = useState(false)
 
     return (
         <React.Fragment>
@@ -24,13 +26,9 @@ export const RegistrationStep1: React.FC<RegistrationStep1PropsType> = ({registe
                             type='text'
                             id='username'
                             placeholder=' '
+                            onFocus={ () =>setFocusUserName(true) }
                             {...register('username', {
-                                /*onBlur:() => {},*/
-                                required: true
-                                /*pattern: {
-                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                                    message: 'Enter valid email please'
-                                }*/
+                                onBlur:() =>setFocusUserName(false),
                             })}
                         />
                         <label className={css.registration__label} htmlFor='username'>Придумайте логин для
@@ -38,10 +36,22 @@ export const RegistrationStep1: React.FC<RegistrationStep1PropsType> = ({registe
 
                     <div className={css.registration_message}>
                         {!errors.username &&
-                            <p >Используйте для логина латинский алфавит и цифры</p>}
+                            <span >Используйте для логина латинский алфавит и цифры</span>
+                        }
+                        {errors.username?.type === 'usernameShouldHaveLatinLetters' &&
+                            <span>Используйте для логина <span style={{color: 'red'}}>латинский алфавит</span> и цифры</span>
+                        }
+                        {errors.username?.type === 'usernameShouldHaveNumber' &&
+                            <span>Используйте для логина латинский алфавит и <span style={{color: 'red'}}>цифры</span></span>
+                        }
+                        {!focusUsername && errors.username?.type === 'required' && getFieldState('username').isTouched &&
+                            <span style={{color: 'red'}}>Поле не может быть пустым</span>
+                        }
+                        {focusUsername && errors.username?.type === 'required' && getFieldState('username').isTouched &&
+                            <span>Используйте для логина латинский алфавит и цифры</span>
+                        }
                     </div>
 
-                    {errors.username && <div style={{color: 'red'}}>{errors.username.message}</div>}
 
                 </div>
 

@@ -4,7 +4,7 @@ import {RegistrationStep2} from "./step2/registration-step2";
 import {RegistrationStep3} from "./step3/registration-step3";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
-import {Shema1} from "../../../utils/validate/registration-validate/shema1";
+import {ShemaForRegistration} from "../../../utils/validate/registration-validate/shema1";
 import css from "./registration-form.module.scss";
 import {NavLink} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../../hooks/hooks";
@@ -28,16 +28,16 @@ export const RegistrationForm: React.FC = () => {
     const [stepOfRegistration, setStepOfRegistration] = useState<number>(1)
 
     let buttonValue
-    if(stepOfRegistration === 1){
+    if (stepOfRegistration === 1) {
         buttonValue = "СЛЕДУЮЩИЙ ШАГ"
-    }else if(stepOfRegistration === 2){
-        buttonValue = "ПОСЛЕДНИЙ ШАГ"}
-    else if(stepOfRegistration === 3){
+    } else if (stepOfRegistration === 2) {
+        buttonValue = "ПОСЛЕДНИЙ ШАГ"
+    } else if (stepOfRegistration === 3) {
         buttonValue = "ЗАРЕГИСТРИРОВАТЬСЯ"
     }
 
 
-    const {register, handleSubmit, formState: {errors}, setValue} = useForm<InputTypesRegistration>({
+    const {register, handleSubmit, formState: {errors}, getFieldState} = useForm<InputTypesRegistration>({
         defaultValues: {
             username: '',
             password: '',
@@ -47,18 +47,19 @@ export const RegistrationForm: React.FC = () => {
             phone: '',
         },
         mode: 'onChange',
-        /*resolver: yupResolver(Shema1)*/
+        resolver: yupResolver(ShemaForRegistration)
     });
 
-   /* const onSubmit: SubmitHandler<InputTypesRegistration> = data => {
-       /!* setStepOfRegistration((stepOfRegistration) => stepOfRegistration + 1)*!/
-        console.log(data)
+    /* const onSubmit: SubmitHandler<InputTypesRegistration> = data => {
+        /!* setStepOfRegistration((stepOfRegistration) => stepOfRegistration + 1)*!/
+         console.log(data)
 
 
-    }*/
+     }*/
     const onSubmit = (data: InputTypesRegistration) => {
-        console.log(data)
         setStepOfRegistration((stepOfRegistration) => stepOfRegistration + 1)
+        console.log(data)
+
     }
 
 
@@ -69,7 +70,10 @@ export const RegistrationForm: React.FC = () => {
                 <p className={css.registrationForm__stepCount}>{stepOfRegistration} шаг из 3</p>
             </div>
 
-            {stepOfRegistration === 1 && <RegistrationStep1 register={register} errors={errors}/>}
+            {stepOfRegistration === 1 && <RegistrationStep1
+                getFieldState={getFieldState}
+                register={register}
+                errors={errors}/>}
             {stepOfRegistration === 2 && <RegistrationStep2 register={register} errors={errors}/>}
             {stepOfRegistration === 3 && <RegistrationStep3 register={register} errors={errors}/>}
 
