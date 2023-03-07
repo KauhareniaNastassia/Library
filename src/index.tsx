@@ -8,7 +8,6 @@ import {MainPage} from './pages/main';
 import './index.css';
 
 
-
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
@@ -18,5 +17,5 @@ root.render(
                 <MainPage/>
             </Provider>
         </HashRouter>
-        </React.StrictMode>
+    </React.StrictMode>
 );

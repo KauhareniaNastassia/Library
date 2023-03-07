@@ -1,12 +1,17 @@
-import React from 'react';
+import React, {useState} from 'react';
 import css from "../step1/registration-step1.module.scss";
 
 type RegistrationStep2PropsType = {
     errors: any;
     register: any;
+    getFieldState: any
 }
 
-export const RegistrationStep2:React.FC<RegistrationStep2PropsType> = ({errors,register }) => {
+export const RegistrationStep2:React.FC<RegistrationStep2PropsType> = ({errors,register, getFieldState }) => {
+    const [focusFirstNane, setFocusFirstName] = useState(false)
+    const [focusLastName, setFocusLastName] = useState(false)
+
+
     return (
         <React.Fragment>
             <div className={css.registration__inputBlock}>
@@ -18,20 +23,16 @@ export const RegistrationStep2:React.FC<RegistrationStep2PropsType> = ({errors,r
                         type='text'
                         id='firstName'
                         placeholder=' '
+                        onFocus={ () => setFocusFirstName(true) }
                         {...register('firstName', {
-                            /*onBlur:() => {},*/
-                            required: true
-                            /*pattern: {
-                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                                message: 'Enter valid email please'
-                            }*/
+                            onBlur:() => {setFocusFirstName(false)},
                         })}
                     />
                     <label className={css.registration__label} htmlFor='firstName'>Имя</label>
 
+                    {!focusFirstNane && errors.firstName?.type === 'required' && getFieldState('firstName').isTouched &&  <span style={{color: 'red'}}>Поле не может быть пустым</span>}
 
-
-                    {errors.firstName && <div style={{color: 'red'}}>{errors.firstName.message}</div>}
+                    {/*{errors.firstName && <div style={{color: 'red'}}>{errors.firstName.message}</div>}*/}
 
                 </div>
 
@@ -42,18 +43,17 @@ export const RegistrationStep2:React.FC<RegistrationStep2PropsType> = ({errors,r
                         type='text'
                         id='lastName'
                         placeholder=' '
+                        onFocus={ () => setFocusLastName(true) }
                         {...register('lastName', {
-                            required: 'Password is required',
-                            /*pattern: {
-                                minLength: {
-                                value: 8, message: 'Password must be more than 8 characters'
-                            }*/
+                            onBlur:() => {setFocusLastName(false)},
                         })}
                     />
 
                     <label className={css.registration__label} htmlFor='lastName'>Фамилия</label>
 
-                    {errors.lastName && <div style={{color: 'red'}}>{errors.lastName.message}</div>}
+                    {!focusLastName && errors.lastName.type === 'required' && getFieldState('lastName').isTouched &&  <span style={{color: 'red'}}>Поле не может быть пустым</span>}
+
+                    {/*{errors.lastName && <div style={{color: 'red'}}>{errors.lastName.message}</div>}*/}
                 </div>
             </div>
         </React.Fragment>

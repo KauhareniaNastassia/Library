@@ -37,7 +37,7 @@ export const RegistrationForm: React.FC = () => {
     }
 
 
-    const {register, handleSubmit, formState: {errors}, getFieldState} = useForm<InputTypesRegistration>({
+    const {register, handleSubmit, formState: {errors, isDirty}, getFieldState} = useForm<InputTypesRegistration>({
         defaultValues: {
             username: '',
             password: '',
@@ -47,19 +47,13 @@ export const RegistrationForm: React.FC = () => {
             phone: '',
         },
         mode: 'onChange',
-        resolver: yupResolver(ShemaForRegistration)
+       resolver: yupResolver(ShemaForRegistration)
     });
 
-    /* const onSubmit: SubmitHandler<InputTypesRegistration> = data => {
-        /!* setStepOfRegistration((stepOfRegistration) => stepOfRegistration + 1)*!/
-         console.log(data)
-
-
-     }*/
     const onSubmit = (data: InputTypesRegistration) => {
         setStepOfRegistration((stepOfRegistration) => stepOfRegistration + 1)
         console.log(data)
-
+        console.log(errors.password)
     }
 
 
@@ -73,8 +67,12 @@ export const RegistrationForm: React.FC = () => {
             {stepOfRegistration === 1 && <RegistrationStep1
                 getFieldState={getFieldState}
                 register={register}
+                errors={errors}
+                isDirty={isDirty}/>}
+            {stepOfRegistration === 2 && <RegistrationStep2
+                getFieldState={getFieldState}
+                register={register}
                 errors={errors}/>}
-            {stepOfRegistration === 2 && <RegistrationStep2 register={register} errors={errors}/>}
             {stepOfRegistration === 3 && <RegistrationStep3 register={register} errors={errors}/>}
 
 

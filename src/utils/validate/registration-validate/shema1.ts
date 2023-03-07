@@ -8,8 +8,8 @@ export const ShemaForRegistration = yup.object().shape({
             name: 'usernameShouldHaveLatinLetters',
             message: '',
             test() {
-                const {username} = this.parent
-                const regex = new RegExp(/^(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/i)
+                const {username} = this.parent;
+                const regex = new RegExp(/^(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/i);
                 return regex.test(username)
             }
         })
@@ -17,8 +17,8 @@ export const ShemaForRegistration = yup.object().shape({
             name: 'usernameShouldHaveNumber',
             message: '',
             test() {
-                const {username} = this.parent
-                const regex = new RegExp(/^(?=.*[0-9])([a-zA-Z0-9]+)$/)
+                const {username} = this.parent;
+                const regex = new RegExp(/^(?=.*[0-9])([a-zA-Z0-9]+)$/);
                 return regex.test(username)
             }
         }),
@@ -26,11 +26,11 @@ export const ShemaForRegistration = yup.object().shape({
     password: yup.string()
         .required('Поле не может быть пустым')
         .test({
-            name: 'passwordLengthError',
+            name: 'passwordLengthErrorAndNoBigLetterAndNumberAbsent',
             message: '',
             test() {
-                const {password} = this.parent
-                const regex = new RegExp(/^(?=.*[A-ZА-Я])(?=.*\d).{0,7}$/)
+                const {password} = this.parent;
+                const regex = new RegExp(/^(?=.*[A-ZА-Я])(?=.*\d).{8,}$/);
                 return regex.test(password)
             }
         })
@@ -38,27 +38,27 @@ export const ShemaForRegistration = yup.object().shape({
             name: 'passwordLengthErrorAndNumberAbsent',
             message: '',
             test() {
-                const {password} = this.parent
-                const regex = new RegExp(/^(?=.*[A-ZА-Я]).{0,7}$/)
-                return regex.test(password)
+                const {password} = this.parent;
+                const regex = new RegExp(/^(?=.*[A-ZА-Я]).{0,7}$/);
+                return !regex.test(password)
             }
         })
         .test({
             name: 'passwordLengthErrorAndNoBigLetter',
             message: '',
             test() {
-                const {password} = this.parent
+                const {password} = this.parent;
                 const regex = new RegExp(/^(?=.*[0-9]).{0,7}$/);
-                return regex.test(password)
+                return !regex.test(password)
             }
         })
         .test({
             name: 'passwordLengthError',
             message: '',
             test() {
-                const {password} = this.parent
-                const regex = new RegExp(/^(?=.*[A-ZА-Я])(?=.*\d).{8,}$/);
-                return regex.test(password)
+                const {password} = this.parent;
+                const regex = new RegExp(/^(?=.*[A-ZА-Я])(?=.*\d).{0,7}$/);
+                return !regex.test(password)
             }
         }),
 
@@ -80,4 +80,4 @@ export const ShemaForRegistration = yup.object().shape({
                 return regex.test(email)
             }
         })
-})
+}).required()

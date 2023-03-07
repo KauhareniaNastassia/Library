@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import css from "./registration-step1.module.scss";
+import okPasswordIcon from '../../../../assets/img/ok-password-icon.svg'
 import eyeOpen from "../../../../assets/img/eye-open.svg";
 import eyeClose from "../../../../assets/img/eye-close.svg";
 
@@ -8,10 +9,12 @@ type RegistrationStep1PropsType = {
     errors: any;
     register: any;
     getFieldState: any
+    isDirty: any
 }
 
 
-export const RegistrationStep1: React.FC<RegistrationStep1PropsType> = ({register, errors, getFieldState}) => {
+export const RegistrationStep1: React.FC<RegistrationStep1PropsType> = ({register, errors, getFieldState, isDirty}) => {
+    const [isShowPassword, setIsShowPassword] = useState(false)
 const [focusUsername, setFocusUserName] = useState(false)
 const [focusPassword, setFocusPassword] = useState(false)
 
@@ -52,7 +55,6 @@ const [focusPassword, setFocusPassword] = useState(false)
                         }
                     </div>
 
-
                 </div>
 
                 <div className={css.registration__input_item_wrapper}>
@@ -62,12 +64,9 @@ const [focusPassword, setFocusPassword] = useState(false)
                         type='text'
                         id='password'
                         placeholder=' '
+                        onFocus={ () =>setFocusPassword(true) }
                         {...register('password', {
-                            required: 'Password is required',
-                            /*pattern: {
-                                minLength: {
-                                value: 8, message: 'Password must be more than 8 characters'
-                            }*/
+                            onBlur:() =>setFocusPassword(false),
                         })}
                     />
 
@@ -75,11 +74,40 @@ const [focusPassword, setFocusPassword] = useState(false)
 
                     <div className={css.registration_message}>
                         {!errors.password &&
-                            <p >Пароль не менее 8 символов, с заглавной буквой и цифрой</p>}
+                            <span >Пароль не менее 8 символов, с заглавной буквой и цифрой</span>
+                        }
+                        {!focusPassword && errors.password?.type === 'required' && getFieldState('password').isTouched &&
+                            <span style={{color: 'red'}}>Поле не может быть пустым</span>
+                        }
+                        {focusPassword && errors.password?.type === 'required' && getFieldState('password').isTouched &&
+                            <span>Пароль не менее 8 символов, с заглавной буквой и цифрой</span>
+                        }
+                        {errors.password?.type === 'passwordLengthError' &&
+                            <span>Пароль <span style={{color: 'red'}}>не менее 8 символов</span>, с заглавной буквой и цифрой</span>
+                        }
+
+                        {errors.password?.type === 'passwordLengthErrorAndNoBigLetterAndNumberAbsent' &&
+                            <span>Пароль <span style={{color: 'red'}}>не менее 8 символов, с заглавной буквой и цифрой</span></span>
+                        }
+
+                        {errors.password?.type === 'passwordLengthErrorAndNumberAbsent' &&
+                            <span>Пароль <span style={{color: 'red'}}>не менее 8 символов</span>, с заглавной буквой и<span style={{color: 'red'}}> цифрой</span></span>
+                        }
+                        {errors.password?.type === 'passwordLengthErrorAndNoBigLetter' &&
+                            <span>Пароль <span style={{color: 'red'}}>не менее 8 символов</span>, <span style={{color: 'red'}}>с заглавной буквой</span> и цифрой</span>
+                        }
+
+                        <button className={css.registration__input_eyeBtn} onClick={() => {
+                            setIsShowPassword(!isShowPassword)
+                        }}>
+                            <img src={isShowPassword ? eyeOpen : eyeClose}/>
+                        </button>
+                        {!errors.password && getFieldState('password').isDirty &&
+                        <img src={okPasswordIcon} alt={'ok password'}/>}
 
                     </div>
-
-                    {errors.password && <div style={{color: 'red'}}>{errors.password.message}</div>}
+{/*
+                    {errors.password && <div style={{color: 'red'}}>{errors.password.message}</div>}*/}
                 </div>
             </div>
         </React.Fragment>

@@ -13,7 +13,6 @@ import {MainContent} from '../books-list'
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 import {getCategoriesListTC} from "../../redux/category-reducer";
 import {Loader} from "../../common/loader/loader";
-import {getBooksTC} from "../../redux/books-reducer";
 import {LoginForm} from "../auth/login/login-form";
 import {AuthLayout} from "../auth/auth-layout";
 import {RegistrationForm} from "../auth/registration/registration-form";

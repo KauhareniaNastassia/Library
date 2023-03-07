@@ -52,6 +52,20 @@
         pointer-events: none;
       }
 
+    input:not(:placeholder-shown) ~ .registration__input_eyeBtn {
+      visibility: visible;
+      position: absolute;
+      top: 40%;
+      transform: translateY(-50%);
+      right: 12px;
+      border: none;
+      background-color: transparent;
+    }
+
+    .loginForm__input_eyeBtn {
+      visibility: hidden;
+    }
+
 
     .registration_message {
       top: 58px;
