@@ -2539,13 +2539,29 @@
 
 import {bookApi, BookResponseType} from "../api/book-api";
 import {AppThunkType} from "./store";
-import {authApi, AuthResponseType, AuthUserResponseType, LoginRequestDataType} from "../api/auth-api";
+import {
+    authApi,
+    AuthResponseType,
+    AuthUserResponseType,
+    ErrorResponseType,
+    LoginRequestDataType
+} from "../api/auth-api";
 import {setAppErrorAC, setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
 import {AxiosError} from "axios/index";
+import {bool} from "yup";
 
 
 const initialState: InitialAuthStateType = {
     isLoggedIn: false,
+    authError: {
+    data: null,
+        error: {
+            status: 0,
+            name: '',
+            message: '',
+            details: {}
+        }} as ErrorResponseType,
+    loading: false,
     userInfo: {
         jwt: '',
         profile: {} as AuthUserResponseType
@@ -2567,6 +2583,11 @@ export const authReducer = (state: InitialAuthStateType = initialState, action: 
                 }
             }
 
+        case 'auth/SET-ERROR':
+            return {
+                ...state, authError: action.authError
+            }
+
         default:
             return state
     }
@@ -2582,6 +2603,10 @@ export const isLoggedInAC = (isLoggedIn: boolean) => ({
 export const setLoginDataAC = (data: AuthResponseType) => ({
     type: 'auth/SET-LOGIN-DATA',
     data
+} as const)
+export const setErrorAC = (authError: ErrorResponseType) => ({
+    type: 'auth/SET-ERROR',
+    authError
 } as const)
 
 
@@ -2631,10 +2656,13 @@ export const logoutTC = (): AppThunkType =>
 export type AuthActionsType =
     | ReturnType<typeof isLoggedInAC>
     | ReturnType<typeof setLoginDataAC>
+    | ReturnType<typeof setErrorAC>
 
 
 type InitialAuthStateType = {
     isLoggedIn: boolean
+    authError: ErrorResponseType,
+    loading: boolean,
     userInfo: {
         jwt: string,
         profile: AuthUserResponseType

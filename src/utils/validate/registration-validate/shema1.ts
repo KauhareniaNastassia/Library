@@ -80,6 +80,19 @@ export const ShemaForRegistration = yup.object().shape({
     lastName: yup.string()
         .required('Поле не может быть пустым'),
 
+    phone: yup.string()
+        .test({
+            name: 'errorPhone',
+            message: 'В формате +375 (хх) ххх-хх-хх',
+            test() {
+                const {phone} = this.parent;
+                const regex = new RegExp(/^(\+?375)\s.(25|29|33|44|17).\s[1-9]{1}[\d]{2}(-?[\d]{2}){2}$/);
+                return regex.test(phone)
+            }
+        })
+    ,
+
+
     email: yup.string()
         .required('Поле не может быть пустым')
         .test({

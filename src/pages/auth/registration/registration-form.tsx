@@ -2,14 +2,12 @@ import React, {useState} from 'react';
 import {RegistrationStep1} from "./step1/registration-step1";
 import {RegistrationStep2} from "./step2/registration-step2";
 import {RegistrationStep3} from "./step3/registration-step3";
-import {SubmitHandler, useForm} from "react-hook-form";
+import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
 import {ShemaForRegistration} from "../../../utils/validate/registration-validate/shema1";
 import css from "./registration-form.module.scss";
 import {NavLink} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../../hooks/hooks";
-import {LoginRequestDataType} from "../../../api/auth-api";
-import {loginTC} from "../../../redux/auth-reducer";
 
 
 export interface InputTypesRegistration {
@@ -58,18 +56,16 @@ export const RegistrationForm: React.FC = () => {
       resolver: yupResolver(ShemaForRegistration)
     });
 
-    let data = {
-        username: userNameValue,
-        password: passwordValue,
-        firstName: firstNameValue,
-        lastName: lastNameValue,
-        email: emailValue,
-        phone: phoneValue,
-    }
+
 
     const onSubmit = (data: InputTypesRegistration) => {
+        setStepOfRegistration(stepOfRegistration+1)
 
-        console.log(data)
+        if (stepOfRegistration === 3) {
+            console.log(data)
+        }
+
+
 
     }
 
@@ -120,7 +116,7 @@ export const RegistrationForm: React.FC = () => {
 
 
             <div className={css.registration_buttonBlock}>
-                {/*<input
+               {/* <input
                     className={css.registration_submitBTN}
                     type='submit'
                     value={buttonValue}
@@ -136,6 +132,10 @@ export const RegistrationForm: React.FC = () => {
 
 
         </form>
+
+
+
+
     );
 };
 

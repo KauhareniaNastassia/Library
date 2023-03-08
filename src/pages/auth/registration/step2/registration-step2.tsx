@@ -32,11 +32,11 @@ export const RegistrationStep2: React.FC<RegistrationStep2PropsType> = ({
 
     const onClick2StepHandler = () => {
 
-            setFirstNameValue(getValues('firstName'))
-            setLastNameValue(getValues('lastName'))
+            /*setFirstNameValue(getValues('firstName'))
+            setLastNameValue(getValues('lastName'))*/
             setStepOfRegistration(3)
-            console.log(getValues('firstName'))
-            console.log(getValues('lastName'))
+            /*console.log(getValues('firstName'))
+            console.log(getValues('lastName'))*/
         }
 
 
@@ -49,7 +49,7 @@ export const RegistrationStep2: React.FC<RegistrationStep2PropsType> = ({
 
                     <input
                         //className={css.registration__input}
-                        className={`${css.registration__input} ${errors.firstName && css.input__error}`}
+                        className={ errors.firstName ? `${css.registration__input} ${css.input__error}` : css.registration__input}
                         type='text'
                         id='firstName'
                         placeholder=' '
@@ -102,7 +102,7 @@ export const RegistrationStep2: React.FC<RegistrationStep2PropsType> = ({
 
                 <input
                     className={css.registration_submitBTN}
-                    type='button'
+                    type='submit'
                     value={"ПОСЛЕДНИЙ ШАГ"}
                     onClick={onClick2StepHandler}
                     disabled={!getFieldState('firstName').isDirty

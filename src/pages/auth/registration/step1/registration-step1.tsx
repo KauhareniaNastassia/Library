@@ -42,11 +42,11 @@ export const RegistrationStep1: React.FC<RegistrationStep1PropsType> = ({
 
            /* setDataValue(getValues('username'))
             setDataValue(getValues('password'))*/
-            setUserNameValue(getValues('username'))
-            setPasswordValue(getValues('password'))
+            /*setUserNameValue(getValues('username'))
+            setPasswordValue(getValues('password'))*/
             setStepOfRegistration(2)
-            console.log(getValues('username'))
-            console.log(getValues('password'))
+            /*console.log(getValues('username'))
+            console.log(getValues('password'))*/
 
     }
 
@@ -169,7 +169,7 @@ export const RegistrationStep1: React.FC<RegistrationStep1PropsType> = ({
 
                 <input
                     className={css.registration_submitBTN}
-                    type='button'
+                    type='submit'
                     value={"СЛЕДУЮЩИЙ ШАГ"}
                     onClick={onClick1StepHandler}
                     disabled={

@@ -9,6 +9,7 @@ export const AuthLayout:React.FC = () => {
     const navigate = useNavigate();
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const status = useAppSelector(state => state.app.status)
+    const isError = useAppSelector(state => state.auth.authError)
 
 
     useEffect(() => {
@@ -21,13 +22,18 @@ export const AuthLayout:React.FC = () => {
     return (
         <div className={css.wrapper_login}>
 
-            {status === 'loading' && <Loader/>}
+
 
             <h1 className={css.wrapper__login_header}>Cleverland</h1>
 
             <Outlet/>
 
-           {/* <LoginForm/>*/}
+
+            {status === 'loading' && <Loader/>}
+            {isLoggedIn && !isError && <div>success</div>}
+            {isError && isError.error.status === 400 && <div>error 400 registr</div>}
+            {isError && isError.error.status !== 400 && <div>error registr</div>}
+
         </div>
     );
 };
