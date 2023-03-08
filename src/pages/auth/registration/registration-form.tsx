@@ -26,6 +26,14 @@ export const RegistrationForm: React.FC = () => {
     const dispatch = useAppDispatch()
     const status = useAppSelector(status => status.app.status)
     const [stepOfRegistration, setStepOfRegistration] = useState<number>(1)
+    const [userNameValue, setUserNameValue] = useState('')
+    const [passwordValue, setPasswordValue] = useState('')
+    const [firstNameValue, setFirstNameValue] = useState('')
+    const [lastNameValue, setLastNameValue] = useState('')
+    const [emailValue, setEmailValue] = useState('')
+    const [phoneValue, setPhoneValue] = useState('')
+
+
 
     let buttonValue
     if (stepOfRegistration === 1) {
@@ -37,7 +45,7 @@ export const RegistrationForm: React.FC = () => {
     }
 
 
-    const {register, handleSubmit, formState: {errors, isDirty}, getFieldState,getValues} = useForm<InputTypesRegistration>({
+    const {register, handleSubmit, formState: {errors, isDirty, isValid}, getFieldState,getValues} = useForm<InputTypesRegistration>({
         defaultValues: {
             username: '',
             password: '',
@@ -47,11 +55,20 @@ export const RegistrationForm: React.FC = () => {
             phone: '',
         },
         mode: 'onChange',
-       resolver: yupResolver(ShemaForRegistration)
+      resolver: yupResolver(ShemaForRegistration)
     });
 
+    let data = {
+        username: userNameValue,
+        password: passwordValue,
+        firstName: firstNameValue,
+        lastName: lastNameValue,
+        email: emailValue,
+        phone: phoneValue,
+    }
+
     const onSubmit = (data: InputTypesRegistration) => {
-        setStepOfRegistration((stepOfRegistration) => stepOfRegistration + 1)
+
         console.log(data)
 
     }
@@ -69,21 +86,46 @@ export const RegistrationForm: React.FC = () => {
                 register={register}
                 errors={errors}
                 isDirty={isDirty}
-                getValues={getValues}/>}
+                isValid={isValid}
+                getValues={getValues}
+                setUserNameValue={setUserNameValue}
+                setPasswordValue={setPasswordValue}
+                setStepOfRegistration={setStepOfRegistration}
+
+                />}
+
+
             {stepOfRegistration === 2 && <RegistrationStep2
                 getFieldState={getFieldState}
                 register={register}
-                errors={errors}/>}
-            {stepOfRegistration === 3 && <RegistrationStep3 register={register} errors={errors}/>}
+                errors={errors}
+                isDirty={isDirty}
+                isValid={isValid}
+                getValues={getValues}
+                setFirstNameValue={setFirstNameValue}
+                setLastNameValue={setLastNameValue}
+                setStepOfRegistration={setStepOfRegistration}/>}
+
+
+            {stepOfRegistration === 3 && <RegistrationStep3
+                register={register}
+                errors={errors}
+                isDirty={isDirty}
+                isValid={isValid}
+                getFieldState={getFieldState}
+                getValues={getValues}
+                setEmailValue={setEmailValue}
+                setPhoneValue={setPhoneValue}
+                setStepOfRegistration={setStepOfRegistration}/>}
 
 
             <div className={css.registration_buttonBlock}>
-                <input
+                {/*<input
                     className={css.registration_submitBTN}
                     type='submit'
                     value={buttonValue}
                     //disabled={status === 'loading'}
-                />
+                />*/}
 
                 <div className={css.registration_navigateToLogin}>
                     <span className={css.registration_navigateToLogin_message}>Есть учетная запись?</span>

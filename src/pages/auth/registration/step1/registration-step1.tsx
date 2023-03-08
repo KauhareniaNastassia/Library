@@ -3,6 +3,8 @@ import css from "./registration-step1.module.scss";
 import okPasswordIcon from '../../../../assets/img/ok-password-icon.svg'
 import eyeOpen from "../../../../assets/img/eye-open.svg";
 import eyeClose from "../../../../assets/img/eye-close.svg";
+import buttonCSS from '../registration-form.module.scss'
+import {InputTypesRegistration} from "../registration-form";
 
 
 type RegistrationStep1PropsType = {
@@ -10,7 +12,12 @@ type RegistrationStep1PropsType = {
     register: any;
     getFieldState: any
     isDirty: any
+    isValid: any
     getValues: any
+    setUserNameValue: (userNameValue: string) => void
+    setPasswordValue: (passwordValue: string) => void
+    setStepOfRegistration:(num: number) => void
+
 }
 
 
@@ -18,17 +25,31 @@ export const RegistrationStep1: React.FC<RegistrationStep1PropsType> = ({
                                                                             register,
                                                                             errors,
                                                                             getFieldState,
-                                                                            getValues
+                                                                            getValues,
+    setPasswordValue, setUserNameValue, setStepOfRegistration, isDirty, isValid
                                                                         }) => {
     const [isShowPassword, setIsShowPassword] = useState(false)
     const [focusUsername, setFocusUserName] = useState(false)
     const [focusPassword, setFocusPassword] = useState(false)
-    const [isChangeInputName, setIsChangeInputName] = React.useState(false);
-    const [isChangeInputPassword, setIsChangeInputPassword] = React.useState(false);
+    const [isChangeInputName, setIsChangeInputName] = useState(false);
+    const [isChangeInputPassword, setIsChangeInputPassword] = useState(false);
 
     const conditionForEmptyNameFocus = isChangeInputName && focusUsername && getValues('username') === '';
     const conditionForEmptyName = isChangeInputName && !focusUsername && getValues('username') === '';
     const conditionForEmptyPassword = isChangeInputPassword && !focusPassword && getValues('password') === '';
+
+    const onClick1StepHandler = () => {
+
+           /* setDataValue(getValues('username'))
+            setDataValue(getValues('password'))*/
+            setUserNameValue(getValues('username'))
+            setPasswordValue(getValues('password'))
+            setStepOfRegistration(2)
+            console.log(getValues('username'))
+            console.log(getValues('password'))
+
+    }
+
 
     return (
         <React.Fragment>
@@ -53,7 +74,7 @@ export const RegistrationStep1: React.FC<RegistrationStep1PropsType> = ({
                         входа</label>
 
                     <div className={css.registration_message}>
-                        {!errors.userName && conditionForEmptyNameFocus  &&
+                        {!errors.userName && conditionForEmptyNameFocus &&
                             <span>Используйте для логина латинский алфавит и цифры</span>}
                         {errors.username?.type !== 'required' && conditionForEmptyName &&
                             <span>Используйте для логина латинский алфавит и цифры</span>
@@ -89,7 +110,8 @@ export const RegistrationStep1: React.FC<RegistrationStep1PropsType> = ({
                         placeholder=' '
                         onFocus={() => {
                             setFocusPassword(true)
-                            setIsChangeInputName(true)}}
+                            setIsChangeInputPassword(true)
+                        }}
                         {...register('password', {
                             onBlur: () => setFocusPassword(false),
                         })}
@@ -119,8 +141,7 @@ export const RegistrationStep1: React.FC<RegistrationStep1PropsType> = ({
                             <span style={{color: 'red'}}>Пароль не менее 8 символов, с заглавной буквой и цифрой</span>
                         }
 
-
-
+                        {focusPassword && !errors.password &&  <span>Пароль не менее 8 символов, с заглавной буквой и цифрой</span>}
                         {focusPassword && errors.password?.type === 'passwordLengthError' &&
                             <span>Пароль <span style={{color: 'red'}}>не менее 8 символов</span>, с заглавной буквой и цифрой</span>
                         }
@@ -145,6 +166,19 @@ export const RegistrationStep1: React.FC<RegistrationStep1PropsType> = ({
                     {/*
                     {errors.password && <div style={{color: 'red'}}>{errors.password.message}</div>}*/}
                 </div>
+
+                <input
+                    className={css.registration_submitBTN}
+                    type='button'
+                    value={"СЛЕДУЮЩИЙ ШАГ"}
+                    onClick={onClick1StepHandler}
+                    disabled={
+                        !getFieldState('password').isDirty
+                        || !getFieldState('username').isDirty
+                        || errors.username
+                        || errors.password
+                        }
+                />
             </div>
         </React.Fragment>
     );
