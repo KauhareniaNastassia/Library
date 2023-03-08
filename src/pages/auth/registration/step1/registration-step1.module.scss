@@ -52,6 +52,12 @@
         pointer-events: none;
       }
 
+    .registration_ok_password_icon {
+      position:absolute;
+      top:19px;
+      right:40px;
+    }
+
     input:not(:placeholder-shown) ~ .registration__input_eyeBtn {
       visibility: visible;
       position: absolute;
@@ -62,7 +68,7 @@
       background-color: transparent;
     }
 
-    .loginForm__input_eyeBtn {
+    .registration__input_eyeBtn {
       visibility: hidden;
     }
 

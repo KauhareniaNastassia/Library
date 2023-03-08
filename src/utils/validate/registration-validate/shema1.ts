@@ -5,6 +5,17 @@ export const ShemaForRegistration = yup.object().shape({
     username: yup.string()
         .required('Поле не может быть пустым')
         .test({
+            name: 'usernameShouldHaveNumberAndLetter',
+            message: ' латинский алфавит и цифры!',
+            test() {
+                const {username} = this.parent;
+                const regex1 = new RegExp(/^[a-zA-Z0-9]+$/);
+                if(username.trim().length === 1)return regex1.test(username)
+
+                return true;
+            }
+        })
+        .test({
             name: 'usernameShouldHaveLatinLetters',
             message: '',
             test() {
@@ -26,12 +37,12 @@ export const ShemaForRegistration = yup.object().shape({
     password: yup.string()
         .required('Поле не может быть пустым')
         .test({
-            name: 'passwordLengthErrorAndNoBigLetterAndNumberAbsent',
+            name: 'passwordLengthError',
             message: '',
             test() {
                 const {password} = this.parent;
-                const regex = new RegExp(/^(?=.*[A-ZА-Я])(?=.*\d).{8,}$/);
-                return regex.test(password)
+                const regex = new RegExp(/^(?=.*[A-ZА-Я])(?=.*\d).{0,7}$/);
+                return !regex.test(password)
             }
         })
         .test({
@@ -49,16 +60,17 @@ export const ShemaForRegistration = yup.object().shape({
             test() {
                 const {password} = this.parent;
                 const regex = new RegExp(/^(?=.*[0-9]).{0,7}$/);
+
                 return !regex.test(password)
             }
         })
         .test({
-            name: 'passwordLengthError',
+            name: 'passwordLengthErrorAndNoBigLetterAndNumberAbsent',
             message: '',
             test() {
                 const {password} = this.parent;
-                const regex = new RegExp(/^(?=.*[A-ZА-Я])(?=.*\d).{0,7}$/);
-                return !regex.test(password)
+                const regex = new RegExp(/^(?=.*[A-ZА-Я])(?=.*\d).{8,}$/);
+                return regex.test(password)
             }
         }),
 

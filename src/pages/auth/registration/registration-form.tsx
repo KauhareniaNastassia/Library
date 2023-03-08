@@ -37,7 +37,7 @@ export const RegistrationForm: React.FC = () => {
     }
 
 
-    const {register, handleSubmit, formState: {errors, isDirty}, getFieldState} = useForm<InputTypesRegistration>({
+    const {register, handleSubmit, formState: {errors, isDirty}, getFieldState,getValues} = useForm<InputTypesRegistration>({
         defaultValues: {
             username: '',
             password: '',
@@ -68,7 +68,8 @@ export const RegistrationForm: React.FC = () => {
                 getFieldState={getFieldState}
                 register={register}
                 errors={errors}
-                isDirty={isDirty}/>}
+                isDirty={isDirty}
+                getValues={getValues}/>}
             {stepOfRegistration === 2 && <RegistrationStep2
                 getFieldState={getFieldState}
                 register={register}

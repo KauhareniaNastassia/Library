@@ -8,7 +8,8 @@ type RegistrationStep2PropsType = {
 }
 
 export const RegistrationStep2:React.FC<RegistrationStep2PropsType> = ({errors,register, getFieldState }) => {
-    const [focusFirstNane, setFocusFirstName] = useState(false)
+
+    const [focusFirstName, setFocusFirstName] = useState(false)
     const [focusLastName, setFocusLastName] = useState(false)
 
 
@@ -30,9 +31,9 @@ export const RegistrationStep2:React.FC<RegistrationStep2PropsType> = ({errors,r
                     />
                     <label className={css.registration__label} htmlFor='firstName'>Имя</label>
 
-                    {!focusFirstNane && errors.firstName?.type === 'required' && getFieldState('firstName').isTouched &&  <span style={{color: 'red'}}>Поле не может быть пустым</span>}
+                    {!focusFirstName && errors.firstName && getFieldState('firstName').isTouched &&  <span style={{color: 'red'}}>Поле не может быть пустым</span>}
 
-                    {/*{errors.firstName && <div style={{color: 'red'}}>{errors.firstName.message}</div>}*/}
+                    {errors.firstName && <div style={{color: 'red'}}>{errors.firstName.message}</div>}
 
                 </div>
 
@@ -51,7 +52,7 @@ export const RegistrationStep2:React.FC<RegistrationStep2PropsType> = ({errors,r
 
                     <label className={css.registration__label} htmlFor='lastName'>Фамилия</label>
 
-                    {!focusLastName && errors.lastName.type === 'required' && getFieldState('lastName').isTouched &&  <span style={{color: 'red'}}>Поле не может быть пустым</span>}
+                   {/* {!focusLastName && errors.lastName.type === 'required' && getFieldState('lastName').isTouched &&  <span style={{color: 'red'}}>Поле не может быть пустым</span>}*/}
 
                     {/*{errors.lastName && <div style={{color: 'red'}}>{errors.lastName.message}</div>}*/}
                 </div>
