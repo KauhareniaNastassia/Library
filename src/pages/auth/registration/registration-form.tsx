@@ -53,7 +53,7 @@ export const RegistrationForm: React.FC = () => {
     const onSubmit = (data: InputTypesRegistration) => {
         setStepOfRegistration((stepOfRegistration) => stepOfRegistration + 1)
         console.log(data)
-        console.log(errors.password)
+
     }
 
 
@@ -82,7 +82,7 @@ export const RegistrationForm: React.FC = () => {
                     className={css.registration_submitBTN}
                     type='submit'
                     value={buttonValue}
-                    disabled={status === 'loading'}
+                    //disabled={status === 'loading'}
                 />
 
                 <div className={css.registration_navigateToLogin}>
