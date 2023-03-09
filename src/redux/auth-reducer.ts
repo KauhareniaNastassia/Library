@@ -2544,7 +2544,7 @@ import {
     AuthResponseType,
     AuthUserResponseType,
     ErrorResponseType,
-    LoginRequestDataType
+    LoginRequestDataType, RegistrationDataType
 } from "../api/auth-api";
 import {setAppErrorAC, setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
 import {AxiosError} from "axios/index";
@@ -2553,15 +2553,13 @@ import {bool} from "yup";
 
 const initialState: InitialAuthStateType = {
     isLoggedIn: false,
-    authError: {
-    data: null,
-        error: {
-            status: 0,
-            name: '',
-            message: '',
-            details: {}
-        }} as ErrorResponseType,
-    loading: false,
+    authError: null,
+    isRegistrationSuccess: false,
+    registrationError: {
+        message: null,
+        status: null,
+    },
+    //loading: false,
     userInfo: {
         jwt: '',
         profile: {} as AuthUserResponseType
@@ -2582,11 +2580,22 @@ export const authReducer = (state: InitialAuthStateType = initialState, action: 
                     profile: action.data.user
                 }
             }
-
         case 'auth/SET-ERROR':
             return {
                 ...state, authError: action.authError
             }
+        case 'auth/IS-REGISTRATION-SUCCESS':
+            return {
+                ...state, isRegistrationSuccess: action.value
+            }
+            case 'auth/SET-REGISTRATION-ERROR':
+            return {
+                ...state, registrationError: {
+                    message: action.message,
+                    status: action.status
+                }
+            }
+
 
         default:
             return state
@@ -2604,11 +2613,18 @@ export const setLoginDataAC = (data: AuthResponseType) => ({
     type: 'auth/SET-LOGIN-DATA',
     data
 } as const)
-export const setErrorAC = (authError: ErrorResponseType) => ({
+export const setErrorAC = (authError: null | number) => ({
     type: 'auth/SET-ERROR',
     authError
 } as const)
-
+export const isRegistrationSuccessAC = (value: boolean) => ({
+    type: 'auth/IS-REGISTRATION-SUCCESS',
+    value
+} as const)
+export const setRegistrationErrorAC = (message: string | null, status: number | null | undefined) => ({
+    type: 'auth/SET-REGISTRATION-ERROR',
+    message, status
+} as const)
 
 //  thunk
 
@@ -2650,6 +2666,28 @@ export const logoutTC = (): AppThunkType =>
         }
     }
 
+    export const registrationTC =(data: RegistrationDataType):AppThunkType =>
+        async(dispatch) => {
+            dispatch(setAppStatusAC('loading'))
+            console.log("registration")
+
+            try {
+                const res = await authApi.registration(data)
+                dispatch(setAppStatusAC('succeeded'))
+                console.log(res)
+                dispatch(setAppSuccessMessageAC('success'))
+                dispatch(isRegistrationSuccessAC(true))
+            }
+            catch (err) {
+                const error = err as AxiosError
+                dispatch(setAppStatusAC('failed'))
+                dispatch(setAppErrorAC(error.message))
+                console.log(error)
+                dispatch(setRegistrationErrorAC(error.message, error.response?.status
+                ))
+            }
+        }
+
 
 //  types
 
@@ -2657,15 +2695,22 @@ export type AuthActionsType =
     | ReturnType<typeof isLoggedInAC>
     | ReturnType<typeof setLoginDataAC>
     | ReturnType<typeof setErrorAC>
+    | ReturnType<typeof isRegistrationSuccessAC>
+    | ReturnType<typeof setRegistrationErrorAC>
 
 
 type InitialAuthStateType = {
     isLoggedIn: boolean
-    authError: ErrorResponseType,
-    loading: boolean,
+    authError: null | number,
+    isRegistrationSuccess: boolean
+   // loading: boolean,
     userInfo: {
         jwt: string,
         profile: AuthUserResponseType
+    }
+    registrationError: {
+        message: null | string
+        status: null | number | undefined
     }
 
 }

@@ -42,8 +42,8 @@ export const RegistrationStep3: React.FC<RegistrationStep3PropsType> = ({
 
         /*setEmailValue(getValues('email'))
         setPhoneValue(getValues('phone'))*/
-        console.log(getValues('email'))
-        console.log(getValues('phone'))
+        /*console.log(getValues('email'))
+        console.log(getValues('phone'))*/
 
     }
     const conditionEmptyEmail = isChangeInputEmail && !focusEmail && getValues('email') === '';

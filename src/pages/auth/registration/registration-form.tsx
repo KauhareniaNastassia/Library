@@ -8,15 +8,16 @@ import {ShemaForRegistration} from "../../../utils/validate/registration-validat
 import css from "./registration-form.module.scss";
 import {NavLink} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../../hooks/hooks";
+import {registrationTC} from "../../../redux/auth-reducer";
 
 
 export interface InputTypesRegistration {
-    username?: string,
-    password?: string,
-    firstName?: string,
-    lastName?: string,
-    email?: string,
-    phone?: string,
+    email: string,
+    username: string,
+    password: string,
+    firstName: string,
+    lastName: string,
+    phone: string
 }
 
 
@@ -62,10 +63,9 @@ export const RegistrationForm: React.FC = () => {
         setStepOfRegistration(stepOfRegistration+1)
 
         if (stepOfRegistration === 3) {
+            dispatch(registrationTC(data))
             console.log(data)
         }
-
-
 
     }
 
