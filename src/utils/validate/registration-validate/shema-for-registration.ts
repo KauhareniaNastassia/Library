@@ -81,6 +81,7 @@ export const ShemaForRegistration = yup.object().shape({
         .required('Поле не может быть пустым'),
 
     phone: yup.string()
+
         .test({
             name: 'errorPhone',
             message: 'В формате +375 (хх) ххх-хх-хх',

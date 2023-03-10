@@ -1,24 +1,19 @@
 import React, {useState} from 'react';
 import css from "../step1/registration-step1.module.scss";
-import buttonCSS from '../registration-form.module.scss'
 
 type RegistrationStep2PropsType = {
     errors: any;
     register: any;
     getFieldState: any
-    isDirty: any
-    isValid: any
     getValues: any
-    setFirstNameValue: (firstNameValue: string) => void
-    setLastNameValue: (lastNameValue: string) => void
-    setStepOfRegistration:(num: number) => void
+    setStepOfRegistration: (num: number) => void
 }
 
 export const RegistrationStep2: React.FC<RegistrationStep2PropsType> = ({
                                                                             errors,
                                                                             register,
                                                                             getFieldState,
-                                                                            getValues, setFirstNameValue, setLastNameValue, setStepOfRegistration, isDirty, isValid
+                                                                            getValues, setStepOfRegistration,
                                                                         }) => {
 
     const [focusFirstName, setFocusFirstName] = useState(false)
@@ -31,15 +26,8 @@ export const RegistrationStep2: React.FC<RegistrationStep2PropsType> = ({
 
 
     const onClick2StepHandler = () => {
-
-            /*setFirstNameValue(getValues('firstName'))
-            setLastNameValue(getValues('lastName'))*/
-            setStepOfRegistration(3)
-            /*console.log(getValues('firstName'))
-            console.log(getValues('lastName'))*/
-        }
-
-
+        setStepOfRegistration(3)
+    }
 
     return (
         <React.Fragment>
@@ -48,8 +36,7 @@ export const RegistrationStep2: React.FC<RegistrationStep2PropsType> = ({
                 <div className={css.registration__input_item_wrapper}>
 
                     <input
-                        //className={css.registration__input}
-                        className={ errors.firstName ? `${css.registration__input} ${css.input__error}` : css.registration__input}
+                        className={conditionEmptyFirstName ? `${css.registration__input} ${css.input__error}` : css.registration__input}
                         type='text'
                         id='firstName'
                         placeholder=' '
@@ -58,8 +45,7 @@ export const RegistrationStep2: React.FC<RegistrationStep2PropsType> = ({
                             setFocusFirstName(true)
                             setIsChangeInputFirstName(true)
                         }}
-                        {...register('firstName', {onBlur: () => setFocusFirstName(false)})}
-                        required
+                        {...register('firstName', {onChange: () => setFocusFirstName(false)})}
                     />
                     <label className={css.registration__label} htmlFor='firstName'>Имя</label>
 
@@ -68,14 +54,12 @@ export const RegistrationStep2: React.FC<RegistrationStep2PropsType> = ({
                             <span style={{color: 'red'}}>Поле не может быть пустым</span>}
                     </div>
 
-
                 </div>
 
                 <div className={css.registration__input_item_wrapper}>
 
                     <input
-                        // className={css.registration__input}
-                        className={`${css.registration__input} ${errors.lastName && css.input__error}`}
+                        className={conditionEmptyLastName ? `${css.registration__input} ${css.input__error}` : css.registration__input}
                         type='text'
                         id='lastName'
                         placeholder=' '
@@ -84,7 +68,7 @@ export const RegistrationStep2: React.FC<RegistrationStep2PropsType> = ({
                             setIsChangeInputLastName(true)
                         }}
                         {...register('lastName', {
-                            onBlur: () => {
+                            onChange: () => {
                                 setFocusLastName(false)
                             },
                         })}
@@ -95,7 +79,6 @@ export const RegistrationStep2: React.FC<RegistrationStep2PropsType> = ({
                     <div className={css.registration_message}>
                         {conditionEmptyLastName &&
                             <span style={{color: 'red'}}>Поле не может быть пустым</span>}
-
                     </div>
 
                 </div>
@@ -105,12 +88,13 @@ export const RegistrationStep2: React.FC<RegistrationStep2PropsType> = ({
                     type='submit'
                     value={"ПОСЛЕДНИЙ ШАГ"}
                     onClick={onClick2StepHandler}
-                    disabled={!getFieldState('firstName').isDirty
+                    disabled={
+                        !getFieldState('firstName').isDirty
                         || !getFieldState('lastName').isDirty
                         || errors.firstName
-                        || errors.lastName}
+                        || errors.lastName
+                    }
                 />
-
             </div>
         </React.Fragment>
     );

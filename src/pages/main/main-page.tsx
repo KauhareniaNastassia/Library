@@ -24,19 +24,16 @@ export const MainPage: React.FC = () => {
     const status = useAppSelector(state => state.app.status)
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 
-
-
-    useEffect(() => {
+   /* useEffect(() => {
         if(isLoggedIn) {
             dispatch(getCategoriesListTC())
-            /*dispatch(getBooksTC())*/
+            /!*dispatch(getBooksTC())*!/
         } else {
             navigate('/auth')
         }
 
     }, [isLoggedIn, dispatch])
-
-
+*/
 
     return (
         <section className={css.wrapper}>
