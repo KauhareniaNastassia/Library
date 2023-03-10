@@ -2674,12 +2674,4 @@ type InitialAuthStateType = {
     isRegistrationSuccess: boolean
     registrationStatus: null | number | undefined
     profile: null | AuthUserResponseType
-
-
-
 }
-
-
-
-
-

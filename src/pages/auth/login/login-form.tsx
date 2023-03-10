@@ -7,12 +7,14 @@ import {LoginRequestDataType} from "../../../api/auth-api";
 import css from './login-form.module.scss'
 import eyeOpen from '../../../assets/img/eye-open.svg'
 import eyeClose from '../../../assets/img/eye-close.svg'
+import arrowToRegistration from '../../../assets/img/arrow-for-registration.svg'
 import {Simulate} from "react-dom/test-utils";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
 import {schemaForAuth} from "../../../utils/validate/auth-validate/shema-for-auth";
 import BasicModal from "../../../common/modals/basic-modal";
 import {AuthErrorModal} from "../../../common/modals/modal-info";
-import input = Simulate.input;
+
+/*import input = Simulate.input;*/
 
 
 export const LoginForm = () => {
@@ -66,7 +68,7 @@ export const LoginForm = () => {
                                         }
                                         }
                                         {...register('identifier', {
-                                            onChange: () => {
+                                            onBlur: () => {
                                                 setFocusIdentifier(false)
                                             },
                                         })}/>
@@ -93,7 +95,7 @@ export const LoginForm = () => {
                                         }
                                         }
                                         {...register('password', {
-                                            onChange: () => {
+                                            onBlur: () => {
                                                 setFocusPassword(false)
                                             },
                                         })}/>
@@ -132,7 +134,7 @@ export const LoginForm = () => {
                                 type='submit'
                                 value='ВХОД'
                                 disabled={
-                                       !getFieldState('identifier').isDirty
+                                    !getFieldState('identifier').isDirty
                                     || !getFieldState('password').isDirty
                                     || !!errors.identifier
                                     || !!errors.password}
@@ -141,7 +143,9 @@ export const LoginForm = () => {
                             <div className={css.loginForm_registrationBlock}>
                                 <span className={css.loginForm_registrationBlock_message}>Нет учетной записи?</span>
                                 <NavLink to={'/registration'}
-                                         className={css.loginForm_registrationBlock_link}><span>РЕГИСТРАЦИЯ</span></NavLink>
+                                         className={css.loginForm_registrationBlock_link}>
+                                    <span>РЕГИСТРАЦИЯ</span>
+                                    <img src={arrowToRegistration} alt='arrow to registration'/></NavLink>
                             </div>
                         </div>
 
