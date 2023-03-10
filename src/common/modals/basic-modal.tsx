@@ -7,8 +7,7 @@ type BasicModalPropsType = {
     modalInfo: ModalType
 }
 
-const BasicModal:React.FC<BasicModalPropsType> = ({modalInfo}) => {
-    const navigate = useNavigate()
+export const BasicModal:React.FC<BasicModalPropsType> = ({modalInfo}) => {
 
     return (
         <div className={css.basicModal__wrapper}>
@@ -16,15 +15,6 @@ const BasicModal:React.FC<BasicModalPropsType> = ({modalInfo}) => {
             <div className={css.basicModal__message}>
                 {modalInfo.message}
             </div>
-
-
-           {/* <button className={css.basicModal__button}
-                    onClick={onClickHandler/*() => {
-                        if(modalInfo.reload) {
-                            document.location.reload()
-                        }}*!/>
-                {modalInfo.buttonTitle}
-            </button>*/}
 
                 <NavLink to={modalInfo.path}
                          className={css.basicModal__button}
@@ -34,10 +24,7 @@ const BasicModal:React.FC<BasicModalPropsType> = ({modalInfo}) => {
                              }}}>
                     {modalInfo.buttonTitle}
                 </NavLink>
-
-
         </div>
     );
 };
 
-export default BasicModal;

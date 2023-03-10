@@ -11,8 +11,9 @@ import arrowToRegistration from '../../../assets/img/arrow-for-registration.svg'
 import {Simulate} from "react-dom/test-utils";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
 import {schemaForAuth} from "../../../utils/validate/auth-validate/shema-for-auth";
-import BasicModal from "../../../common/modals/basic-modal";
+
 import {AuthErrorModal} from "../../../common/modals/modal-info";
+import {BasicModal} from "../../../common/modals/basic-modal";
 
 /*import input = Simulate.input;*/
 
@@ -126,7 +127,6 @@ export const LoginForm = () => {
                             </NavLink>
 
                         </div>
-
 
                         <div className={css.loginForm_buttonBlock}>
                             <input

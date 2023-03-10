@@ -10,6 +10,10 @@
   align-items: start;
   gap: 32px;
 
+  @media (max-width: 320px) {
+    padding: 24px 16px;
+  }
+
   .registrationForm__titleBlock {
     display: flex;
     flex-direction: column;
@@ -41,6 +45,7 @@
       background: linear-gradient(231.58deg, #F83600 -53.35%, #F9D423 297.76%);
       border-radius: 30px;
       border: none;
+
     }
 
     .registration_navigateToLogin {
@@ -50,14 +55,28 @@
       align-items: center;
       gap: 16px;
 
+      @media (max-width: 320px) {
+        flex-direction: column;
+        gap: 4px;
+        align-items: start;
+        height: 48px;
+      }
 
       .registration_navigateToLogin_message {
         @include text(16px, 24px, 400, rgba(114, 114, 114, 1));
+
+        @media (max-width: 320px) {
+          @include text(15px, 20px, 400, rgba(114, 114, 114, 1));
+        }
       }
 
       .registration_navigateToLogin_link {
-        @include text(12px, 18px, 600, rgba(54, 54, 54, 1));
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
         padding-top: 2px;
+        @include text(12px, 18px, 600, rgba(54, 54, 54, 1));
       }
     }
 

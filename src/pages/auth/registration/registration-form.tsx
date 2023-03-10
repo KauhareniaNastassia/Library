@@ -9,8 +9,10 @@ import css from "./registration-form.module.scss";
 import {NavLink} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../../hooks/hooks";
 import {registrationTC} from "../../../redux/auth-reducer";
-import BasicModal from "../../../common/modals/basic-modal";
+
 import {Error400Modal, ErrorRegistrationModal, SuccessModal} from "../../../common/modals/modal-info";
+import arrowToRegistration from "../../../assets/img/arrow-for-registration.svg";
+import {BasicModal} from "../../../common/modals/basic-modal";
 
 
 export interface InputTypesRegistration {
@@ -99,7 +101,10 @@ export const RegistrationForm: React.FC = () => {
                         <div className={css.registration_navigateToLogin}>
                             <span className={css.registration_navigateToLogin_message}>Есть учетная запись?</span>
                             <NavLink to={'/auth'}
-                                     className={css.registration_navigateToLogin_link}><span>ВОЙТИ</span></NavLink>
+                                     className={css.registration_navigateToLogin_link}>
+                                <span>ВОЙТИ</span>
+                                <img src={arrowToRegistration} alt='arrow to registration'/>
+                            </NavLink>
                         </div>
 
                     </div>

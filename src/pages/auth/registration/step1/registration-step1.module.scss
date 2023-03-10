@@ -5,7 +5,14 @@
 .registration__inputBlock {
   display: flex;
   flex-direction: column;
+  gap: 32px;
+
+.registration__input_wrapper {
+  display: flex;
+  flex-direction: column;
   gap: 16px;
+
+
 
   .registration__input_item_wrapper {
     width: 416px;
@@ -13,6 +20,10 @@
     position: relative;
     display: flex;
     flex-direction: column;
+
+    @media (max-width: 320px) {
+      width: 256px;
+    }
 
     .registration__input {
       position: absolute;
@@ -78,16 +89,20 @@
       visibility: hidden;
     }
 
-
     .registration_message {
       top: 58px;
       position: absolute;
       padding-left: 12px;
       @include text(12px, 16px, 500, $unActive-color);
+
+      @media (max-width: 320px) {
+        padding-left: 0px;
+      }
     }
-
-
   }
+}
+
+
 
   .registration_submitBTN {
     width: 100%;
@@ -98,6 +113,12 @@
     background: linear-gradient(231.58deg, #F83600 -53.35%, #F9D423 297.76%);
     border-radius: 30px;
     border: none;
+
+
+    @media (max-width: 320px) {
+      padding: 11px 0;
+      @include text(12px, 18px, 600, #FFFFFF);
+    }
 
     &:hover {
       box-shadow: 0 2px 5px rgba(54, 54, 54, 0.1);

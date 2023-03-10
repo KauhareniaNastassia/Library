@@ -191,7 +191,7 @@
       align-items: center;
       gap: 12px;
       @include text(12px, 18px, 600, rgba(54, 54, 54, 1));
-
+      padding-top: 2px;
     }
   }
 }

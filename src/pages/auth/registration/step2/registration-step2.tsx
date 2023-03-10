@@ -32,56 +32,59 @@ export const RegistrationStep2: React.FC<RegistrationStep2PropsType> = ({
     return (
         <React.Fragment>
             <div className={css.registration__inputBlock}>
+                <div className={css.registration__input_wrapper}>
+                    <div className={css.registration__input_item_wrapper}>
 
-                <div className={css.registration__input_item_wrapper}>
+                        <input
+                            className={conditionEmptyFirstName ? `${css.registration__input} ${css.input__error}` : css.registration__input}
+                            type='text'
+                            id='firstName'
+                            placeholder=' '
 
-                    <input
-                        className={conditionEmptyFirstName ? `${css.registration__input} ${css.input__error}` : css.registration__input}
-                        type='text'
-                        id='firstName'
-                        placeholder=' '
+                            onFocus={() => {
+                                setFocusFirstName(true)
+                                setIsChangeInputFirstName(true)
+                            }}
+                            {...register('firstName', {onBlur: () => setFocusFirstName(false)})}
+                        />
+                        <label className={css.registration__label} htmlFor='firstName'>Имя</label>
 
-                        onFocus={() => {
-                            setFocusFirstName(true)
-                            setIsChangeInputFirstName(true)
-                        }}
-                        {...register('firstName', {onBlur: () => setFocusFirstName(false)})}
-                    />
-                    <label className={css.registration__label} htmlFor='firstName'>Имя</label>
+                        <div className={css.registration_message}>
+                            {conditionEmptyFirstName &&
+                                <span style={{color: 'red'}}>Поле не может быть пустым</span>}
+                        </div>
 
-                    <div className={css.registration_message}>
-                        {conditionEmptyFirstName &&
-                            <span style={{color: 'red'}}>Поле не может быть пустым</span>}
                     </div>
 
-                </div>
+                    <div className={css.registration__input_item_wrapper}>
 
-                <div className={css.registration__input_item_wrapper}>
+                        <input
+                            className={conditionEmptyLastName ? `${css.registration__input} ${css.input__error}` : css.registration__input}
+                            type='text'
+                            id='lastName'
+                            placeholder=' '
+                            onFocus={() => {
+                                setFocusLastName(true)
+                                setIsChangeInputLastName(true)
+                            }}
+                            {...register('lastName', {
+                                onBlur: () => {
+                                    setFocusLastName(false)
+                                },
+                            })}
+                        />
 
-                    <input
-                        className={conditionEmptyLastName ? `${css.registration__input} ${css.input__error}` : css.registration__input}
-                        type='text'
-                        id='lastName'
-                        placeholder=' '
-                        onFocus={() => {
-                            setFocusLastName(true)
-                            setIsChangeInputLastName(true)
-                        }}
-                        {...register('lastName', {
-                            onBlur: () => {
-                                setFocusLastName(false)
-                            },
-                        })}
-                    />
+                        <label className={css.registration__label} htmlFor='lastName'>Фамилия</label>
 
-                    <label className={css.registration__label} htmlFor='lastName'>Фамилия</label>
+                        <div className={css.registration_message}>
+                            {conditionEmptyLastName &&
+                                <span style={{color: 'red'}}>Поле не может быть пустым</span>}
+                        </div>
 
-                    <div className={css.registration_message}>
-                        {conditionEmptyLastName &&
-                            <span style={{color: 'red'}}>Поле не может быть пустым</span>}
                     </div>
-
                 </div>
+
+
 
                 <input
                     className={css.registration_submitBTN}

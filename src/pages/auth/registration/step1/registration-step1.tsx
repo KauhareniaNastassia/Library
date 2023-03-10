@@ -39,115 +39,119 @@ export const RegistrationStep1: React.FC<RegistrationStep1PropsType> = ({
         <React.Fragment>
             <div className={css.registration__inputBlock}>
 
-                <div className={css.registration__input_item_wrapper}>
+                <div className={css.registration__input_wrapper}>
+                    <div className={css.registration__input_item_wrapper}>
 
-                    <input
-                        className={css.registration__input}
-                        type='text'
-                        id='username'
-                        placeholder=' '
-                        onFocus={() => {
-                            setFocusUserName(true)
-                            setIsChangeInputName(true)
-                        }}
-                        {...register('username', {
-                            onBlur: () => setFocusUserName(false),
-                        })}
-                    />
-                    <label className={css.registration__label} htmlFor='username'>Придумайте логин для
-                        входа</label>
+                        <input
+                            className={css.registration__input}
+                            type='text'
+                            id='username'
+                            placeholder=' '
+                            onFocus={() => {
+                                setFocusUserName(true)
+                                setIsChangeInputName(true)
+                            }}
+                            {...register('username', {
+                                onBlur: () => setFocusUserName(false),
+                            })}
+                        />
+                        <label className={css.registration__label} htmlFor='username'>Придумайте логин для
+                            входа</label>
 
-                    <div className={css.registration_message}>
-                        {!errors.userName && conditionForEmptyNameFocus &&
-                            <span>Используйте для логина латинский алфавит и цифры</span>
-                        }
-                        {errors.username?.type !== 'required' && conditionForEmptyName &&
-                            <span>Используйте для логина латинский алфавит и цифры</span>
-                        }
-                        {!focusUsername && errors.username?.type === 'required' && getFieldState('username').isTouched &&
-                            <span style={{color: 'red'}}>Поле не может быть пустым</span>
-                        }
-                        {focusUsername && errors.userName?.type === 'usernameShouldHaveNumberAndLetter' &&
-                            <span>Используйте для логина <span style={{color: 'red'}}>латинский алфавит</span> и <span
-                                style={{color: 'red'}}>цифры</span></span>
-                        }
-                        {focusUsername && errors.username?.type === 'usernameShouldHaveLatinLetters' &&
-                            <span>Используйте для логина <span
-                                style={{color: 'red'}}>латинский алфавит</span> и цифры</span>
-                        }
-                        {focusUsername && errors.username?.type === 'usernameShouldHaveNumber' &&
-                            <span>Используйте для логина латинский алфавит и <span
-                                style={{color: 'red'}}>цифры</span></span>
-                        }
-                        {errors.username && errors.username?.type !== 'required' && !focusUsername &&
-                            <span style={{color: 'red'}}>Используйте для логина латинский алфавит и цифры</span>}
-                    </div>
-
-                </div>
-
-                <div className={css.registration__input_item_wrapper}>
-
-                    <input
-                        className={css.registration__input}
-                        type={isShowPassword ? 'text' : 'password'}
-                        id='password'
-                        placeholder=' '
-                        onFocus={() => {
-                            setFocusPassword(true)
-                            setIsChangeInputPassword(true)
-                        }}
-                        {...register('password', {
-                            onBlur: () => setFocusPassword(false),
-                        })}
-                    />
-
-                    <label className={css.registration__label} htmlFor='password'>Пароль</label>
-
-                    {!errors.password && getFieldState('password').isDirty &&
-                        <img className={css.registration_ok_password_icon} src={okPasswordIcon} alt={'ok password'}/>
-                    }
-                    <button className={css.registration__input_eyeBtn} onClick={() => {
-                        setIsShowPassword(!isShowPassword)}}>
-                        <img src={isShowPassword ? eyeOpen : eyeClose}/>
-                    </button>
-
-
-                    <div className={css.registration_message}>
-                        {!errors.password && conditionForEmptyPassword &&
-                            <span>Пароль не менее 8 символов, с заглавной буквой и цифрой</span>
-                        }
-                        {!focusPassword && errors.password?.type === 'required' && getFieldState('password').isTouched &&
-                            <span style={{color: 'red'}}>Поле не может быть пустым</span>
-                        }
-                        {focusPassword && errors.password?.type === 'required' && getFieldState('password').isTouched &&
-                            <span>Пароль не менее 8 символов, с заглавной буквой и цифрой</span>
-                        }
-                        {errors.password && errors.password?.type !== 'required' && !focusPassword &&
-                            <span style={{color: 'red'}}>Пароль не менее 8 символов, с заглавной буквой и цифрой</span>
-                        }
-                        {focusPassword && !errors.password &&
-                            <span>Пароль не менее 8 символов, с заглавной буквой и цифрой</span>
-                        }
-                        {focusPassword && errors.password?.type === 'passwordLengthError' &&
-                            <span>Пароль <span style={{color: 'red'}}>не менее 8 символов</span>, с заглавной буквой и цифрой</span>
-                        }
-                        {focusPassword && errors.password?.type === 'passwordLengthErrorAndNoBigLetterAndNumberAbsent' &&
-                            <span>Пароль <span
-                                style={{color: 'red'}}>не менее 8 символов, с заглавной буквой и цифрой</span></span>
-                        }
-                        {focusPassword && errors.password?.type === 'passwordLengthErrorAndNumberAbsent' &&
-                            <span>Пароль <span
-                                style={{color: 'red'}}>не менее 8 символов</span>, с заглавной буквой и<span
-                                style={{color: 'red'}}> цифрой</span></span>
-                        }
-                        {focusPassword && errors.password?.type === 'passwordLengthErrorAndNoBigLetter' &&
-                            <span>Пароль <span style={{color: 'red'}}>не менее 8 символов</span>, <span
-                                style={{color: 'red'}}>с заглавной буквой</span> и цифрой</span>
-                        }
+                        <div className={css.registration_message}>
+                            {!errors.userName && conditionForEmptyNameFocus &&
+                                <span>Используйте для логина латинский алфавит и цифры</span>
+                            }
+                            {errors.username?.type !== 'required' && conditionForEmptyName &&
+                                <span>Используйте для логина латинский алфавит и цифры</span>
+                            }
+                            {!focusUsername && errors.username?.type === 'required' && getFieldState('username').isTouched &&
+                                <span style={{color: 'red'}}>Поле не может быть пустым</span>
+                            }
+                            {focusUsername && errors.userName?.type === 'usernameShouldHaveNumberAndLetter' &&
+                                <span>Используйте для логина <span style={{color: 'red'}}>латинский алфавит</span> и <span
+                                    style={{color: 'red'}}>цифры</span></span>
+                            }
+                            {focusUsername && errors.username?.type === 'usernameShouldHaveLatinLetters' &&
+                                <span>Используйте для логина <span
+                                    style={{color: 'red'}}>латинский алфавит</span> и цифры</span>
+                            }
+                            {focusUsername && errors.username?.type === 'usernameShouldHaveNumber' &&
+                                <span>Используйте для логина латинский алфавит и <span
+                                    style={{color: 'red'}}>цифры</span></span>
+                            }
+                            {errors.username && errors.username?.type !== 'required' && !focusUsername &&
+                                <span style={{color: 'red'}}>Используйте для логина латинский алфавит и цифры</span>}
+                        </div>
 
                     </div>
 
+                    <div className={css.registration__input_item_wrapper}>
+
+                        <input
+                            className={css.registration__input}
+                            type={isShowPassword ? 'text' : 'password'}
+                            id='password'
+                            placeholder=' '
+                            onFocus={() => {
+                                setFocusPassword(true)
+                                setIsChangeInputPassword(true)
+                            }}
+                            {...register('password', {
+                                onBlur: () => setFocusPassword(false),
+                            })}
+                        />
+
+                        <label className={css.registration__label} htmlFor='password'>Пароль</label>
+
+                        {!errors.password && getFieldState('password').isDirty &&
+                            <img className={css.registration_ok_password_icon} src={okPasswordIcon} alt={'ok password'}/>
+                        }
+                        <button className={css.registration__input_eyeBtn} onClick={() => {
+                            setIsShowPassword(!isShowPassword)}}>
+                            <img src={isShowPassword ? eyeOpen : eyeClose}/>
+                        </button>
+
+
+                        <div className={css.registration_message}>
+                            {!errors.password && conditionForEmptyPassword &&
+                                <span>Пароль не менее 8 символов, с заглавной буквой и цифрой</span>
+                            }
+                            {!focusPassword && errors.password?.type === 'required' && getFieldState('password').isTouched &&
+                                <span style={{color: 'red'}}>Поле не может быть пустым</span>
+                            }
+                            {focusPassword && errors.password?.type === 'required' && getFieldState('password').isTouched &&
+                                <span>Пароль не менее 8 символов, с заглавной буквой и цифрой</span>
+                            }
+                            {errors.password && errors.password?.type !== 'required' && !focusPassword &&
+                                <span style={{color: 'red'}}>Пароль не менее 8 символов, с заглавной буквой и цифрой</span>
+                            }
+                            {focusPassword && !errors.password &&
+                                <span>Пароль не менее 8 символов, с заглавной буквой и цифрой</span>
+                            }
+                            {focusPassword && errors.password?.type === 'passwordLengthError' &&
+                                <span>Пароль <span style={{color: 'red'}}>не менее 8 символов</span>, с заглавной буквой и цифрой</span>
+                            }
+                            {focusPassword && errors.password?.type === 'passwordLengthErrorAndNoBigLetterAndNumberAbsent' &&
+                                <span>Пароль <span
+                                    style={{color: 'red'}}>не менее 8 символов, с заглавной буквой и цифрой</span></span>
+                            }
+                            {focusPassword && errors.password?.type === 'passwordLengthErrorAndNumberAbsent' &&
+                                <span>Пароль <span
+                                    style={{color: 'red'}}>не менее 8 символов</span>, с заглавной буквой и<span
+                                    style={{color: 'red'}}> цифрой</span></span>
+                            }
+                            {focusPassword && errors.password?.type === 'passwordLengthErrorAndNoBigLetter' &&
+                                <span>Пароль <span style={{color: 'red'}}>не менее 8 символов</span>, <span
+                                    style={{color: 'red'}}>с заглавной буквой</span> и цифрой</span>
+                            }
+
+                        </div>
+
+                    </div>
                 </div>
+
+
 
                 <input
                     className={css.registration_submitBTN}

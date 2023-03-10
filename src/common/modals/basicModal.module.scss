@@ -11,14 +11,27 @@
   align-items: center;
   border-radius: 16px;
 
+  @media (max-width: 320px) {
+    padding: 42px 16px;
+  }
+
   .basicModal__title {
-    @include text(24px, 30px, 700, $main-text-color)
+    @include text(24px, 30px, 700, $main-text-color);
+
+    @media (max-width: 320px) {
+      @include text(18px, 28px, 700, $main-text-color);
+    }
   }
 
   .basicModal__message {
     @include text(16px, 24px, 400, $main-text-color);
     max-width: 416px;
     text-align: center;
+
+    @media (max-width: 320px) {
+      width: 256px;
+      @include text(15px, 20px, 400, $main-text-color);
+    }
   }
 
   .basicModal__button {
@@ -28,8 +41,13 @@
     border-radius: 30px;
     border: none;
     @include button(100%, 42px) ;
-    @include text(16px, 24px, 400, #ffffff);
+    @include text(16px, 24px, 600, #ffffff);
     background:linear-gradient(231.58deg, #F83600 -53.35%, #F9D423 297.76%);
 
+    @media (max-width: 320px) {
+      padding-top: 11px;
+      @include button(100%, 40px) ;
+      @include text(12px, 18px, 600, #ffffff);
+    }
   }
 }
