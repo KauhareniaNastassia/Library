@@ -2,12 +2,11 @@ import {useEffect, useState} from "react";
 
 import {NavLink, useLocation} from 'react-router-dom';
 import css from './sidebar.module.scss'
-import {getCategoriesListTC} from '../../redux/category-reducer';
 import sidebarArrowIcon from '../../assets/img/sidebar-arrow-icon.svg';
 import {SidebarMainItem} from "./sidebar-main-item";
 import {SidebarShowcaseItem} from "./sidebar-showcase-item";
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
-import {loginTC, logoutTC} from "../../redux/auth-reducer";
+import {logoutTC} from "../../redux/auth-reducer";
 
 
 type SidebarPropsType = {
@@ -26,7 +25,7 @@ export const Sidebar = (props: SidebarPropsType) => {
 
 
     const onClickLogoutHandler = () => {
-        console.log('logout')
+
         dispatch(logoutTC())
     }
 
@@ -129,7 +128,7 @@ export const Sidebar = (props: SidebarPropsType) => {
             />
             <div onClick={onClickLogoutHandler}>
                 <SidebarMainItem
-                    path="/login"
+                    path="/auth"
                     title='Выход'
                     setActiveShowcase={() => setActiveShowcase(false)}
                     closeSideBar={props.closeSideBar}

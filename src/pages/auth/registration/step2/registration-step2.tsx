@@ -45,7 +45,7 @@ export const RegistrationStep2: React.FC<RegistrationStep2PropsType> = ({
                             setFocusFirstName(true)
                             setIsChangeInputFirstName(true)
                         }}
-                        {...register('firstName', {onChange: () => setFocusFirstName(false)})}
+                        {...register('firstName', {onBlur: () => setFocusFirstName(false)})}
                     />
                     <label className={css.registration__label} htmlFor='firstName'>Имя</label>
 
@@ -68,7 +68,7 @@ export const RegistrationStep2: React.FC<RegistrationStep2PropsType> = ({
                             setIsChangeInputLastName(true)
                         }}
                         {...register('lastName', {
-                            onChange: () => {
+                            onBlur: () => {
                                 setFocusLastName(false)
                             },
                         })}

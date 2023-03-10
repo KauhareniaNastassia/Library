@@ -31,7 +31,7 @@ export const LoginForm = () => {
             identifier: '',
             password: '',
         },
-        mode: 'onChange',
+        mode: 'onSubmit',
         resolver: yupResolver(schemaForAuth)
     });
 
@@ -66,9 +66,6 @@ export const LoginForm = () => {
                                         }
                                         }
                                         {...register('identifier', {
-                                            onBlur: () => {
-                                                setFocusIdentifier(false)
-                                            },
                                             onChange: () => {
                                                 setFocusIdentifier(false)
                                             },
@@ -96,16 +93,13 @@ export const LoginForm = () => {
                                         }
                                         }
                                         {...register('password', {
-                                            onBlur: () => {
-                                                setFocusPassword(false)
-                                            },
                                             onChange: () => {
                                                 setFocusPassword(false)
-                                            }
+                                            },
                                         })}/>
                                     <label className={css.loginForm__label} htmlFor='password'>Пароль</label>
 
-                                    <button className={css.loginForm__input_eyeBtn} onClick={() => {
+                                    <button type='button' className={css.loginForm__input_eyeBtn} onClick={() => {
                                         setIsShowPassword(!isShowPassword)
                                     }}>
                                         <img src={isShowPassword ? eyeOpen : eyeClose}/>
@@ -138,7 +132,7 @@ export const LoginForm = () => {
                                 type='submit'
                                 value='ВХОД'
                                 disabled={
-                                    !getFieldState('identifier').isDirty
+                                       !getFieldState('identifier').isDirty
                                     || !getFieldState('password').isDirty
                                     || !!errors.identifier
                                     || !!errors.password}

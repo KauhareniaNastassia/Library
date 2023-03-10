@@ -1,39 +1,65 @@
-import {NavLink} from 'react-router-dom';
+import {NavLink, useNavigate} from 'react-router-dom';
 import userAvatar from '../../assets/img/avatar.svg'
 import css from './header.module.scss'
 import clevertecLogoImg from '../../assets/img/logo-clevertec.svg'
 import {BurgerMenu} from '../../features/burger-menu';
-import React from "react";
-import {useAppSelector} from "../../hooks/hooks";
+import React, {useRef, useState} from "react";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 import {ErrorNotification} from "../../common/error-notification/error-notification";
+import {logoutTC} from "../../redux/auth-reducer";
+import {useOnClickOutside} from "../../hooks/use-on-click-outside";
 
-export const Header:React.FC = () => {
+export const Header: React.FC = () => {
     const status = useAppSelector(state => state.app.status)
-    const profile = useAppSelector(state => state.auth.userInfo.profile)
+    const profile = useAppSelector(state => state.auth.profile)
+    const navigate = useNavigate()
+    const dispatch = useAppDispatch()
+    const [popUpClose, setPopUpClose] = useState(false)
+    const node = useRef<HTMLDivElement>(null);
+
+    const onClickOutsideClose = () => {
+        setPopUpClose(false)
+    }
+
+    const onClickLogoutHandler = () => {
+        console.log('logout')
+        dispatch(logoutTC())
+    }
+   useOnClickOutside(node, onClickOutsideClose);
 
     return (
         <section className={css.header}>
 
             {status === 'failed' && <ErrorNotification/>}
 
-        <div className={css.header__logo}>
-            <NavLink to='/'>
-                 <img src={clevertecLogoImg} alt='Cleverland logo'/>
-            </NavLink>
-        </div>
-        <div className={css.header__title}>
+            <div className={css.header__logo}>
+                <NavLink to='/'>
+                    <img src={clevertecLogoImg} alt='Cleverland logo'/>
+                </NavLink>
 
-            <div className={css.header__title_burger}>
-                <BurgerMenu/>
+            </div>
+            <div className={css.header__title}>
+
+                <div className={css.header__title_burger}>
+                    <BurgerMenu/>
+                </div>
+
+                Библиотека
             </div>
 
-            Библиотека
-        </div>
-        <div className={css.header__user}>
-            <span>Привет, {profile.firstName}!</span>
-            <NavLink to='/profile'>
+            <div className={css.header__user} onClick={() => setPopUpClose(!popUpClose)}>
+                <span>Привет, {profile?.firstName}!</span>
                 <img src={userAvatar} alt='User avatar'/>
-            </NavLink>
-        </div>
-    </section>
-)};
+            </div>
+
+            {popUpClose &&
+                <div className={css.popUp_wrapper} ref={node} >
+                    <button className={css.popUp_button} type='button' onClick={() => navigate('/profile')}>Профиль
+                    </button>
+                    <button className={css.popUp_button} type='button' onClick={onClickLogoutHandler}>Выход
+                    </button>
+                </div>
+            }
+        </section>
+    )
+};

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Link, NavLink, useParams} from "react-router-dom";
+import {Link, NavLink, useNavigate, useParams} from "react-router-dom";
 import css from './book-page.module.scss'
 import {Rating} from '../../../features/rating';
 
@@ -10,18 +10,30 @@ import reviewArrowUpIcon from '../../../assets/img/review-arrow-up.svg';
 import {useAppDispatch, useAppSelector} from "../../../hooks/hooks";
 import {BookCoverImage} from "./book-image/book-cover-image";
 import {getBookTC} from "../../../redux/book-reducer";
+import {getCategoriesListTC} from "../../../redux/category-reducer";
 
 export const BookPage = () => {
     const dispatch = useAppDispatch()
     const {bookId, category} = useParams()
-
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const book = useAppSelector((state) => state.book.book)
+    const navigate = useNavigate()
 
     const [showReviews, setShowReviews] = useState(true)
 
+
     useEffect(() => {
+        if(isLoggedIn) {
             dispatch(getBookTC(Number(bookId)))
-    }, [dispatch, bookId])
+        } else {
+            navigate('/auth')
+        }
+
+    }, [isLoggedIn, dispatch, bookId])
+
+   /* useEffect(() => {
+            dispatch(getBookTC(Number(bookId)))
+    }, [dispatch, bookId])*/
 
     return <section className={css.wrapper}>
         <>

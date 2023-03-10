@@ -2578,6 +2578,7 @@ export const getCategoriesListTC = (): AppThunkType =>
         dispatch(setAppStatusAC('loading'))
         try {
             const res = await categoriesApi.getCategoriesList()
+            console.log(res)
             dispatch(setCategoriesListAC(res.data))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))

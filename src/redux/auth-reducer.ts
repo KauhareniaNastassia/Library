@@ -2551,13 +2551,10 @@ import {AxiosError} from "axios/index";
 
 const initialState: InitialAuthStateType = {
     isLoggedIn: false,
-
     isRegistrationSuccess: false,
     registrationStatus: null,
-    userInfo: {
-        jwt: '',
-        profile: {} as AuthUserResponseType
-    },
+    profile: null,
+
 
 }
 
@@ -2568,11 +2565,7 @@ export const authReducer = (state: InitialAuthStateType = initialState, action: 
             return {...state, isLoggedIn: action.isLoggedIn}
         case "auth/SET-LOGIN-DATA":
             return {
-                ...state, userInfo: {
-                    ...action.data,
-                    jwt: action.data.jwt,
-                    profile: action.data.user
-                }
+                ...state, profile: action.profile
             }
         case 'auth/IS-REGISTRATION-SUCCESS':
             return {
@@ -2596,9 +2589,9 @@ export const isLoggedInAC = (isLoggedIn: boolean) => ({
     isLoggedIn
 } as const)
 
-export const setLoginDataAC = (data: AuthResponseType) => ({
+export const setLoginDataAC = (profile: AuthUserResponseType | null) => ({
     type: 'auth/SET-LOGIN-DATA',
-    data
+    profile
 } as const)
 export const isRegistrationSuccessAC = (value: boolean) => ({
     type: 'auth/IS-REGISTRATION-SUCCESS',
@@ -2617,11 +2610,10 @@ export const loginTC = (data: LoginRequestDataType): AppThunkType =>
         console.log("TC")
         try {
             const res = await authApi.login(data)
-            console.log(res)
             dispatch(isLoggedInAC(true))
+            dispatch(setLoginDataAC(res.data.user))
 
-            dispatch(setLoginDataAC(res.data))
-            console.log(res.data.user)
+            localStorage.setItem('token', JSON.stringify(res.data.jwt))
 
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
@@ -2636,11 +2628,10 @@ export const loginTC = (data: LoginRequestDataType): AppThunkType =>
 export const logoutTC = (): AppThunkType =>
     async (dispatch) => {
         dispatch(setAppStatusAC('loading'))
-        console.log("TC")
         try {
-            const res = await authApi.logout()
-
+            localStorage.removeItem('token');
             dispatch(isLoggedInAC(false))
+            dispatch(setLoginDataAC(null))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
         } catch (err) {
@@ -2653,7 +2644,6 @@ export const logoutTC = (): AppThunkType =>
 export const registrationTC = (data: RegistrationDataType): AppThunkType =>
     async (dispatch) => {
         dispatch(setAppStatusAC('loading'))
-        console.log("registration")
 
         try {
             const res = await authApi.registration(data)
@@ -2666,7 +2656,6 @@ export const registrationTC = (data: RegistrationDataType): AppThunkType =>
             dispatch(setAppStatusAC('failed'))
             dispatch(setAppErrorAC(error.message))
             dispatch(setRegistrationStatusAC(error.response?.status))
-
         }
     }
 
@@ -2684,10 +2673,8 @@ type InitialAuthStateType = {
     isLoggedIn: boolean
     isRegistrationSuccess: boolean
     registrationStatus: null | number | undefined
-    userInfo: {
-        jwt: string,
-        profile: AuthUserResponseType
-    }
+    profile: null | AuthUserResponseType
+
 
 
 }

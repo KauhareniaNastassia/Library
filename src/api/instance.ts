@@ -25,8 +25,7 @@ export const customInstance = axios.create({
 const requestHandler = (request: InternalAxiosRequestConfig) => {
     // Token will be dynamic so we can use any app-specific way to always
     // fetch the new token before making the call
-    request.headers.Authorization = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzgsImlhdCI6MTY3NzU3ODExMCwiZXhwIjoxNjgwMTcwMTEwfQ.PwwdtrqrAYRPfPoRyCs_WcqdDk5SxO39XSgQwTG1Qb8';
-
+    request.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('token') || '{}')}`;
     return request;
 };
 

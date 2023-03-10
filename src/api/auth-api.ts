@@ -9,9 +9,6 @@ export const authApi = {
     login(data: LoginRequestDataType) {
         return instance.post<LoginRequestDataType, AxiosResponse<AuthResponseType>>(`/api/auth/local`, data)
     },
-    logout() {
-        return instance.delete<AxiosResponse>(`/api/auth/local`)
-    },
     forgotPassword(email: string) {
         return instance.post<ForgotPasswordRequestType>(`/api/auth/forgot-password`, email)
     },

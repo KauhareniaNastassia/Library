@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Navigate, Route, Routes, useNavigate} from 'react-router-dom';
 import {Terms} from '../terms';
 import {Contract} from '../contract';
@@ -11,7 +11,6 @@ import {Footer} from '../../layout/footer';
 import {MainContent} from '../books-list'
 
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
-import {getCategoriesListTC} from "../../redux/category-reducer";
 import {Loader} from "../../common/loader/loader";
 import {LoginForm} from "../auth/login/login-form";
 import {AuthLayout} from "../auth/auth-layout";
@@ -19,21 +18,7 @@ import {RegistrationForm} from "../auth/registration/registration-form";
 
 
 export const MainPage: React.FC = () => {
-    const dispatch = useAppDispatch()
-    const navigate = useNavigate()
     const status = useAppSelector(state => state.app.status)
-    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
-
-   /* useEffect(() => {
-        if(isLoggedIn) {
-            dispatch(getCategoriesListTC())
-            /!*dispatch(getBooksTC())*!/
-        } else {
-            navigate('/auth')
-        }
-
-    }, [isLoggedIn, dispatch])
-*/
 
     return (
         <section className={css.wrapper}>
