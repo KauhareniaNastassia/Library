@@ -2629,6 +2629,7 @@ export const loginTC = (data: LoginRequestDataType): AppThunkType =>
             const error = err as AxiosError
             dispatch(setAppStatusAC('failed'))
             dispatch(setAppErrorAC(error.message))
+            dispatch(setRegistrationStatusAC(error.response?.status))
         }
     }
 

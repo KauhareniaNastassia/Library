@@ -35,7 +35,7 @@ export const ErrorRegistrationModal = {
 export const AuthErrorModal = {
     title: 'Вход не выполнен',
     message: 'Что-то пошло не так. Попробуйте ещё раз',
-    path: '/registration',
+    path: '/auth',
     reload: true,
     buttonTitle: 'повторить'
 }
