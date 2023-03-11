@@ -3,8 +3,6 @@ import css from './auth-layout.module.scss'
 import {useAppSelector} from "../../hooks/hooks";
 import {Outlet, useNavigate} from "react-router-dom";
 import {Loader} from "../../common/loader/loader";
-import {Error400Modal, ErrorRegistrationModal, SuccessModal} from "../../common/modals/modal-info";
-import {BasicModal} from "../../common/modals/basic-modal";
 
 export const AuthLayout: React.FC = () => {
     const navigate = useNavigate();

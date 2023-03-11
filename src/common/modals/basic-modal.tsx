@@ -16,6 +16,7 @@ export const BasicModal:React.FC<BasicModalPropsType> = ({modalInfo}) => {
                 {modalInfo.message}
             </div>
 
+            {modalInfo.buttonTitle !== '' &&
                 <NavLink to={modalInfo.path}
                          className={css.basicModal__button}
                          onClick={() => {
@@ -24,6 +25,8 @@ export const BasicModal:React.FC<BasicModalPropsType> = ({modalInfo}) => {
                              }}}>
                     {modalInfo.buttonTitle}
                 </NavLink>
+            }
+
         </div>
     );
 };
