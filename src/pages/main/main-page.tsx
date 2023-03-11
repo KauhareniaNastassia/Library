@@ -15,6 +15,7 @@ import {Loader} from "../../common/loader/loader";
 import {LoginForm} from "../auth/login/login-form";
 import {AuthLayout} from "../auth/auth-layout";
 import {RegistrationForm} from "../auth/registration/registration-form";
+import {ForgotPassword} from "../auth/forgot-password/forgot-password";
 
 
 export const MainPage: React.FC = () => {
@@ -43,7 +44,7 @@ export const MainPage: React.FC = () => {
                     <Route element={<AuthLayout/>}>
                         <Route path="/auth" element={<LoginForm/>}/>
                         <Route path="/registration" element={<RegistrationForm/>}/>
-                        <Route path="/password-recovery" element={<LoginForm/>}/>
+                        <Route path="/forgot-pass" element={<ForgotPassword/>}/>
                     </Route>
                 </Routes>
             </div>

@@ -122,7 +122,7 @@ export const LoginForm = () => {
                                 </div>
                             </div>
 
-                            <NavLink className={css.loginForm__forgotPassword} to={'/'}>
+                            <NavLink className={css.loginForm__forgotPassword} to={'/forgot-pass'}>
                                 {registrationStatus === 400 ? 'Восстановить?' : 'Забыли логин или пароль?'}
                             </NavLink>
 
