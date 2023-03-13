@@ -1,5 +1,5 @@
 import React from 'react';
-import {Navigate, Route, Routes, useNavigate} from 'react-router-dom';
+import {Navigate, Route, Routes} from 'react-router-dom';
 import {Terms} from '../terms';
 import {Contract} from '../contract';
 import {BookPage} from '../books-list/book';
@@ -10,13 +10,12 @@ import {LayoutMainPage} from '../../layout/layout-main-page';
 import {Footer} from '../../layout/footer';
 import {MainContent} from '../books-list'
 
-import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
+import {useAppSelector} from "../../hooks/hooks";
 import {Loader} from "../../common/loader/loader";
 import {LoginForm} from "../auth/login/login-form";
 import {AuthLayout} from "../auth/auth-layout";
 import {RegistrationForm} from "../auth/registration/registration-form";
 import {ForgotPassword} from "../auth/forgot-password/forgot-password";
-import {ResetPassword} from "../auth/reset-password/reset-password";
 
 
 export const MainPage: React.FC = () => {
@@ -45,8 +44,7 @@ export const MainPage: React.FC = () => {
                     <Route element={<AuthLayout/>}>
                         <Route path="/auth" element={<LoginForm/>}/>
                         <Route path="/registration" element={<RegistrationForm/>}/>
-                        {/*<Route path="/forgot-pass" element={<ForgotPassword/>}/>*/}
-                        <Route path="/forgot-pass" element={<ResetPassword/>}/>
+                        <Route path="/forgot-pass" element={<ForgotPassword/>}/>
                     </Route>
                 </Routes>
             </div>

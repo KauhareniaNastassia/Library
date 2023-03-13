@@ -7,13 +7,13 @@ export const authApi = {
         return instance.post<AuthResponseType>(`/api/auth/local/register`, data)
     },
     login(data: LoginRequestDataType) {
-        return instance.post<LoginRequestDataType, AxiosResponse<AuthResponseType>>(`/api/auth/local`, data)
+        return instance.post<AuthResponseType>(`/api/auth/local`, data)
     },
     forgotPassword(data: ForgotPasswordRequestType) {
         return instance.post<ForgotPasswordResponseType, AxiosResponse>(`/api/auth/forgot-password`, data)
     },
     resetPassword(data: ResetPasswordRequestData) {
-        return instance.post<AuthUserResponseType>(` /api/auth/reset-password`, data)
+        return instance.post<AuthResponseType>(`/api/auth/reset-password`, data)
     }
 }
 

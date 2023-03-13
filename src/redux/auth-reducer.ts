@@ -2540,14 +2540,14 @@
 import {AppThunkType} from "./store";
 import {
     authApi,
-    AuthResponseType,
-    AuthUserResponseType, ForgotPasswordRequestType,
+    AuthUserResponseType,
+    ForgotPasswordRequestType,
     LoginRequestDataType,
-    RegistrationDataType
+    RegistrationDataType,
+    ResetPasswordRequestData
 } from "../api/auth-api";
-import {setAppErrorAC, setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
+import {setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
 import {AxiosError} from "axios/index";
-import {ok} from "assert";
 
 
 const initialState: InitialAuthStateType = {
@@ -2555,15 +2555,17 @@ const initialState: InitialAuthStateType = {
     isRegistrationSuccess: false,
     registrationStatus: null,
     profile: null,
-    forgetPasswordError: null,
+    authError: null,
     forgotPasswordOk: false,
+    resetPasswordOk: false
 }
 
 
 export const authReducer = (state: InitialAuthStateType = initialState, action: AuthActionsType): InitialAuthStateType => {
     switch (action.type) {
         case "auth/IS-LOGGED-IN":
-            return {...state, isLoggedIn: action.isLoggedIn
+            return {
+                ...state, isLoggedIn: action.isLoggedIn
             }
         case "auth/SET-LOGIN-DATA":
             return {
@@ -2579,11 +2581,15 @@ export const authReducer = (state: InitialAuthStateType = initialState, action: 
             }
         case 'auth/SET-FORGET-PASSWORD-ERROR':
             return {
-                ...state, forgetPasswordError: action.forgetPasswordError
+                ...state, authError: action.authError
             }
         case 'auth/SET-FORGET-PASSWORD-OK':
             return {
                 ...state, forgotPasswordOk: action.forgotPasswordOk
+            }
+        case 'auth/SET-RESET-PASSWORD-OK':
+            return {
+                ...state, resetPasswordOk: action.resetPasswordOk
             }
 
         default:
@@ -2610,14 +2616,19 @@ export const setRegistrationStatusAC = (registrationStatus: number | null | unde
     type: 'auth/SET-REGISTRATION-ERROR',
     registrationStatus
 } as const)
-export const setForgetPasswordErrorAC = (forgetPasswordError: string | null) => ({
+export const setAuthErrorAC = (authError: string | null) => ({
     type: 'auth/SET-FORGET-PASSWORD-ERROR',
-    forgetPasswordError
+    authError
 } as const)
 export const setForgetPasswordOkAC = (forgotPasswordOk: boolean) => ({
     type: 'auth/SET-FORGET-PASSWORD-OK',
     forgotPasswordOk
 } as const)
+export const setResetPasswordOkAC = (resetPasswordOk: boolean) => ({
+    type: 'auth/SET-RESET-PASSWORD-OK',
+    resetPasswordOk
+} as const)
+
 
 //  thunk
 
@@ -2637,7 +2648,7 @@ export const loginTC = (data: LoginRequestDataType): AppThunkType =>
         } catch (err) {
             const error = err as AxiosError
             dispatch(setAppStatusAC('failed'))
-            dispatch(setAppErrorAC(error.message))
+            dispatch(setAuthErrorAC(error.message))
             dispatch(setRegistrationStatusAC(error.response?.status))
         }
     }
@@ -2654,7 +2665,7 @@ export const logoutTC = (): AppThunkType =>
         } catch (err) {
             const error = err as AxiosError
             dispatch(setAppStatusAC('failed'))
-            dispatch(setAppErrorAC(error.message))
+            dispatch(setAuthErrorAC(error.message))
         }
     }
 
@@ -2671,26 +2682,41 @@ export const registrationTC = (data: RegistrationDataType): AppThunkType =>
         } catch (err) {
             const error = err as AxiosError
             dispatch(setAppStatusAC('failed'))
-            dispatch(setAppErrorAC(error.message))
+            dispatch(setAuthErrorAC(error.message))
             dispatch(setRegistrationStatusAC(error.response?.status))
         }
     }
 
-    export const forgetPasswordTC = (data: ForgotPasswordRequestType): AppThunkType =>
-        async (dispatch) => {
-            dispatch(setAppStatusAC('loading'))
+export const forgetPasswordTC = (data: ForgotPasswordRequestType): AppThunkType =>
+    async (dispatch) => {
+        dispatch(setAppStatusAC('loading'))
 
-            try {
-                const res = await authApi.forgotPassword(data)
-                dispatch(setForgetPasswordOkAC(res.data.ok))
-                dispatch(setAppStatusAC('succeeded'))
-                dispatch(setAppSuccessMessageAC('success'))
-            } catch (err) {
-                const error = err as AxiosError
-                dispatch(setAppStatusAC('failed'))
-                dispatch(setForgetPasswordErrorAC(error.message))
-            }
+        try {
+            const res = await authApi.forgotPassword(data)
+            dispatch(setForgetPasswordOkAC(res.data.ok))
+            dispatch(setAppStatusAC('succeeded'))
+            dispatch(setAppSuccessMessageAC('success'))
+        } catch (err) {
+            const error = err as AxiosError
+            dispatch(setAppStatusAC('failed'))
+            dispatch(setAuthErrorAC(error.message))
         }
+    }
+
+export const resetPasswordTC = (data: ResetPasswordRequestData): AppThunkType =>
+    async (dispatch) => {
+        dispatch(setAppStatusAC('loading'))
+        try {
+            const res = await authApi.resetPassword(data)
+            dispatch(setResetPasswordOkAC(true))
+            dispatch(setAppStatusAC('succeeded'))
+            dispatch(setAppSuccessMessageAC('success'))
+        } catch (err) {
+            const error = err as AxiosError
+            dispatch(setAppStatusAC('failed'))
+            dispatch(setAuthErrorAC(error.message))
+        }
+    }
 
 
 //  types
@@ -2700,8 +2726,9 @@ export type AuthActionsType =
     | ReturnType<typeof setLoginDataAC>
     | ReturnType<typeof isRegistrationSuccessAC>
     | ReturnType<typeof setRegistrationStatusAC>
-    | ReturnType<typeof setForgetPasswordErrorAC>
+    | ReturnType<typeof setAuthErrorAC>
     | ReturnType<typeof setForgetPasswordOkAC>
+    | ReturnType<typeof setResetPasswordOkAC>
 
 
 type InitialAuthStateType = {
@@ -2709,6 +2736,7 @@ type InitialAuthStateType = {
     isRegistrationSuccess: boolean
     registrationStatus: null | number | undefined
     profile: null | AuthUserResponseType
-    forgetPasswordError: null | string
+    authError: null | string
     forgotPasswordOk: boolean
+    resetPasswordOk: boolean
 }

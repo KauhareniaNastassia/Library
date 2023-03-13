@@ -60,7 +60,7 @@ export const NewPasswordSaveErrorModal:ModalType = {
     title: 'Данные не сохранились',
     message: 'Что-то пошло не так. Попробуйте ещё раз',
     path: '',
-    reload: false,
+    reload: true,
     buttonTitle: 'повторить'
 }
 
