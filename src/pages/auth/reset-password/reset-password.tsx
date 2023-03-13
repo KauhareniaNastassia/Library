@@ -5,6 +5,8 @@ import css from './reset-password.module.scss'
 import eyeOpen from '../../../assets/img/eye-open.svg'
 import eyeClose from '../../../assets/img/eye-close.svg'
 import okPasswordIcon from "../../../assets/img/ok-password-icon.svg";
+import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
+import {schemaResetPassword} from "../../../utils/validate/reset-password-validation/reset-password-validation";
 
 
 type ResetPasswordType = {
@@ -29,8 +31,8 @@ export const ResetPassword = () => {
             newPassword: '',
             repeatNewPassword: '',
         },
-        mode: 'onSubmit',
-        /* resolver: yupResolver(schemaForAuth)*/
+        mode: 'onChange',
+        resolver: yupResolver(schemaResetPassword)
     });
 
     const onSubmit = (data: ResetPasswordType) => {
@@ -51,7 +53,7 @@ export const ResetPassword = () => {
                         <div className={css.resetPassword__input_item_wrapper}>
 
                             <input
-                                className={css.resetPassword__input}
+                                className={errors.newPassword ? `${css.resetPassword__input} ${css.input__error}` : css.resetPassword__input}
                                 type={isShowNewPassword ? 'text' : 'password'}
                                 id='newPassword'
                                 placeholder=' '
@@ -77,20 +79,19 @@ export const ResetPassword = () => {
                             </button>
 
                             <div className={css.resetPassword_message}>
-                                {!errors.newPassword && conditionForEmptyNewPassword &&
+                                {!errors.newPassword && !conditionForEmptyNewPassword  && !focusNewPassword &&
                                     <span>Пароль не менее 8 символов, с заглавной буквой и цифрой</span>
                                 }
-                                {!focusNewPassword && errors.newPassword?.type === 'required' && getFieldState('newPassword').isTouched &&
+                                {focusNewPassword && getValues('newPassword') === ''  &&
+                                    <span>Пароль не менее 8 символов, с заглавной буквой и цифрой</span>
+                                }
+                                {!focusNewPassword && isChangeNewPassword && getValues('newPassword') === '' &&
                                     <span style={{color: 'red'}}>Поле не может быть пустым</span>
                                 }
-                                {focusNewPassword && errors.newPassword?.type === 'required' && getFieldState('newPassword').isTouched &&
-                                    <span>Пароль не менее 8 символов, с заглавной буквой и цифрой</span>
-                                }
                                 {errors.newPassword && errors.newPassword?.type !== 'required' && !focusNewPassword &&
-                                    <span
-                                        style={{color: 'red'}}>Пароль не менее 8 символов, с заглавной буквой и цифрой</span>
+                                    <span style={{color: 'red'}}>Пароль не менее 8 символов, с заглавной буквой и цифрой</span>
                                 }
-                                {focusNewPassword && !errors.newPassword &&
+                                {!errors.newPassword && focusNewPassword && getValues('newPassword') !== '' &&
                                     <span>Пароль не менее 8 символов, с заглавной буквой и цифрой</span>
                                 }
                                 {focusNewPassword && errors.newPassword?.type === 'passwordLengthError' &&
@@ -105,7 +106,7 @@ export const ResetPassword = () => {
                                         style={{color: 'red'}}>не менее 8 символов</span>, с заглавной буквой и<span
                                         style={{color: 'red'}}> цифрой</span></span>
                                 }
-                                {focusNewPassword && errors.newPassword?.type === 'passwordLengthErrorAndNoBigLetter' &&
+                                {focusNewPassword  && errors.newPassword?.type === 'passwordLengthErrorAndNoBigLetter' &&
                                     <span>Пароль <span style={{color: 'red'}}>не менее 8 символов</span>, <span
                                         style={{color: 'red'}}>с заглавной буквой</span> и цифрой</span>
                                 }
@@ -115,7 +116,7 @@ export const ResetPassword = () => {
                         <div className={css.resetPassword__input_item_wrapper}>
 
                             <input
-                                className={css.resetPassword__input}
+                                className={errors.repeatNewPassword ? `${css.resetPassword__input} ${css.input__error}` : css.resetPassword__input}
                                 type={isShowRepeatNewPassword ? 'text' : 'password'}
                                 id='repeatNewPassword'
                                 placeholder=' '
@@ -128,7 +129,7 @@ export const ResetPassword = () => {
                                 })}
                             />
 
-                            <label className={css.resetPassword__label} htmlFor='password'>Пароль</label>
+                            <label className={css.resetPassword__label} htmlFor='password'>Повторите пароль</label>
 
                             {!errors.repeatNewPassword && getFieldState('repeatNewPassword').isDirty &&
                                 <img className={css.resetPassword_ok_password_icon} src={okPasswordIcon}
@@ -141,11 +142,12 @@ export const ResetPassword = () => {
                             </button>
 
                             <div className={css.resetPassword_message}>
-
+                                {conditionForEmptyRepeatNewPassword &&
+                                    <span style={{color: 'red'}}>Поле не может быть пустым</span>}
+                                {!focusRepeatNewPassword && errors.repeatNewPassword && errors.repeatNewPassword?.type === 'passwordsNotTheSame' &&
+                                    <span style={{color: 'red'}}>Пароли не совпадают</span>}
                             </div>
                         </div>
-
-
                     </div>
 
                     <div className={css.resetPassword_buttonBlock}>
