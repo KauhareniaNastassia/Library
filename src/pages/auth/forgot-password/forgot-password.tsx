@@ -8,7 +8,7 @@ import {ResetPasswordForm} from "./reset-password-form/reset-password-form";
 
 export const ForgotPassword: React.FC = () => {
     const resetPasswordOk = useAppSelector(state => state.auth.resetPasswordOk)
-    const authError = useAppSelector(state => state.auth.authError)
+    const forgotPasswordError = useAppSelector(state => state.auth.forgotPasswordError)
     const forgotPasswordOk = useAppSelector(state => state.auth.forgotPasswordOk)
 
     const location = useLocation();
@@ -18,11 +18,11 @@ export const ForgotPassword: React.FC = () => {
         <div>
             {!forgotPasswordOk && !code && <ForgotPasswordForm/>}
 
-            {code && !resetPasswordOk && !authError && <ResetPasswordForm code={code}/>}
+            {code && !resetPasswordOk && !forgotPasswordError && <ResetPasswordForm code={code}/>}
 
             {forgotPasswordOk && <BasicModal modalInfo={EmailSendModal}/>}
-            {authError && <BasicModal modalInfo={NewPasswordSaveErrorModal}/>}
-            {!authError && resetPasswordOk && <BasicModal modalInfo={NewPasswordSaveModal}/>}
+            {forgotPasswordError && <BasicModal modalInfo={NewPasswordSaveErrorModal}/>}
+            {!forgotPasswordError && resetPasswordOk && <BasicModal modalInfo={NewPasswordSaveModal}/>}
         </div>
     );
 };

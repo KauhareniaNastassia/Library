@@ -16,7 +16,7 @@ export const ForgotPasswordForm: React.FC = () => {
     const dispatch = useAppDispatch()
     const [focusEmail, setFocusEmail] = useState(false)
     const [isChangeInputEmail, setIsChangeInputEmail] = useState(false);
-    const authError = useAppSelector(state => state.auth.authError)
+    const forgotPasswordError = useAppSelector(state => state.auth.forgotPasswordError)
 
 
     const {register, handleSubmit, getValues, getFieldState, formState: {errors}} = useForm<ForgotPasswordRequestType>({
@@ -64,7 +64,7 @@ export const ForgotPasswordForm: React.FC = () => {
                                 <label className={css.forgotPassword__label} htmlFor='email'>Email</label>
                                 <div className={css.forgotPassword_message}>
 
-                                    {authError && <span style={{color: 'red'}}>{authError}</span>
+                                    {forgotPasswordError && <span style={{color: 'red'}}>{forgotPasswordError}</span>
                                     }
                                     {conditionEmptyEmail && <span style={{color: 'red'}}>Поле не может быть пустым</span>
                                     }

@@ -2557,7 +2557,8 @@ const initialState: InitialAuthStateType = {
     profile: null,
     authError: null,
     forgotPasswordOk: false,
-    resetPasswordOk: false
+    resetPasswordOk: false,
+    forgotPasswordError: null
 }
 
 
@@ -2579,7 +2580,7 @@ export const authReducer = (state: InitialAuthStateType = initialState, action: 
             return {
                 ...state, registrationStatus: action.registrationStatus
             }
-        case 'auth/SET-FORGET-PASSWORD-ERROR':
+        case 'auth/SET-AUTH-ERROR':
             return {
                 ...state, authError: action.authError
             }
@@ -2590,6 +2591,10 @@ export const authReducer = (state: InitialAuthStateType = initialState, action: 
         case 'auth/SET-RESET-PASSWORD-OK':
             return {
                 ...state, resetPasswordOk: action.resetPasswordOk
+            }
+        case 'auth/SET-FORGET-PASSWORD-ERROR':
+            return {
+                ...state, forgotPasswordError: action.forgotPasswordError
             }
 
         default:
@@ -2617,7 +2622,7 @@ export const setRegistrationStatusAC = (registrationStatus: number | null | unde
     registrationStatus
 } as const)
 export const setAuthErrorAC = (authError: string | null) => ({
-    type: 'auth/SET-FORGET-PASSWORD-ERROR',
+    type: 'auth/SET-AUTH-ERROR',
     authError
 } as const)
 export const setForgetPasswordOkAC = (forgotPasswordOk: boolean) => ({
@@ -2627,6 +2632,10 @@ export const setForgetPasswordOkAC = (forgotPasswordOk: boolean) => ({
 export const setResetPasswordOkAC = (resetPasswordOk: boolean) => ({
     type: 'auth/SET-RESET-PASSWORD-OK',
     resetPasswordOk
+} as const)
+export const setForgotPasswordErrorAC = (forgotPasswordError: string | null) => ({
+    type: 'auth/SET-FORGET-PASSWORD-ERROR',
+    forgotPasswordError
 } as const)
 
 
@@ -2699,7 +2708,7 @@ export const forgetPasswordTC = (data: ForgotPasswordRequestType): AppThunkType 
         } catch (err) {
             const error = err as AxiosError
             dispatch(setAppStatusAC('failed'))
-            dispatch(setAuthErrorAC(error.message))
+            dispatch(setForgotPasswordErrorAC(error.message))
         }
     }
 
@@ -2714,7 +2723,7 @@ export const resetPasswordTC = (data: ResetPasswordRequestData): AppThunkType =>
         } catch (err) {
             const error = err as AxiosError
             dispatch(setAppStatusAC('failed'))
-            dispatch(setAuthErrorAC(error.message))
+            dispatch(setForgotPasswordErrorAC(error.message))
         }
     }
 
@@ -2729,6 +2738,7 @@ export type AuthActionsType =
     | ReturnType<typeof setAuthErrorAC>
     | ReturnType<typeof setForgetPasswordOkAC>
     | ReturnType<typeof setResetPasswordOkAC>
+    | ReturnType<typeof setForgotPasswordErrorAC>
 
 
 type InitialAuthStateType = {
@@ -2739,4 +2749,5 @@ type InitialAuthStateType = {
     authError: null | string
     forgotPasswordOk: boolean
     resetPasswordOk: boolean
+    forgotPasswordError: null | string
 }
