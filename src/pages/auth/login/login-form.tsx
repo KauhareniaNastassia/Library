@@ -34,7 +34,7 @@ export const LoginForm = () => {
             identifier: '',
             password: '',
         },
-        mode: 'onSubmit',
+        mode: 'all',
         resolver: yupResolver(schemaForAuth)
     });
 
