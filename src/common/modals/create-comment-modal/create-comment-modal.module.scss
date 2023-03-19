@@ -1,0 +1,61 @@
+@import "src/common/styles/mixins/mixins";
+@import "src/common/styles/variables/variables";
+
+.modal_content_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+
+  .modal_title {
+    @include text(24px, 30px, 700, $main-text-color);
+    letter-spacing: 0.1px;
+    text-align: center;
+  }
+
+  .modal_stars_block {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+
+    .modal_stars_title {
+      @include text(16px, 24px,600, $main-text-color);
+      letter-spacing: 0.1px;
+      text-align: center;
+      margin: 0 auto;
+    }
+  }
+
+  .modal_textarea_wrapper {
+    height: 152px;
+    width: 100%;
+    position: relative;
+
+    .modal_textarea {
+      position: absolute;
+      left: 0%;
+      right: 0%;
+      top: 0px;
+      bottom: 20px;
+      border: none;
+      width: 100%;
+      resize: none;
+      background: #F9F9FA;
+      border-radius: 4px;
+      padding: 19px 12px;
+      @include text(16px, 24px,400, $main-text-color);
+      letter-spacing: 0.1px;
+
+      &::placeholder{
+        @include text(14px, 18px,400, $unActive-color);
+        letter-spacing: 0.1px;
+
+      }
+
+      &:focus {
+        outline: none !important;;
+      }
+    }
+  }
+}

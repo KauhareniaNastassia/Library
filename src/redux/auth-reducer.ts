@@ -2558,7 +2558,8 @@ const initialState: InitialAuthStateType = {
     authError: null,
     forgotPasswordOk: false,
     resetPasswordOk: false,
-    forgotPasswordError: null
+    forgotPasswordError: null,
+    registrationError: null,
 }
 
 
@@ -2576,7 +2577,7 @@ export const authReducer = (state: InitialAuthStateType = initialState, action: 
             return {
                 ...state, isRegistrationSuccess: action.value
             }
-        case 'auth/SET-REGISTRATION-ERROR':
+        case 'auth/SET-REGISTRATION-STATUS':
             return {
                 ...state, registrationStatus: action.registrationStatus
             }
@@ -2595,6 +2596,10 @@ export const authReducer = (state: InitialAuthStateType = initialState, action: 
         case 'auth/SET-FORGET-PASSWORD-ERROR':
             return {
                 ...state, forgotPasswordError: action.forgotPasswordError
+            }
+        case 'auth/SET-REGISTRATION-ERROR':
+            return {
+                ...state, registrationError: action.registrationError
             }
 
         default:
@@ -2618,7 +2623,7 @@ export const isRegistrationSuccessAC = (value: boolean) => ({
     value
 } as const)
 export const setRegistrationStatusAC = (registrationStatus: number | null | undefined) => ({
-    type: 'auth/SET-REGISTRATION-ERROR',
+    type: 'auth/SET-REGISTRATION-STATUS',
     registrationStatus
 } as const)
 export const setAuthErrorAC = (authError: string | null) => ({
@@ -2636,6 +2641,10 @@ export const setResetPasswordOkAC = (resetPasswordOk: boolean) => ({
 export const setForgotPasswordErrorAC = (forgotPasswordError: string | null) => ({
     type: 'auth/SET-FORGET-PASSWORD-ERROR',
     forgotPasswordError
+} as const)
+export const setRegistrationErrorAC = (registrationError: string | null) => ({
+    type: 'auth/SET-REGISTRATION-ERROR',
+    registrationError
 } as const)
 
 
@@ -2691,7 +2700,7 @@ export const registrationTC = (data: RegistrationDataType): AppThunkType =>
         } catch (err) {
             const error = err as AxiosError
             dispatch(setAppStatusAC('failed'))
-            dispatch(setAuthErrorAC(error.message))
+            dispatch(setRegistrationErrorAC(error.message))
             dispatch(setRegistrationStatusAC(error.response?.status))
         }
     }
@@ -2739,6 +2748,7 @@ export type AuthActionsType =
     | ReturnType<typeof setForgetPasswordOkAC>
     | ReturnType<typeof setResetPasswordOkAC>
     | ReturnType<typeof setForgotPasswordErrorAC>
+    | ReturnType<typeof setRegistrationErrorAC>
 
 
 type InitialAuthStateType = {
@@ -2750,4 +2760,5 @@ type InitialAuthStateType = {
     forgotPasswordOk: boolean
     resetPasswordOk: boolean
     forgotPasswordError: null | string
+    registrationError: null | string
 }

@@ -34,7 +34,7 @@ export const LoginForm = () => {
             identifier: '',
             password: '',
         },
-        mode: 'all',
+        mode: 'onSubmit',
         resolver: yupResolver(schemaForAuth)
     });
 
@@ -153,7 +153,7 @@ export const LoginForm = () => {
                 </form>
             }
 
-            {registrationStatus && registrationStatus !== 400 &&
+            {registrationStatus && registrationStatus !== 400 && registrationStatus !== 200 &&
                 <BasicModal modalInfo={AuthErrorModal}/>}
         </div>
     )

@@ -28,6 +28,7 @@ export interface InputTypesRegistration {
 export const RegistrationForm: React.FC = () => {
     const dispatch = useAppDispatch()
     const registrationStatus = useAppSelector(state => state.auth.registrationStatus)
+    const registrationError = useAppSelector(state => state.auth.registrationError)
     const [stepOfRegistration, setStepOfRegistration] = useState<number>(1)
 
 
@@ -111,8 +112,8 @@ export const RegistrationForm: React.FC = () => {
                 </form>
             }
             {registrationStatus && registrationStatus === 200 && <BasicModal modalInfo={SuccessModal}/>}
-            {registrationStatus && registrationStatus === 400 && <BasicModal modalInfo={Error400Modal}/>}
-            {registrationStatus && registrationStatus !== 200 && registrationStatus !== 400 &&
+            {registrationError && registrationStatus === 400 && <BasicModal modalInfo={Error400Modal}/>}
+            {registrationError && registrationStatus !== 200 && registrationStatus !== 400 &&
                 <BasicModal modalInfo={ErrorRegistrationModal}/>}
 
         </div>
