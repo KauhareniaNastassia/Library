@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {Link, NavLink, useNavigate, useParams} from "react-router-dom";
 import css from './book-page.module.scss'
 import {Rating} from '../../../features/rating';
 
@@ -20,6 +20,7 @@ import CreateCommentModal from "../../../common/modals/create-comment-modal/crea
 import {Notification} from "../../../common/error-notification/notification";
 import {CommentRequestData} from "../../../api/book-api";
 import {BaseModal} from "../../../common/modals/base-modal/base-modal";
+import {getBooksTC} from "../../../redux/books-reducer";
 
 export const BookPage = () => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
@@ -35,6 +36,10 @@ export const BookPage = () => {
 
     const [showReviews, setShowReviews] = useState(false)
     const [createCommentModalIsOpen, setCreateCommentModalIsOpen] = useState(false)
+
+    const onClickNavigateToCategoryBooksHandler = () => {
+        navigate(`/books/${category}`);
+    }
 
     const onClickClearNotificationHandler = () => {
         if (createCommentSuccess) {
@@ -78,8 +83,12 @@ export const BookPage = () => {
                           onClickHandler={onClickClearNotificationHandler}/>}
 
         <div className={css.bookPage__path}>
-            <Link to={`/books/${category}`}><span>{book.categories}</span></Link>
-            <span>/</span><span>{book.title}</span>
+            <span onClick={() => navigate(-1)}>
+                <span>{book.categories ? book.categories[0] : 'all'}</span>
+            </span>
+
+            <span>/</span>
+            <span>{book.title}</span>
         </div>
         <div className={css.bookPage__info}>
             <div className={css.bookPage__info_cover}>

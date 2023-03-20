@@ -36,9 +36,11 @@ export const setBooksAC = (books: BookListResponseType[]) => ({
 export const getBooksTC = (): AppThunkType =>
     async (dispatch) => {
         dispatch(setAppStatusAC('loading'))
+        console.log('TC')
         try {
             const res = await booksListApi.getBookList()
             dispatch(setBooksAC(res.data))
+            console.log(res.data)
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
         } catch (err) {
