@@ -86,10 +86,12 @@ export type BookingResponseType = {
     }
 }
 export type CommentRequestData = {
+    data: {
         rating: number,
         text: string,
         book: string,
         user: string
+    }
 }
 export type CommentResponseType = {
     id: number,

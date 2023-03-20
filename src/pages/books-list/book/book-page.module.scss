@@ -322,6 +322,12 @@
             border: none;
             letter-spacing: 0.2px;
 
+            &:hover {
+                cursor: pointer;
+                box-shadow: 0px 5px 10px 0px rgba(128, 128, 128, 0.5);
+                transition: .3s ease-in-out all;
+            }
+
             @media (max-width: 768px) {
                 width: 100%;
                 @include text(16px, 150%, 600, #FFFFFF);

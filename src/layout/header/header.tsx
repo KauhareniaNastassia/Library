@@ -5,7 +5,7 @@ import clevertecLogoImg from '../../assets/img/logo-clevertec.svg'
 import {BurgerMenu} from '../../features/burger-menu';
 import React, {useRef, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
-import {ErrorNotification} from "../../common/error-notification/error-notification";
+import {Notification} from "../../common/error-notification/notification";
 import {logoutTC} from "../../redux/auth-reducer";
 import {useOnClickOutside} from "../../hooks/use-on-click-outside";
 
@@ -30,7 +30,10 @@ export const Header: React.FC = () => {
     return (
         <section className={css.header}>
 
-            {status === 'failed' && <ErrorNotification/>}
+            {status === 'failed' && <Notification
+                status={status}
+                message='Что-то пошло не так. Обновите страницу через некоторое время.'
+            />}
 
             <div className={css.header__logo}>
                 <NavLink to='/'>

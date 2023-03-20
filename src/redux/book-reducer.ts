@@ -2538,7 +2538,7 @@
 
 
 import {ReviewType} from './reviews-reducer';
-import {bookApi, BookResponseType, CommentsType, UserCommentType} from "../api/book-api";
+import {bookApi, BookResponseType, CommentRequestData, CommentsType, UserCommentType} from "../api/book-api";
 import {AppThunkType} from "./store";
 import {ImageType} from "../api/books-list-api";
 import {setAppErrorAC, setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
@@ -2572,6 +2572,7 @@ const initialState: InitialBookStateType = {
         delivery: null,
         histories: null,
     },
+    createCommentError: null
 }
 
 
@@ -2579,6 +2580,8 @@ export const bookReducer = (state: InitialBookStateType = initialState, action: 
     switch (action.type) {
         case "book/SET-BOOK":
             return {...state, book: action.book}
+        case "book/SET-CREATE-COMMENT-ERROR":
+            return {...state, createCommentError: action.createCommentError}
 
         default:
             return state
@@ -2590,6 +2593,10 @@ export const bookReducer = (state: InitialBookStateType = initialState, action: 
 export const setBookAC = (book: BookResponseType) => ({
     type: 'book/SET-BOOK',
     book
+} as const)
+export const setCreateCommentErrorAC = (createCommentError: string) => ({
+    type: 'book/SET-CREATE-COMMENT-ERROR',
+    createCommentError
 } as const)
 
 
@@ -2611,15 +2618,34 @@ export const getBookTC = (id: number): AppThunkType =>
         }
     }
 
+    export const createCommentTC = (data: CommentRequestData): AppThunkType =>
+        async (dispatch) => {
+            dispatch(setAppStatusAC('loading'))
+            console.log('TC')
+            try{
+                const res = await bookApi.createComment(data)
+                console.log(res)
+                dispatch(setAppStatusAC('succeeded'))
+                dispatch(setAppSuccessMessageAC('success'))
+            } catch (err) {
+                const error = err as AxiosError
+                console.log(error)
+                dispatch(setAppStatusAC('failed'))
+                dispatch(setCreateCommentErrorAC(error.message))
+            }
+        }
+
 
 //  types
 
 export type BookActionsType =
     | ReturnType<typeof setBookAC>
+    | ReturnType<typeof setCreateCommentErrorAC>
 
 
 type InitialBookStateType = {
     book: BookResponseType
+    createCommentError: null | string
 }
 
 export type BookImage = {

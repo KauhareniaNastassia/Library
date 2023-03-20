@@ -12,6 +12,8 @@ import {BookCoverImage} from "./book-image/book-cover-image";
 import {getBookTC} from "../../../redux/book-reducer";
 import BaseModal from "../../../common/modals/base-modal/base-modal";
 import CreateCommentModal from "../../../common/modals/create-comment-modal/create-comment-modal";
+import {Loader} from "../../../common/loader/loader";
+import {Notification} from "../../../common/error-notification/notification";
 
 export const BookPage = () => {
     const dispatch = useAppDispatch()
@@ -19,6 +21,8 @@ export const BookPage = () => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const book = useAppSelector((state) => state.book.book)
     const navigate = useNavigate()
+    const status = useAppSelector(state => state.app.status)
+    const createCommentError = useAppSelector(state => state.book.createCommentError)
 
     const [showReviews, setShowReviews] = useState(true)
     const [createCommentModalIsOpen, setCreateCommentModalIsOpen] = useState(false)
@@ -35,6 +39,11 @@ export const BookPage = () => {
 
 
     return <section className={css.wrapper}>
+
+        {status === 'loading' && <Loader/>}
+        {status === 'succeeded' && <Notification status='succeeded' message='Спасибо,что нашли время оценить книгу!'/> }
+        {createCommentError && <Notification status='failed' message='Оценка не была отправлена. Попробуйте позже!'/> }
+
         <div className={css.bookPage__path}>
             <Link to={`/books/${category}`}><span>{book.categories}</span></Link>
             <span>/</span><span>{book.title}</span>
@@ -62,7 +71,7 @@ export const BookPage = () => {
 
                 <div className={css.bookPage__info_button}>
                     <Button
-                        onClickHandler={() => setCreateCommentModalIsOpen(true)}
+
                         buttonStyle={{
                             fontSize: '16px',
                             lineHeight: '24px'
@@ -178,7 +187,7 @@ export const BookPage = () => {
             <button
                 type="button"
                 className={css.bookPage__review_button}
-                data-test-id='button-rating'
+                onClick={() => setCreateCommentModalIsOpen(true)}
             > оценить книгу
             </button>
 
@@ -187,7 +196,8 @@ export const BookPage = () => {
         {createCommentModalIsOpen &&
             <BaseModal
                 onCloseHandler={() => setCreateCommentModalIsOpen(false)}>
-                <CreateCommentModal/>
+                <CreateCommentModal
+                    onCloseHandler={() => setCreateCommentModalIsOpen(false)}/>
             </BaseModal>}
 
 
