@@ -33,9 +33,8 @@ export const Notification: React.FC<NotificationPropsType> = ({status, message, 
     }, [])
 
 
-
     return (
-        <div>
+        <div className={css.notification_block}>
             {isOpen &&
                 <div>
                     {status === 'failed' &&
