@@ -11,6 +11,7 @@ import {useOnClickOutside} from "../../hooks/use-on-click-outside";
 
 export const Header: React.FC = () => {
     const status = useAppSelector(state => state.app.status)
+    const appError = useAppSelector(state => state.app.appError)
     const profile = useAppSelector(state => state.auth.profile)
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
@@ -30,7 +31,7 @@ export const Header: React.FC = () => {
     return (
         <section className={css.header}>
 
-            {status === 'failed' && <Notification
+            {status === 'failed' && appError && <Notification
                 status={status}
                 message='Что-то пошло не так. Обновите страницу через некоторое время.'
             />}

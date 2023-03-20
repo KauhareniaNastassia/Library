@@ -9,23 +9,54 @@ import {Button} from '../../../features/button';
 import reviewArrowUpIcon from '../../../assets/img/review-arrow-up.svg';
 import {useAppDispatch, useAppSelector} from "../../../hooks/hooks";
 import {BookCoverImage} from "./book-image/book-cover-image";
-import {getBookTC} from "../../../redux/book-reducer";
-import BaseModal from "../../../common/modals/base-modal/base-modal";
+import {
+    createCommentTC,
+    getBookTC,
+    setCreateCommentErrorAC,
+    setCreateCommentSuccessAC
+} from "../../../redux/book-reducer";
+
 import CreateCommentModal from "../../../common/modals/create-comment-modal/create-comment-modal";
-import {Loader} from "../../../common/loader/loader";
 import {Notification} from "../../../common/error-notification/notification";
+import {CommentRequestData} from "../../../api/book-api";
+import {BaseModal} from "../../../common/modals/base-modal/base-modal";
 
 export const BookPage = () => {
-    const dispatch = useAppDispatch()
-    const {bookId, category} = useParams()
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const book = useAppSelector((state) => state.book.book)
-    const navigate = useNavigate()
     const status = useAppSelector(state => state.app.status)
     const createCommentError = useAppSelector(state => state.book.createCommentError)
+    const createCommentSuccess = useAppSelector(state => state.book.createCommentSuccess)
+    const userId = useAppSelector(state => state.auth.profile?.id)
 
-    const [showReviews, setShowReviews] = useState(true)
+    const dispatch = useAppDispatch()
+    const {bookId, category} = useParams()
+    const navigate = useNavigate()
+
+    const [showReviews, setShowReviews] = useState(false)
     const [createCommentModalIsOpen, setCreateCommentModalIsOpen] = useState(false)
+
+    const onClickClearNotificationHandler = () => {
+        if (createCommentSuccess) {
+            dispatch(setCreateCommentSuccessAC(null))
+        } else if (createCommentError) {
+            dispatch(setCreateCommentErrorAC(null))
+        }
+    }
+
+    const onClickCreateCommentHandler = (rating: null | number, comment: string) => {
+        if (bookId && userId) {
+            const commentData: CommentRequestData = {
+                data: {
+                    rating: rating ? rating : 0,
+                    text: comment,
+                    book: bookId,
+                    user: userId.toString(),
+                }
+            }
+            dispatch(createCommentTC(commentData))
+        }
+    }
 
 
     useEffect(() => {
@@ -34,15 +65,17 @@ export const BookPage = () => {
         } else {
             navigate('/auth')
         }
-
     }, [isLoggedIn, dispatch, bookId])
 
 
     return <section className={css.wrapper}>
 
-        {status === 'loading' && <Loader/>}
-        {status === 'succeeded' && <Notification status='succeeded' message='Спасибо,что нашли время оценить книгу!'/> }
-        {createCommentError && <Notification status='failed' message='Оценка не была отправлена. Попробуйте позже!'/> }
+        {createCommentSuccess !== null && status === 'succeeded' &&
+            <Notification status='succeeded' message='Спасибо,что нашли время оценить книгу!'
+                          onClickHandler={onClickClearNotificationHandler}/>}
+        {createCommentError && status === 'failed' &&
+            <Notification status='failed' message='Оценка не была отправлена. Попробуйте позже!'
+                          onClickHandler={onClickClearNotificationHandler}/>}
 
         <div className={css.bookPage__path}>
             <Link to={`/books/${category}`}><span>{book.categories}</span></Link>
@@ -71,7 +104,6 @@ export const BookPage = () => {
 
                 <div className={css.bookPage__info_button}>
                     <Button
-
                         buttonStyle={{
                             fontSize: '16px',
                             lineHeight: '24px'
@@ -91,20 +123,6 @@ export const BookPage = () => {
                     <p>
                         {book.description}
                     </p>
-
-                    {/*<p>
-                                Алгоритмы— это всего лишь пошаговые алгоритмы решения задач, и
-                                большинство таких задач уже были кем-то решены, протестированы и
-                                проверены. Можно, конечно, погрузится в глубокую философию
-                                гениального
-                                Кнута, изучить многостраничные фолианты с доказательствами и
-                                обоснованиями, но хотите ли вы тратить на это свое время?
-                            </p>
-                            <p>
-                                Откройте великолепно иллюстрированную книгу и вы сразу поймете, что
-                                алгоритмы — это просто. А грокать алгоритмы — это веселое и
-                                увлекательное занятие.
-                            </p>*/}
                 </div>
             </div>
         </div>
@@ -157,8 +175,7 @@ export const BookPage = () => {
                         <button
                             type='button'
                             className={showReviews ? css.bookPage__review_blockTitle_toggleBtn : css.bookPage__review_blockTitle_toggleBtn_rotate}
-                            onClick={() => setShowReviews(!showReviews)}
-                            data-test-id='button-hide-reviews'>
+                            onClick={() => setShowReviews(!showReviews)}>
 
                             <img
                                 src={reviewArrowUpIcon}
@@ -171,36 +188,33 @@ export const BookPage = () => {
 
                 {showReviews && <div className={css.bookPage__review_items}>
 
-                    {book.comments?.map((r) => <Review key={r.id}
-                                                       userPhoto={r.user.avatarUrl}
-                                                       firstName={r.user.firstName}
-                                                       lastName={r.user.lastName}
-                                                       date={r.createdAt}
-                                                       rating={r.rating}
-                                                       message={r.text}/>
+                    {book.comments && [...book.comments].reverse().map((r) => <Review key={r.id}
+                                                                                      userPhoto={r.user.avatarUrl}
+                                                                                      firstName={r.user.firstName}
+                                                                                      lastName={r.user.lastName}
+                                                                                      date={r.createdAt}
+                                                                                      rating={r.rating}
+                                                                                      message={r.text}/>
                     )}
                 </div>}
-
-
             </div>
 
             <button
                 type="button"
                 className={css.bookPage__review_button}
                 onClick={() => setCreateCommentModalIsOpen(true)}
+                disabled={book.comments?.map(comment => comment.user.commentUserId === userId).includes(true)}
             > оценить книгу
             </button>
-
 
         </div>
         {createCommentModalIsOpen &&
             <BaseModal
                 onCloseHandler={() => setCreateCommentModalIsOpen(false)}>
                 <CreateCommentModal
-                    onCloseHandler={() => setCreateCommentModalIsOpen(false)}/>
+                    onCloseHandler={() => setCreateCommentModalIsOpen(false)}
+                    onClickHandler={onClickCreateCommentHandler}/>
             </BaseModal>}
-
-
     </section>
 }
 

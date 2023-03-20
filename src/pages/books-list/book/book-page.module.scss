@@ -9,6 +9,8 @@
     gap: 42px;
     margin: 42px 0;
 
+
+
     @media (max-width: 768px) {
         margin: 24px 0 48px 0;
         gap: 48px;
@@ -322,10 +324,19 @@
             border: none;
             letter-spacing: 0.2px;
 
-            &:hover {
+            &:hover:enabled {
                 cursor: pointer;
                 box-shadow: 0px 5px 10px 0px rgba(128, 128, 128, 0.5);
                 transition: .3s ease-in-out all;
+            }
+
+            &:disabled {
+                @include text(16px, 18px, 600, $main-text-color);
+                letter-spacing: 0.2px;
+                box-sizing: border-box;
+                border: 1px solid #BFC4C9;
+                border-radius: 20px;
+                background: #FFFFFF;
             }
 
             @media (max-width: 768px) {

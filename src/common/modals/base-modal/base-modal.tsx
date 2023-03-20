@@ -7,8 +7,7 @@ type BaseModalPropsType = {
     onCloseHandler: () => void
 }
 
-
-const BaseModal: React.FC<BaseModalPropsType> = ({children, onCloseHandler}) => {
+export const BaseModal: React.FC<BaseModalPropsType> = ({children, onCloseHandler}) => {
     return (
         <div className={css.wrapper}>
             <div className={css.modal_wrapper}>
@@ -22,4 +21,3 @@ const BaseModal: React.FC<BaseModalPropsType> = ({children, onCloseHandler}) => 
     );
 };
 
-export default BaseModal;

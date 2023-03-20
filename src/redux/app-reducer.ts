@@ -6,7 +6,7 @@ import {AppThunkType} from "./store";
 
 const initialState: InitialAppStateType = {
     status: 'idle',
-    errorMessage: '',
+    appError: '',
     successMessage: ''
 }
 
@@ -16,7 +16,7 @@ export const appReducer = (state: InitialAppStateType = initialState, action: Ap
         case "app/SET-APP-STATUS":
             return {...state, status: action.status}
         case "app/SET-APP-ERROR":
-            return {...state, errorMessage: action.errorMessage}
+            return {...state, appError: action.appError}
         case "app/SET-APP-SUCCESS":
             // @ts-ignore
             return {...state, successMessage: action.successMessage}
@@ -33,9 +33,9 @@ export const setAppStatusAC = (status: AppStatusType) => ({
     type: 'app/SET-APP-STATUS',
     status
 } as const)
-export const setAppErrorAC = (errorMessage: string | null) => ({
+export const setAppErrorAC = (appError: string | null) => ({
     type: 'app/SET-APP-ERROR',
-    errorMessage
+    appError
 } as const)
 export const setAppSuccessMessageAC = (successMessage: string | null) => ({
     type: 'app/SET-APP-SUCCESS',
@@ -67,7 +67,7 @@ export type AppActionsType =
 
 type InitialAppStateType = {
     status: AppStatusType
-    errorMessage: string | null
+    appError: string | null
     successMessage: string | null
 }
 

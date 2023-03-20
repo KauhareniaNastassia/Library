@@ -1,8 +1,9 @@
-import {ReviewType} from "./reviews-reducer";
+
 import {BookListResponseType, booksListApi} from "../api/books-list-api";
 import {AppThunkType} from "./store";
 import {setAppErrorAC, setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
 import {AxiosError} from "axios/index";
+import {ReviewType} from "./reviews-reducer";
 
 const initialState: InitialBooksStateType = {
     books: [] as BookListResponseType[]
