@@ -70,10 +70,13 @@ export type UserCommentType = {
     avatarUrl: string | null
 }
 export type CreateBookingRequestDataType = {
-    order: boolean,
-    dateOrder: string,
-    book: string, // book id
-    customer: string //user id, who has booked
+    data: {
+        order: boolean,
+        dateOrder: string,
+        book: string, // book id
+        customer: string //user id, who has booked
+    }
+
 }
 export type BookingResponseType = {
     id: number, //bookingId

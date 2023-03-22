@@ -34,7 +34,7 @@ export const LoginForm = () => {
             identifier: '',
             password: '',
         },
-        mode: 'onSubmit',
+        mode: 'all',
         resolver: yupResolver(schemaForAuth)
     });
 
@@ -133,11 +133,6 @@ export const LoginForm = () => {
                                 className={css.loginForm_submitBTN}
                                 type='submit'
                                 value='ВХОД'
-                                disabled={
-                                    !getFieldState('identifier').isDirty
-                                    || !getFieldState('password').isDirty
-                                    || !!errors.identifier
-                                    || !!errors.password}
                             />
 
                             <div className={css.loginForm_registrationBlock}>

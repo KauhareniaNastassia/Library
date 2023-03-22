@@ -10,17 +10,18 @@ import reviewArrowUpIcon from '../../../assets/img/review-arrow-up.svg';
 import {useAppDispatch, useAppSelector} from "../../../hooks/hooks";
 import {BookCoverImage} from "./book-image/book-cover-image";
 import {
-    createCommentTC,
+    createCommentTC, createOrderTC,
     getBookTC,
     setCreateCommentErrorAC,
     setCreateCommentSuccessAC
 } from "../../../redux/book-reducer";
 
 import CreateCommentModal from "../../../common/modals/create-comment-modal/create-comment-modal";
-import {Notification} from "../../../common/error-notification/notification";
-import {CommentRequestData} from "../../../api/book-api";
+import {Notification} from "../../../common/notification/notification";
+import {CommentRequestData, CreateBookingRequestDataType} from "../../../api/book-api";
 import {BaseModal} from "../../../common/modals/base-modal/base-modal";
 import {getBooksTC} from "../../../redux/books-reducer";
+import OrderModal from "../../../common/modals/order-modal/order-modal";
 
 export const BookPage = () => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
@@ -29,6 +30,8 @@ export const BookPage = () => {
     const createCommentError = useAppSelector(state => state.book.createCommentError)
     const createCommentSuccess = useAppSelector(state => state.book.createCommentSuccess)
     const userId = useAppSelector(state => state.auth.profile?.id)
+    const createOrderStatus = useAppSelector((state) => state.book.createOrderStatus)
+    const createOrderError = useAppSelector((state) => state.book.createOrderError)
 
     const dispatch = useAppDispatch()
     const {bookId, category} = useParams()
@@ -36,6 +39,7 @@ export const BookPage = () => {
 
     const [showReviews, setShowReviews] = useState(false)
     const [createCommentModalIsOpen, setCreateCommentModalIsOpen] = useState(false)
+    const [orderModalIsOpen, setOrderModalIsOpen] = useState(false)
 
     const onClickNavigateToCategoryBooksHandler = () => {
         navigate(`/books/${category}`);
@@ -63,6 +67,22 @@ export const BookPage = () => {
         }
     }
 
+    const onClickCreateNewOrderHandler = (date: string) => {
+
+        if (bookId && userId) {
+            const data: CreateBookingRequestDataType = {
+                data: {
+                    order: true,
+                    dateOrder: date,
+                    book: bookId,
+                    customer: userId.toString()
+                }
+            }
+            dispatch(createOrderTC(data))
+            //dispatch(createNewOrderTC(data))
+        }
+    }
+
 
     useEffect(() => {
         if (isLoggedIn) {
@@ -76,11 +96,27 @@ export const BookPage = () => {
     return <section className={css.wrapper}>
 
         {createCommentSuccess !== null && status === 'succeeded' &&
-            <Notification status='succeeded' message='Спасибо,что нашли время оценить книгу!'
-                          onClickHandler={onClickClearNotificationHandler}/>}
+            <Notification
+                status='succeeded'
+                message='Спасибо,что нашли время оценить книгу!'
+                onClickHandler={onClickClearNotificationHandler}/>}
         {createCommentError && status === 'failed' &&
-            <Notification status='failed' message='Оценка не была отправлена. Попробуйте позже!'
-                          onClickHandler={onClickClearNotificationHandler}/>}
+            <Notification
+                status='failed'
+                message='Оценка не была отправлена. Попробуйте позже!'
+                onClickHandler={onClickClearNotificationHandler}/>}
+        {createOrderStatus === 200 && status === 'succeeded' &&
+            <Notification
+                status='succeeded'
+                message='Книга забронирована. Подробности можно посмотреть на странице Профиль'
+                onClickHandler={onClickClearNotificationHandler}/>}
+        {createOrderError && status === 'failed' &&
+            <Notification
+                status='failed'
+                message='Что-то пошло не так, книга не забронирована. Попробуйте позже!'
+                onClickHandler={onClickClearNotificationHandler}/>}
+
+
 
         <div className={css.bookPage__path}>
             <span onClick={() => navigate(-1)}>
@@ -117,9 +153,11 @@ export const BookPage = () => {
                             fontSize: '16px',
                             lineHeight: '24px'
                         }}
+                        orderByAuthUser={book.booking?.customerId === userId}
                         isBooked={book.booking?.order}//забронирована
                         dateHanded={book.delivery?.dateHandedFrom?.toString()}
-                        handed={book.delivery?.handed}/>
+                        handed={book.delivery?.handed}
+                        onClickHandler={() => setOrderModalIsOpen(true)}/>
                 </div>
 
             </div>
@@ -217,6 +255,14 @@ export const BookPage = () => {
             </button>
 
         </div>
+        {orderModalIsOpen &&
+            <BaseModal
+                onCloseHandler={() => setOrderModalIsOpen(false)}>
+                <OrderModal
+                    onCloseHandler={() => setOrderModalIsOpen(false)}
+                    onClickHandler={onClickCreateNewOrderHandler}/>
+            </BaseModal>}
+
         {createCommentModalIsOpen &&
             <BaseModal
                 onCloseHandler={() => setCreateCommentModalIsOpen(false)}>

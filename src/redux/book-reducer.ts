@@ -2537,10 +2537,11 @@
 } */
 
 
-import {bookApi, BookResponseType, CommentRequestData} from "../api/book-api";
+import {bookApi, BookResponseType, CommentRequestData, CreateBookingRequestDataType} from "../api/book-api";
 import {AppThunkType} from "./store";
 import {setAppErrorAC, setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
 import {AxiosError} from "axios";
+import {string} from "yup";
 
 
 const initialState: InitialBookStateType = {
@@ -2572,6 +2573,9 @@ const initialState: InitialBookStateType = {
     },
     createCommentError: null,
     createCommentSuccess: null,
+    order: null,
+    createOrderError: null,
+    createOrderStatus: null,
 
 }
 
@@ -2584,7 +2588,12 @@ export const bookReducer = (state: InitialBookStateType = initialState, action: 
             return {...state, createCommentError: action.createCommentError}
         case "book/SET-CREATE-COMMENT-SUCCESS":
             return {...state, createCommentSuccess: action.createCommentSuccess}
-
+        case "book/SET-CREATE-ORDER-SUCCESS":
+            return {...state, order: action.order}
+        case "book/SET-CREATE-ORDER-ERROR":
+            return {...state, createOrderError: action.createOrderError}
+        case "book/SET-CREATE-ORDER-STATUS-ERROR":
+            return {...state, createOrderStatus: action.createOrderStatus}
 
         default:
             return state
@@ -2604,6 +2613,18 @@ export const setCreateCommentErrorAC = (createCommentError: string | null) => ({
 export const setCreateCommentSuccessAC = (createCommentSuccess: string | null) => ({
     type: 'book/SET-CREATE-COMMENT-SUCCESS',
     createCommentSuccess
+} as const)
+export const setCreateOrderAC = (order: boolean | null) => ({
+    type: 'book/SET-CREATE-ORDER-SUCCESS',
+    order
+} as const)
+export const setCreateOrderErrorAC = (createOrderError: string | null) => ({
+    type: 'book/SET-CREATE-ORDER-ERROR',
+    createOrderError
+} as const)
+export const setCreateOrderStatusAC = (createOrderStatus: number | null) => ({
+    type: 'book/SET-CREATE-ORDER-STATUS-ERROR',
+    createOrderStatus
 } as const)
 
 
@@ -2640,6 +2661,28 @@ export const createCommentTC = (data: CommentRequestData): AppThunkType =>
         }
     }
 
+export const createOrderTC = (data: CreateBookingRequestDataType): AppThunkType =>
+    async (dispatch) => {
+        dispatch(setAppStatusAC('loading'))
+        try {
+            const res = await bookApi.createBooking(data)
+            dispatch(setCreateOrderAC(res.data.attributes.order))
+
+            dispatch(setCreateOrderStatusAC(res.status))
+            dispatch(getBookTC(Number(data.data.book)))
+
+            dispatch(setAppStatusAC('succeeded'))
+            dispatch(setAppSuccessMessageAC('success'))
+            console.log(res.data.attributes.order)
+            console.log(res)
+        } catch (err) {
+            const error = err as AxiosError
+            dispatch(setAppStatusAC('failed'))
+            dispatch(setCreateOrderErrorAC(error.message))
+            console.log(error.message)
+        }
+    }
+
 
 //  types
 
@@ -2647,12 +2690,18 @@ export type BookActionsType =
     | ReturnType<typeof setBookAC>
     | ReturnType<typeof setCreateCommentErrorAC>
     | ReturnType<typeof setCreateCommentSuccessAC>
+    | ReturnType<typeof setCreateOrderAC>
+    | ReturnType<typeof setCreateOrderErrorAC>
+    | ReturnType<typeof setCreateOrderStatusAC>
 
 
 type InitialBookStateType = {
     book: BookResponseType
     createCommentError: null | string
     createCommentSuccess: null | string
+    order: null | boolean
+    createOrderError: string | null
+    createOrderStatus: null | number
 }
 
 export type BookImage = {

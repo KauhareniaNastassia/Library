@@ -5,7 +5,7 @@ import clevertecLogoImg from '../../assets/img/logo-clevertec.svg'
 import {BurgerMenu} from '../../features/burger-menu';
 import React, {useRef, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
-import {Notification} from "../../common/error-notification/notification";
+import {Notification} from "../../common/notification/notification";
 import {logoutTC} from "../../redux/auth-reducer";
 import {useOnClickOutside} from "../../hooks/use-on-click-outside";
 

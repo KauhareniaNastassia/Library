@@ -1,6 +1,7 @@
 import React, {CSSProperties} from 'react';
 import css from './button.module.scss'
 import {format} from 'date-fns'
+import {bool} from "yup";
 
 type ButtonPropsType = {
     isBooked?: boolean
@@ -8,9 +9,10 @@ type ButtonPropsType = {
     handed?: boolean
     buttonStyle?: CSSProperties
     onClickHandler?: () => void
+    orderByAuthUser?: boolean
 }
 
-export const Button: React.FC<ButtonPropsType> = ({isBooked, dateHanded, handed, buttonStyle, onClickHandler}) => {
+export const Button: React.FC<ButtonPropsType> = ({isBooked, dateHanded, handed, buttonStyle, onClickHandler, orderByAuthUser}) => {
 
     let arr = dateHanded?.slice(5, 10).split('-');
     if (arr) {
@@ -18,6 +20,13 @@ export const Button: React.FC<ButtonPropsType> = ({isBooked, dateHanded, handed,
     }
     let date = arr?.join('.')
 
+    if (orderByAuthUser) {
+        return <button
+            onClick={onClickHandler}
+            type="button"
+            style={buttonStyle}
+            className={css.button_reserved_by_user}>забронирована</button>
+    }
     if (isBooked) {
         return <button
             onClick={onClickHandler}
