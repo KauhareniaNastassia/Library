@@ -29,6 +29,7 @@ export const Button: React.FC<ButtonPropsType> = ({isBooked, dateHanded, handed,
     }
     if (isBooked) {
         return <button
+            disabled
             onClick={onClickHandler}
             type="button"
             style={buttonStyle}
@@ -36,6 +37,7 @@ export const Button: React.FC<ButtonPropsType> = ({isBooked, dateHanded, handed,
     }
     if (handed === true) {
         return <button
+            disabled
             onClick={onClickHandler}
             type="button"
             style={buttonStyle}

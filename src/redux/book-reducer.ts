@@ -2684,6 +2684,29 @@ export const createOrderTC = (data: CreateBookingRequestDataType): AppThunkType 
     }
 
 
+export const updateOrderTC = (bookingId: number, data: CreateBookingRequestDataType): AppThunkType =>
+    async (dispatch) => {
+        dispatch(setAppStatusAC('loading'))
+        try {
+            const res = await bookApi.updateBooking(bookingId, data)
+
+            dispatch(setCreateOrderAC(res.data.attributes.order))
+
+            dispatch(getBookTC(Number(data.data.book)))
+
+            dispatch(setAppStatusAC('succeeded'))
+            dispatch(setAppSuccessMessageAC('success'))
+            console.log(res.data.attributes.order)
+            console.log(res)
+        } catch (err) {
+            const error = err as AxiosError
+            dispatch(setAppStatusAC('failed'))
+            dispatch(setCreateOrderErrorAC(error.message))
+            console.log(error)
+        }
+    }
+
+
 //  types
 
 export type BookActionsType =

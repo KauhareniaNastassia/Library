@@ -5,18 +5,23 @@ import {Calendar} from "../../../features/calendar/calendar";
 
 type CreateCommentModalPropsType = {
     onCloseHandler: () => void
-    onClickHandler: (date: string) => void
+    onClickCreateHandler: (date: string) => void
+    customerId?: boolean
+    onClickUpdateHandler: (date: string) => void
 }
 
 
-const OrderModal: React.FC<CreateCommentModalPropsType> = ({onCloseHandler, onClickHandler}) => {
+const OrderModal: React.FC<CreateCommentModalPropsType> = ({onCloseHandler, onClickCreateHandler, customerId, onClickUpdateHandler}) => {
 
     const [selectedDay, setSelectedDay] = useState(new Date())
 
-    const onClickCreateCommentHandler = () => {
+    const onClickCreateOrderHandler = () => {
+        onClickCreateHandler(selectedDay.toJSON())
+        onCloseHandler()
+    }
 
-        // console.log(selectedDay.toJSON())
-        onClickHandler(selectedDay.toJSON())
+    const onClickUpdateOrderHandler = () => {
+        onClickUpdateHandler(selectedDay.toJSON())
         onCloseHandler()
     }
 
@@ -28,11 +33,32 @@ const OrderModal: React.FC<CreateCommentModalPropsType> = ({onCloseHandler, onCl
                 selectedDate={selectedDay}
                 selectDate={(date: Date) => setSelectedDay(date)}/>
 
-            <ButtonForModal
-                onClickHandler={onClickCreateCommentHandler}
-                title='забронировать'
-                disabled={!selectedDay}
-            />
+
+            {customerId
+                ? (<div>
+                    <ButtonForModal
+                        onClickHandler={onClickUpdateOrderHandler}
+                        title='забронировать'
+                        disabled={!selectedDay}
+                    />
+
+                    <ButtonForModal
+                        onClickHandler={() => {
+                        }}
+                        title='отменить бронь'
+                        disabled={!selectedDay}
+                    />
+                </div>)
+
+                : (
+                    <ButtonForModal
+                        onClickHandler={onClickCreateOrderHandler}
+                        title='забронировать'
+                        disabled={!selectedDay}
+                    />
+                )
+            }
+
         </div>
     );
 };

@@ -13,7 +13,7 @@ import {
     createCommentTC, createOrderTC,
     getBookTC,
     setCreateCommentErrorAC,
-    setCreateCommentSuccessAC
+    setCreateCommentSuccessAC, updateOrderTC
 } from "../../../redux/book-reducer";
 
 import CreateCommentModal from "../../../common/modals/create-comment-modal/create-comment-modal";
@@ -26,6 +26,7 @@ import OrderModal from "../../../common/modals/order-modal/order-modal";
 export const BookPage = () => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const book = useAppSelector((state) => state.book.book)
+    const bookingId = useAppSelector((state) => state.book.book.booking?.id)
     const status = useAppSelector(state => state.app.status)
     const createCommentError = useAppSelector(state => state.book.createCommentError)
     const createCommentSuccess = useAppSelector(state => state.book.createCommentSuccess)
@@ -79,7 +80,24 @@ export const BookPage = () => {
                 }
             }
             dispatch(createOrderTC(data))
-            //dispatch(createNewOrderTC(data))
+        }
+    }
+
+    const onClickUpdateOrderHandler = (date: string) => {
+
+        if (bookId && userId && bookingId) {
+            const data: CreateBookingRequestDataType = {
+                data: {
+                    order: true,
+                    dateOrder: date,
+                    book: bookId,
+                    customer: userId.toString()
+                }
+            }
+
+            console.log(bookingId, data)
+            dispatch(updateOrderTC(bookingId, data))
+
         }
     }
 
@@ -91,7 +109,6 @@ export const BookPage = () => {
             navigate('/auth')
         }
     }, [isLoggedIn, dispatch, bookId])
-
 
     return <section className={css.wrapper}>
 
@@ -259,8 +276,10 @@ export const BookPage = () => {
             <BaseModal
                 onCloseHandler={() => setOrderModalIsOpen(false)}>
                 <OrderModal
+                    customerId={book.booking?.customerId === userId}
                     onCloseHandler={() => setOrderModalIsOpen(false)}
-                    onClickHandler={onClickCreateNewOrderHandler}/>
+                    onClickCreateHandler={onClickCreateNewOrderHandler}
+                onClickUpdateHandler={onClickUpdateOrderHandler}/>
             </BaseModal>}
 
         {createCommentModalIsOpen &&
