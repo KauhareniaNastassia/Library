@@ -2541,7 +2541,6 @@ import {bookApi, BookResponseType, CommentRequestData, CreateBookingRequestDataT
 import {AppThunkType} from "./store";
 import {setAppErrorAC, setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
 import {AxiosError} from "axios";
-import {string} from "yup";
 
 
 const initialState: InitialBookStateType = {

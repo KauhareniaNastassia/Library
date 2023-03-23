@@ -26,7 +26,7 @@ export const Header: React.FC = () => {
         console.log('logout')
         dispatch(logoutTC())
     }
-   useOnClickOutside(node, onClickOutsideClose);
+    useOnClickOutside(node, onClickOutsideClose);
 
     return (
         <section className={css.header}>
@@ -57,8 +57,16 @@ export const Header: React.FC = () => {
             </div>
 
             {popUpClose &&
-                <div className={css.popUp_wrapper} ref={node} >
-                    <button className={css.popUp_button} type='button' onClick={() => navigate('/profile')}>Профиль
+                <div className={css.popUp_wrapper} ref={node}>
+                    <button
+                        className={css.popUp_button}
+                        type='button'
+                        onClick={() => {
+                            navigate('/profile')
+                            onClickOutsideClose()
+                        }}
+                    >
+                        Профиль
                     </button>
                     <button className={css.popUp_button} type='button' onClick={onClickLogoutHandler}>Выход
                     </button>

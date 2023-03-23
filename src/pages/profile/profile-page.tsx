@@ -4,6 +4,7 @@ import {getBookTC} from "../../redux/book-reducer";
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 import {getCategoriesListTC} from "../../redux/category-reducer";
 import {useNavigate} from "react-router-dom";
+import {getUserDataTC} from "../../redux/user-reducer";
 
 export const ProfilePage: React.FC = () => {
   const navigate = useNavigate()
@@ -13,9 +14,13 @@ export const ProfilePage: React.FC = () => {
   useEffect(() => {
     if(!isLoggedIn) {
       navigate('/auth')
+    } else {
+      dispatch(getUserDataTC())
     }
 
   }, [isLoggedIn, dispatch])
+
+
 
   return (
       <section className='profile-page'>
