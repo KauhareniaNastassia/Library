@@ -7,19 +7,6 @@
   flex-direction: column;
   gap: 32px;
 
-  .profile__data_title {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-
-    h3 {
-      @include text(24px, 30px, 700, $main-text-color)
-    }
-
-    span {
-      @include text(16px, 24px, 400, $unActive-color)
-    }
-  }
 
   .profile__data {
 
