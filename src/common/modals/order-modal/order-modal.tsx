@@ -8,10 +8,11 @@ type CreateCommentModalPropsType = {
     onClickCreateHandler: (date: string) => void
     customerId?: boolean
     onClickUpdateHandler: (date: string) => void
+    onClickDeleteHandler: () => void
 }
 
 
-const OrderModal: React.FC<CreateCommentModalPropsType> = ({onCloseHandler, onClickCreateHandler, customerId, onClickUpdateHandler}) => {
+const OrderModal: React.FC<CreateCommentModalPropsType> = ({onCloseHandler, onClickCreateHandler, customerId, onClickUpdateHandler, onClickDeleteHandler}) => {
 
     const [selectedDay, setSelectedDay] = useState(new Date())
 
@@ -22,6 +23,10 @@ const OrderModal: React.FC<CreateCommentModalPropsType> = ({onCloseHandler, onCl
 
     const onClickUpdateOrderHandler = () => {
         onClickUpdateHandler(selectedDay.toJSON())
+        onCloseHandler()
+    }
+    const onClickDeleteOrderHandler = () => {
+        onClickDeleteHandler()
         onCloseHandler()
     }
 
@@ -43,8 +48,7 @@ const OrderModal: React.FC<CreateCommentModalPropsType> = ({onCloseHandler, onCl
                     />
 
                     <ButtonForModal
-                        onClickHandler={() => {
-                        }}
+                        onClickHandler={onClickDeleteOrderHandler}
                         title='отменить бронь'
                         disabled={!selectedDay}
                     />

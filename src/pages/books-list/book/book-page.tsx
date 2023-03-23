@@ -10,7 +10,7 @@ import reviewArrowUpIcon from '../../../assets/img/review-arrow-up.svg';
 import {useAppDispatch, useAppSelector} from "../../../hooks/hooks";
 import {BookCoverImage} from "./book-image/book-cover-image";
 import {
-    createCommentTC, createOrderTC,
+    createCommentTC, createOrderTC, deleteOrderTC,
     getBookTC,
     setCreateCommentErrorAC,
     setCreateCommentSuccessAC, updateOrderTC
@@ -94,11 +94,15 @@ export const BookPage = () => {
                     customer: userId.toString()
                 }
             }
-
-            console.log(bookingId, data)
             dispatch(updateOrderTC(bookingId, data))
-
         }
+    }
+
+    const onClickDeleteOrderHandler = () => {
+        if (bookingId) {
+            dispatch(deleteOrderTC(bookingId))
+        }
+        dispatch(getBookTC(Number(bookId)))
     }
 
 
@@ -132,7 +136,6 @@ export const BookPage = () => {
                 status='failed'
                 message='Что-то пошло не так, книга не забронирована. Попробуйте позже!'
                 onClickHandler={onClickClearNotificationHandler}/>}
-
 
 
         <div className={css.bookPage__path}>
@@ -279,7 +282,9 @@ export const BookPage = () => {
                     customerId={book.booking?.customerId === userId}
                     onCloseHandler={() => setOrderModalIsOpen(false)}
                     onClickCreateHandler={onClickCreateNewOrderHandler}
-                onClickUpdateHandler={onClickUpdateOrderHandler}/>
+                    onClickUpdateHandler={onClickUpdateOrderHandler}
+                    onClickDeleteHandler={onClickDeleteOrderHandler}
+                />
             </BaseModal>}
 
         {createCommentModalIsOpen &&
