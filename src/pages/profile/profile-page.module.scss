@@ -1,0 +1,10 @@
+@import 'src/common/styles/mixins/mixins';
+@import 'src/common/styles/variables/variables';
+
+.profile__wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 92px;
+
+
+}

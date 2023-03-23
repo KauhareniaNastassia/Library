@@ -18,6 +18,7 @@ export const LayoutMainPage = () => {
             dispatch(getCategoriesListTC())
             /*dispatch(getBooksTC())*/
         } else {
+
             navigate('/auth')
         }
 

@@ -3,7 +3,6 @@ import {Navigate, Route, Routes} from 'react-router-dom';
 import {Terms} from '../terms';
 import {Contract} from '../contract';
 import {BookPage} from '../books-list/book';
-import {ProfilePage} from '../profile';
 import css from './main-page.module.scss';
 import {Header} from '../../layout/header';
 import {LayoutMainPage} from '../../layout/layout-main-page';
@@ -16,6 +15,7 @@ import {LoginForm} from "../auth/login/login-form";
 import {AuthLayout} from "../auth/auth-layout";
 import {RegistrationForm} from "../auth/registration/registration-form";
 import {ForgotPassword} from "../auth/forgot-password/forgot-password";
+import {ProfilePage} from "../profile/profile-page";
 
 
 export const MainPage: React.FC = () => {

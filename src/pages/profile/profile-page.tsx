@@ -1,31 +1,35 @@
 import React, {useEffect} from 'react';
-import {BookSlider} from "../books-list/book/slider/slider";
-import {getBookTC} from "../../redux/book-reducer";
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
-import {getCategoriesListTC} from "../../redux/category-reducer";
 import {useNavigate} from "react-router-dom";
 import {getUserDataTC} from "../../redux/user-reducer";
+import userAvatar from "../../assets/img/avatar.svg";
+import css from './profile-page.module.scss'
+import {ButtonForProfile} from "./button-for-profile/button-for-profile";
+import AvatarBlock from "./avatar-block/avatar-block";
+import {UserDataBlock} from "./user-data-block/user-data-block";
 
 export const ProfilePage: React.FC = () => {
-  const navigate = useNavigate()
-  const dispatch = useAppDispatch()
-  const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
+    const navigate = useNavigate()
+    const dispatch = useAppDispatch()
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
+    const user = useAppSelector(state => state.user.user)
 
-  useEffect(() => {
-    if(!isLoggedIn) {
-      navigate('/auth')
-    } else {
-      dispatch(getUserDataTC())
-    }
-
-  }, [isLoggedIn, dispatch])
+    useEffect(() => {
+        dispatch(getUserDataTC())
+    }, [dispatch])
 
 
+    return (
+        <section className={css.profile__wrapper}>
+            <AvatarBlock
+                firstName={user.firstName}
+                lastName={user.lastName}
+                avatar={user.avatar}
+            />
 
-  return (
-      <section className='profile-page'>
-        Profile
-      </section>
-  )
+           <UserDataBlock/>
+
+        </section>
+    )
 }
 

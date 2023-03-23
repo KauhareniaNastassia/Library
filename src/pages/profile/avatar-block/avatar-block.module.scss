@@ -1,0 +1,27 @@
+@import 'src/common/styles/mixins/mixins';
+@import 'src/common/styles/variables/variables';
+
+.profile__avatar_block {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  align-items: center;
+
+
+  .profile__avatar_img {
+    padding-top: 5px;
+    width: 160px;
+    height: 160px;
+    filter: drop-shadow(0px 2px 4px rgba(191, 196, 201, 0.2)) drop-shadow(0px 3px 4px rgba(191, 196, 201, 0.18)) drop-shadow(0px 1px 5px rgba(191, 196, 201, 0.24));
+    border-radius: 150px;
+    align-self: center;
+  }
+
+  .profile__avatar_name {
+    display: flex;
+    flex-direction: column;
+    padding: 16px 0;
+    @include text(52px, 64px, 500, $main-text-color)
+  }
+
+}

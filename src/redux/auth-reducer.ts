@@ -2613,7 +2613,6 @@ export const isLoggedInAC = (isLoggedIn: boolean) => ({
     type: 'auth/IS-LOGGED-IN',
     isLoggedIn
 } as const)
-
 export const setLoginDataAC = (profile: AuthUserResponseType | null) => ({
     type: 'auth/SET-LOGIN-DATA',
     profile
@@ -2660,6 +2659,7 @@ export const loginTC = (data: LoginRequestDataType): AppThunkType =>
             dispatch(setLoginDataAC(res.data.user))
 
             localStorage.setItem('token', JSON.stringify(res.data.jwt))
+            localStorage.setItem('user', JSON.stringify(res.data.user));
 
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
@@ -2676,6 +2676,7 @@ export const logoutTC = (): AppThunkType =>
         dispatch(setAppStatusAC('loading'))
         try {
             localStorage.removeItem('token');
+            localStorage.removeItem('user');
             dispatch(isLoggedInAC(false))
             dispatch(setLoginDataAC(null))
             dispatch(setAppStatusAC('succeeded'))
