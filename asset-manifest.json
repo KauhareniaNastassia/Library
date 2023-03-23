@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Library/static/css/main.f84ccbaa.css",
-    "main.js": "/Library/static/js/main.36b79ef2.js",
+    "main.css": "/Library/static/css/main.96fc4a40.css",
+    "main.js": "/Library/static/js/main.2c886685.js",
     "static/media/avatar.svg": "/Library/static/media/avatar.958064d0ab9f5ba898e1db6419f52137.svg",
     "static/media/default-user-photo.svg": "/Library/static/media/default-user-photo.595900639f7474ce0352a9f7b5564213.svg",
     "static/media/logo-clevertec.svg": "/Library/static/media/logo-clevertec.50d13a224f362513f21bd0cf4fb3f520.svg",
@@ -27,18 +27,19 @@
     "static/media/linkedin-logo.svg": "/Library/static/media/linkedin-logo.7e716a127ab3f8577a17f83bfefdacc9.svg",
     "static/media/eye-open.svg": "/Library/static/media/eye-open.96a48b3370fa7482a68e11f55306556e.svg",
     "static/media/default-star.svg": "/Library/static/media/default-star.543b964218059add7570c74821c98f4a.svg",
-    "static/media/arrow-down-calendar.svg": "/Library/static/media/arrow-down-calendar.5006593e135c3bc956ff221536394ae2.svg",
-    "static/media/arrow-up-calendar.svg": "/Library/static/media/arrow-up-calendar.a323c3bc5e85982e84d5861d70642037.svg",
+    "static/media/arrow-down-calendar.svg": "/Library/static/media/arrow-down-calendar.c1d95d90b3a3808c63ee143e47af1fad.svg",
+    "static/media/arrow-up-calendar.svg": "/Library/static/media/arrow-up-calendar.31486c7fc6e72670a0f123931ce44e51.svg",
     "static/media/review-arrow-up.svg": "/Library/static/media/review-arrow-up.65ba9ad1c1cac85978dd4f789d99c209.svg",
     "static/media/success-icon.svg": "/Library/static/media/success-icon.7b44f21581420e1b37b4759d4e8d8251.svg",
     "static/media/facebook-logo.svg": "/Library/static/media/facebook-logo.106e7fb630d241320112014b9985342c.svg",
     "static/media/arrow-for-registration.svg": "/Library/static/media/arrow-for-registration.278783190b4c103035f28aab9d63fdb0.svg",
     "static/media/ok-password-icon.svg": "/Library/static/media/ok-password-icon.06f9aa8f375b7d43f09f753b306dbc91.svg",
-    "main.f84ccbaa.css.map": "/Library/static/css/main.f84ccbaa.css.map",
-    "main.36b79ef2.js.map": "/Library/static/js/main.36b79ef2.js.map"
+    "static/media/drop-down.svg": "/Library/static/media/drop-down.d88fa9a9db2ddddeb0099e13d945eeaf.svg",
+    "main.96fc4a40.css.map": "/Library/static/css/main.96fc4a40.css.map",
+    "main.2c886685.js.map": "/Library/static/js/main.2c886685.js.map"
   },
   "entrypoints": [
-    "static/css/main.f84ccbaa.css",
-    "static/js/main.36b79ef2.js"
+    "static/css/main.96fc4a40.css",
+    "static/js/main.2c886685.js"
   ]
 }
