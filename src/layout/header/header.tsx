@@ -13,6 +13,7 @@ export const Header: React.FC = () => {
     const status = useAppSelector(state => state.app.status)
     const appError = useAppSelector(state => state.app.appError)
     const profile = useAppSelector(state => state.auth.profile)
+    const user = useAppSelector(state => state.user.user)
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const [popUpClose, setPopUpClose] = useState(false)
@@ -53,7 +54,10 @@ export const Header: React.FC = () => {
 
             <div className={css.header__user} onClick={() => setPopUpClose(!popUpClose)}>
                 <span>Привет, {profile?.firstName}!</span>
-                <img src={userAvatar} alt='User avatar'/>
+
+                <img
+                    src={user.avatar !== null ? `https://strapi.cleverland.by${user.avatar}` : userAvatar}
+                    alt='User avatar'/>
             </div>
 
             {popUpClose &&

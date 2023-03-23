@@ -8,13 +8,13 @@ import {ButtonForProfile} from "./button-for-profile/button-for-profile";
 import AvatarBlock from "./avatar-block/avatar-block";
 import {UserDataBlock} from "./user-data-block/user-data-block";
 import {BlockWrapper} from "./block-wrapper/block-wrapper";
+import {ListItem} from "../books-list/list/list-item/list-item";
 
 export const ProfilePage: React.FC = () => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
-    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const user = useAppSelector(state => state.user.user)
-    const bookingBook = useAppSelector(state => state.user.user.booking?.book)
+
 
     useEffect(() => {
         dispatch(getUserDataTC())
@@ -40,7 +40,51 @@ export const ProfilePage: React.FC = () => {
                 title='Забронированная книга'
                 description='Здесь вы можете просмотреть забронированную книгу, а так же отменить бронь'
             >
-                <UserDataBlock/>
+                {
+                    user.booking?.book && <ListItem
+                        bookingImage={user.booking?.book.image}
+                        title={user.booking?.book.title}
+                        authors={user.booking?.book.authors}
+                        issueYear={user.booking?.book.issueYear}
+                        rating={user.booking?.book.rating}
+                        bookingForProfile={user.booking}
+                        deliveryForProfile={user.delivery}
+                    />
+                }
+            </BlockWrapper>
+
+            <BlockWrapper
+                title='Книга которую взяли'
+                description='Здесь можете просмотреть информацию о книге и узнать сроки возврата'
+            >
+                {/*{
+                    user.delivery !== null
+                        ? <ListItem
+                        bookingImage={user.delivery?.book.image}
+                        title={user.delivery?.book.title}
+                        authors={user.delivery?.book.authors}
+                        issueYear={user.delivery?.book.issueYear}
+                        rating={user.delivery?.book.rating}
+                    />
+                        : <div></div>
+                }*/}
+            </BlockWrapper>
+
+            <BlockWrapper
+                title='История'
+                description='Список прочитанных книг'
+            >
+                {/*{
+                    user.delivery !== null
+                        ? <ListItem
+                        bookingImage={user.delivery?.book.image}
+                        title={user.delivery?.book.title}
+                        authors={user.delivery?.book.authors}
+                        issueYear={user.delivery?.book.issueYear}
+                        rating={user.delivery?.book.rating}
+                    />
+                        : <div></div>
+                }*/}
             </BlockWrapper>
 
 

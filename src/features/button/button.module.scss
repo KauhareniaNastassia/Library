@@ -48,3 +48,8 @@
     border-radius: 20px;
     border: none;
 }
+
+.deliveryInfo {
+    text-transform: uppercase;
+    @include text(24px, 30px, 700, #FF5253);
+}

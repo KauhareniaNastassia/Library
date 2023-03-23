@@ -1,5 +1,6 @@
 import {customInstance} from "./instance";
 import {bool} from "yup";
+import {AuthorsType} from "./books-list-api";
 
 
 export const userApi = {
@@ -53,19 +54,19 @@ export type UserBookingType = {
     book: UserOrderedBookType
 }
 export type UserOrderedBookType = {
-    id: number,
-    title: string,
-    rating: number,
-    issueYear: string,
-    authors: string[],
+    id: number | null,
+    title: string | null,
+    rating: number | null,
+    issueYear: string  | null
+    authors: AuthorsType | null,
     image: null | string
 }
 export type UserDeliveryType = {
-    id: number,
-    handed: boolean,
-    dateHandedFrom: string,
-    dateHandedTo: string,
-    book: UserOrderedBookType
+    id: number | null,
+    handed: boolean | null,
+    dateHandedFrom: string | null,
+    dateHandedTo: string | null,
+    book: UserOrderedBookType | null
 }
 export type UserHistoryType = {
     id: number,

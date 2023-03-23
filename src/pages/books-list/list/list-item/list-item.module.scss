@@ -6,7 +6,7 @@
 .bookList__item {
   display: flex;
   flex-direction: row;
-  width: 825px;
+  width: 100%;
   min-height: 218px;
   padding: 24px 24px 24px 16px;
   gap: 16px;
@@ -53,7 +53,7 @@
   .bookList__item_infoWrapper {
     display: flex;
     flex-direction: column;
-    width: 649px;
+    width: 100%;
     gap: 24px;
 
     @media (max-width: 768px) {
@@ -128,6 +128,7 @@
       .bookList__item_button {
         width: 174px;
         height: 40px;
+        align-items: flex-end;
 
         @media (max-width: 320px) {
           width: 186px;
