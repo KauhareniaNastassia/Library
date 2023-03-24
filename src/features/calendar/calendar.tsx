@@ -26,6 +26,8 @@ export const Calendar: React.FC<CalendarPropsType> = ({
 
     const {state, functions} = useCalendar({firstWeekDay, locale, selectedDate})
 
+    //console.log(state.selectedDay.dayNumberInWeek, state.selectedDay.monthIndex)
+
     return (
         <div className={css.calendar}>
             <div className={css.calendar__title}>
@@ -42,14 +44,6 @@ export const Calendar: React.FC<CalendarPropsType> = ({
                                 {month.month[0].toUpperCase() + month.month.slice(1)} {state.selectedYear}
                             </option>
                         )}
-                       {/* {state.monthsNames.map((month) => (
-                            <option key={month.month}>
-
-                                {month.month}
-                                {FormateDate(selectedDate, 'MMM YYYY')[0].toUpperCase() + FormateDate(selectedDate, 'MMM YYYY').slice(1)}
-                                {FormateDate(selectedDate, 'MMM YYYY')}
-                            </option>
-                        ))}*/}
                     </select>
                     <img src={dropDown} alt='drop down'/>
                 </label>
@@ -101,9 +95,8 @@ export const Calendar: React.FC<CalendarPropsType> = ({
                                 const isAdditionalDay = day.monthIndex !== state.selectedMonth.monthIndex
                                 const isWeekEnd =  day.dayNumberInWeek === 1 || day.dayNumberInWeek === 7
                                 const isWeekEndInThisMonth = isWeekEnd && day.monthIndex === state.selectedMonth.monthIndex
-
-                                const isDayForOrder = checkIsDayForOrder(new Date().getDate(), day.dayNumberInWeek, day.monthIndex)
                                 const currentDay = new Date().getDate()
+                                const isDayForOrder = checkIsDayForOrder(currentDay, day.monthIndex)
 
                                 return (<button
                                     key={`${day.dayNumber}-${day.monthIndex}`}
@@ -119,8 +112,6 @@ export const Calendar: React.FC<CalendarPropsType> = ({
                                     onClick={() =>{
                                         functions.setSelectedDay(day)
                                         selectDate(day.date)
-                                        console.log(day.date.toJSON())
-
                                     }}
                                 >
                                     {day.dayNumber}

@@ -16,9 +16,9 @@ export const ProfilePage: React.FC = () => {
     const user = useAppSelector(state => state.user.user)
 
 
-    useEffect(() => {
+    /*useEffect(() => {
         dispatch(getUserDataTC())
-    }, [dispatch])
+    }, [dispatch])*/
 
 
     return (

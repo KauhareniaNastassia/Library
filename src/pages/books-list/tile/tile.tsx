@@ -1,9 +1,6 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 import css from './tile.module.scss'
-import defaultBookCover from '../../../assets/img/default-book-cover.svg'
-import {Rating} from '../../../features/rating';
-import {Button} from '../../../features/button';
 import {BookListResponseType} from "../../../api/books-list-api";
 import TileItem from "./tile-item/tile-item";
 

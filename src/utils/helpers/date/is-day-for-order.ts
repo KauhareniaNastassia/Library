@@ -1,16 +1,15 @@
-export const checkIsDayForOrder = (currentDay: number, dayOfWeek: number, dayOfCurrentMonth: number) => {
-    const today = new Date()
-    let currentMonth = new Date().getMonth()
+export const checkIsDayForOrder = (currentDay: number, dayOfCurrentMonth: number) => {
 
-    if (dayOfCurrentMonth === currentMonth) {
-        if (dayOfWeek === 1) {
-            return currentDay + 1
-        }
-        if (dayOfWeek === 7) {
+    let dayOfWeek = new Date().getDay()
+
+    if (dayOfCurrentMonth === new Date().getMonth()) {
+        if (dayOfWeek === 6) {
             return currentDay + 2
         }
-        return currentDay + 1
+        if (dayOfWeek === 5) {
+            return currentDay + 3
+        } else {
+            return currentDay + 1
+        }
     }
-
-
 }
