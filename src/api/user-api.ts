@@ -10,10 +10,10 @@ export const userApi = {
     updateUserData(id: number, data: UpdateUserDataRequestType) {
         return customInstance.put<MeResponseType>(`/api/users/${id}`, data)
     },
-    addUserAvatar(data: File) {
-        return customInstance.post<AddUserAvatarResponseType>('/api/upload', data)
+    addUserAvatar(files: FormData) {
+        return customInstance.post<AddUserAvatarType[]>('/api/upload', files)
     }, //download avatar to server
-    updateUserAvatar(avatar: number, id: number) {
+    updateUserAvatar(id: number, avatar: number) {
         return customInstance.put<MeResponseType>(`/api/users/${id}`, avatar)
     }
 }
@@ -80,27 +80,26 @@ export type UpdateUserDataRequestType = {
     lastName?: string,
     phone?: string
 }
-export type AddUserAvatarResponseType = [
-    {
-        id: number,//avatar id
-        name: string,
-        alternativeText: null | string,
-        caption: null,
-        width: string,
-        height: string,
-        formats: FormatsType,
-        hash: string,
-        ext: string,
-        mime: string,
-        size: number,
-        url: string,
-        previewUrl: null,
-        provider: string,
-        provider_metadata: null,
-        createdAt: string,
-        updatedAt: string
-    }
-]
+export type AddUserAvatarResponseType = AddUserAvatarType[]
+export type AddUserAvatarType = {
+    id: number,//avatar id
+    name: string,
+    alternativeText: null | string,
+    caption: null,
+    width: string,
+    height: string,
+    formats: FormatsType,
+    hash: string,
+    ext: string,
+    mime: string,
+    size: number,
+    url: string,
+    previewUrl: null,
+    provider: string,
+    provider_metadata: null,
+    createdAt: string,
+    updatedAt: string
+}
 export type FormatsType = {
     thumbnail: FormatType,
     large:FormatType,

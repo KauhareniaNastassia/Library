@@ -16,5 +16,34 @@
     display: flex;
     flex-direction: row;
     gap: 30px;
+
+    .edit_button {
+      width: 25%;
+      height: 100%;
+      text-transform: uppercase;
+      @include text(16px, 24px, 600, $main-text-color);
+      letter-spacing: 0.2px;
+      border-radius: 30px;
+      border: 1px solid #BFC4C9;
+      background-color: #FFFFFF;
+      padding: 14px 0;
+    }
+
+    .save_button {
+      width: 25%;
+      height: 100%;
+      text-transform: uppercase;
+      @include text(16px, 24px, 600, #FFFFFF);
+      letter-spacing: 0.2px;
+      background: linear-gradient(231.58deg, #F83600 -53.35%, #F9D423 297.76%);
+      border-radius: 30px;
+      border: none;
+      padding: 14px 0;
+
+      &:disabled {
+        background: #EBEBEB;
+        cursor: none;
+      }
+    }
   }
 }

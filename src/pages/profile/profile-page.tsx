@@ -35,6 +35,7 @@ export const ProfilePage: React.FC = () => {
                 firstName={user.firstName}
                 lastName={user.lastName}
                 avatar={user.avatar}
+                userId={user.id}
             />
 
             <BlockWrapper

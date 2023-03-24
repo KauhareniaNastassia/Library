@@ -15,6 +15,7 @@ type ButtonPropsType = {
     commentedBookId?: number
     historyId?: number
     onClickToOpenCommentModal?: () => void
+
 }
 
 export const Button: React.FC<ButtonPropsType> = ({

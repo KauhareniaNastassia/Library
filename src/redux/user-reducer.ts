@@ -60,7 +60,7 @@ export const getUserDataTC = (): AppThunkType =>
         try {
             const res = await userApi.me()
             dispatch(setUserAC(res.data))
-            console.log(res.data)
+            console.log('get user', res.data)
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
         } catch (err) {
@@ -69,6 +69,30 @@ export const getUserDataTC = (): AppThunkType =>
             dispatch(setAppErrorAC(error.message))
         }
     }
+
+    export const UpdateUserAvatarTC = (userId: number, files: FormData): AppThunkType =>
+        async (dispatch) => {
+            dispatch(setAppStatusAC('loading'))
+            try{
+                const {data} = await userApi.addUserAvatar(files)
+                /*console.log('to server', data)
+                console.log(data[0].id)*/
+
+                const res = await userApi.updateUserAvatar(userId, data[0].id)
+               /* console.log('to update', userId, data[0].id)
+                console.log('update', res.data.avatar)
+*/
+                dispatch(getUserDataTC())
+               // const response = await userApi.updateUserAvatar(, id)
+                dispatch(setAppStatusAC('succeeded'))
+                dispatch(setAppSuccessMessageAC('success'))
+            }catch (err) {
+                const error = err as AxiosError
+                dispatch(setAppStatusAC('failed'))
+                dispatch(setAppErrorAC(error.message))
+                console.log(error)
+            }
+        }
 
 
 //  types

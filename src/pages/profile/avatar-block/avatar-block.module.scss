@@ -9,12 +9,51 @@
 
 
   .profile__avatar_img {
-    padding-top: 5px;
     width: 160px;
     height: 160px;
     filter: drop-shadow(0px 2px 4px rgba(191, 196, 201, 0.2)) drop-shadow(0px 3px 4px rgba(191, 196, 201, 0.18)) drop-shadow(0px 1px 5px rgba(191, 196, 201, 0.24));
+    position: relative;
+    background-color: #00CA71;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 150px;
-    align-self: center;
+
+    img {
+      border-radius: 150px;
+      align-self: center;
+    }
+
+    .profile__avatar_input {
+      outline: 0;
+      opacity: 0;
+      user-select: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      cursor: pointer;
+
+    }
+
+    .profile__avatar_button {
+      position: absolute;
+      background: #363636;
+      opacity: 0.7;
+      width: 88%;
+      height: 42px;
+      bottom: 0;
+      border-bottom-left-radius: 90%;
+      border-radius: 0 0 50% 50% / 0 0 100% 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    -webkit-clip-path: circle(50%);
+    clip-path: circle(50%);
   }
 
   .profile__avatar_name {
