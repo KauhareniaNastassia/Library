@@ -7,6 +7,7 @@ import {Button} from "../../../../features/button";
 import {AuthorsType, BookingType, BookListResponseType, DeliveryType, ImageType} from "../../../../api/books-list-api";
 import {UserBookingType, UserDeliveryType} from "../../../../api/user-api";
 import {RedMask} from "../../../profile/red-mask/red-mask";
+import {useAppSelector} from "../../../../hooks/hooks";
 
 type ListItemPropsType = {
     image?: ImageType | null
@@ -37,6 +38,8 @@ export const ListItem: React.FC<ListItemPropsType> = ({
                                                           onClickHandler,
                                                           deliveryForProfile
                                                       }) => {
+    const userId = useAppSelector(state => state.auth.profile?.id)
+
     return (
         /*<div key={key}>
 
@@ -79,9 +82,11 @@ export const ListItem: React.FC<ListItemPropsType> = ({
                             isBooked={booking?.order}//забронирована
                             dateHanded={delivery?.dateHandedFrom?.toString()}
                             handed={delivery?.handed}
+                            orderByAuthUser={booking?.customerId === userId}
+                            onClickHandler={onClickHandler}
+
                             bookingForProfile={bookingForProfile}
                             deliveryForProfile={deliveryForProfile}
-                            onClickHandler={onClickHandler}
                         />
                     </div>
                 </div>

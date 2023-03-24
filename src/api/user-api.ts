@@ -54,8 +54,8 @@ export type UserBookingType = {
     book: UserOrderedBookType
 }
 export type UserOrderedBookType = {
-    id: number | null,
-    title: string | null,
+    id: number,
+    title: string,
     rating: number | null,
     issueYear: string  | null
     authors: AuthorsType | null,
