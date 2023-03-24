@@ -1,0 +1,26 @@
+@import 'src/common/styles/mixins/mixins';
+@import 'src/common/styles/variables/variables';
+
+.red_mask {
+  position: absolute;
+  background: rgba(255, 82, 83, 0.7);
+  backdrop-filter: blur(10px);
+  z-index: 1;
+  border-radius: 10px;
+  padding: 16px;
+  inset: 0;
+  height: 218px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .red_mask_title {
+    @include text(32px, 40px, 700, #ffffff);
+    width: 30%;
+  }
+
+  .red_mask_description {
+    @include text(16px, 24px, 600, #ffffff);
+    width: 35%;
+  }
+}

@@ -6,6 +6,7 @@ import {Rating} from "../../../../features/rating";
 import {Button} from "../../../../features/button";
 import {AuthorsType, BookingType, BookListResponseType, DeliveryType, ImageType} from "../../../../api/books-list-api";
 import {UserBookingType, UserDeliveryType} from "../../../../api/user-api";
+import {RedMask} from "../../../profile/red-mask/red-mask";
 
 type ListItemPropsType = {
     image?: ImageType | null
@@ -42,6 +43,8 @@ export const ListItem: React.FC<ListItemPropsType> = ({
             <NavLink to={`/books/${item.categories}/${item.id}`}>
 */
         <div className={css.bookList__item}>
+
+
 
             <div className={css.bookList__item_coverWrapper}>
                 <img src={image?.url.length
