@@ -10,6 +10,7 @@ import {UserDataBlock} from "./user-data-block/user-data-block";
 import {BlockWrapper} from "./block-wrapper/block-wrapper";
 import {ListItem} from "../books-list/list/list-item/list-item";
 import {EmptyBlockForWrapper} from "./empty-block-for-wrapper/empty-block-for-wrapper";
+import {deleteOrderTC} from "../../redux/book-reducer";
 
 export const ProfilePage: React.FC = () => {
     const navigate = useNavigate()
@@ -17,11 +18,17 @@ export const ProfilePage: React.FC = () => {
     const user = useAppSelector(state => state.user.user)
 
 
-    /*useEffect(() => {
+    const onClickDeleteOrderHandler = () => {
+        if (user.booking?.id) {
+            dispatch(deleteOrderTC(user.booking.id))
+        }
         dispatch(getUserDataTC())
-    }, [dispatch])*/
+    }
 
-    console.log(user)
+    useEffect(() => {
+        dispatch(getUserDataTC())
+    }, [])
+
 
     return (
         <section className={css.profile__wrapper}>
@@ -51,10 +58,9 @@ export const ProfilePage: React.FC = () => {
                             issueYear={user.booking?.book.issueYear}
                             rating={user.booking?.book.rating}
                             bookingForProfile={user.booking}
-                            deliveryForProfile={user.delivery}
+                            onClickHandler={onClickDeleteOrderHandler}
                         />
-                        : <EmptyBlockForWrapper title='Забронируйте книгу
-и она отобразится '/>
+                        : <EmptyBlockForWrapper title='Забронируйте книгу и она отобразится '/>
                 }
             </BlockWrapper>
 
@@ -63,17 +69,18 @@ export const ProfilePage: React.FC = () => {
                 description='Здесь можете просмотреть информацию о книге и узнать сроки возврата'
             >
                 <EmptyBlockForWrapper title='Прочитав книгу, она отобразится в истории '/>
-                {/*{
-                    user.delivery !== null
+                {
+                    user.delivery?.book
                         ? <ListItem
-                        bookingImage={user.delivery?.book.image}
-                        title={user.delivery?.book.title}
-                        authors={user.delivery?.book.authors}
-                        issueYear={user.delivery?.book.issueYear}
-                        rating={user.delivery?.book.rating}
-                    />
+                            bookingImage={user.delivery?.book.image}
+                            title={user.delivery?.book.title}
+                            authors={user.delivery?.book.authors}
+                            issueYear={user.delivery?.book.issueYear}
+                            rating={user.delivery?.book.rating}
+                            deliveryForProfile={user.delivery}
+                        />
                         : <div></div>
-                }*/}
+                }
             </BlockWrapper>
 
             <BlockWrapper

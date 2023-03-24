@@ -15,10 +15,13 @@ type ListItemPropsType = {
     rating: number | null
     booking?: BookingType | null
     delivery?: DeliveryType | null
-
+    onClickHandler?: () => void
+    //==props for ordered book from profile
     bookingImage?: string | null
     bookingForProfile?: UserBookingType | null
+    //==props for delivered book from profile
     deliveryForProfile?: UserDeliveryType | null
+
 }
 
 export const ListItem: React.FC<ListItemPropsType> = ({
@@ -29,7 +32,8 @@ export const ListItem: React.FC<ListItemPropsType> = ({
                                                           issueYear,
                                                           delivery,
                                                           booking,
-                                                          bookingForProfile,
+                                                          bookingImage, bookingForProfile,
+                                                          onClickHandler,
                                                           deliveryForProfile
                                                       }) => {
     return (
@@ -42,7 +46,9 @@ export const ListItem: React.FC<ListItemPropsType> = ({
             <div className={css.bookList__item_coverWrapper}>
                 <img src={image?.url.length
                     ? `https://strapi.cleverland.by${image.url}`
-                    : defaultBookCover}
+                    : bookingImage
+                        ? `https://strapi.cleverland.by${bookingImage}`
+                        : defaultBookCover}
                      alt="Book cover"
                      className={css.bookList__item_cover}/>
             </div>
@@ -71,7 +77,8 @@ export const ListItem: React.FC<ListItemPropsType> = ({
                             dateHanded={delivery?.dateHandedFrom?.toString()}
                             handed={delivery?.handed}
                             bookingForProfile={bookingForProfile}
-                            //deliveryForProfile={deliveryForProfile}
+                            deliveryForProfile={deliveryForProfile}
+                            onClickHandler={onClickHandler}
                         />
                     </div>
                 </div>

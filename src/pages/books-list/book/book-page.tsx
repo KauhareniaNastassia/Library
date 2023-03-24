@@ -101,8 +101,8 @@ export const BookPage = () => {
     const onClickDeleteOrderHandler = () => {
         if (bookingId) {
             dispatch(deleteOrderTC(bookingId))
+            dispatch(getBookTC(Number(bookId)))
         }
-        dispatch(getBookTC(Number(bookId)))
     }
 
 

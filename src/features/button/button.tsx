@@ -1,7 +1,5 @@
 import React, {CSSProperties} from 'react';
 import css from './button.module.scss'
-import {format} from 'date-fns'
-import {bool} from "yup";
 import {UserBookingType, UserDeliveryType} from "../../api/user-api";
 
 type ButtonPropsType = {
@@ -15,27 +13,42 @@ type ButtonPropsType = {
     deliveryForProfile?: UserDeliveryType | null
 }
 
-export const Button: React.FC<ButtonPropsType> = ({isBooked, dateHanded, handed, buttonStyle, onClickHandler, orderByAuthUser, bookingForProfile, deliveryForProfile}) => {
+export const Button: React.FC<ButtonPropsType> = ({
+                                                      isBooked,
+                                                      dateHanded,
+                                                      handed,
+                                                      buttonStyle,
+                                                      onClickHandler,
+                                                      orderByAuthUser,
+                                                      bookingForProfile,
+                                                      deliveryForProfile
+                                                  }) => {
 
 
-
-    let arr = dateHanded?.slice(5, 10).split('-');
-    if (arr) {
-        [arr[0], arr[1]] = [arr[1], arr[0]];
+    const formatDateForButton = (date: string | undefined | null) => {
+        let arr = date?.slice(5, 10).split('-');
+        if (arr) {
+            [arr[0], arr[1]] = [arr[1], arr[0]];
+        }
+        return arr?.join('.')
     }
-    let date = arr?.join('.')
 
 
+    const onClickButtonHandler = () => {
+        if (onClickHandler) {
+            onClickHandler()
+        }
+    }
 
-   /* if(deliveryForProfile?.book !== null ) {
+    if (deliveryForProfile) {
         return <div className={css.deliveryInfo}>
-            возврат {date}
+            возврат {formatDateForButton(deliveryForProfile.dateHandedTo)}
         </div>
-    }*/
+    }
 
     if (bookingForProfile) {
         return <button
-            onClick={onClickHandler}
+            onClick={onClickButtonHandler}
             type="button"
             style={buttonStyle}
             className={css.button_active}>отменить бронь</button>
@@ -43,7 +56,7 @@ export const Button: React.FC<ButtonPropsType> = ({isBooked, dateHanded, handed,
 
     if (orderByAuthUser) {
         return <button
-            onClick={onClickHandler}
+            onClick={onClickButtonHandler}
             type="button"
             style={buttonStyle}
             className={css.button_reserved_by_user}>забронирована</button>
@@ -51,7 +64,7 @@ export const Button: React.FC<ButtonPropsType> = ({isBooked, dateHanded, handed,
     if (isBooked) {
         return <button
             disabled
-            onClick={onClickHandler}
+            onClick={onClickButtonHandler}
             type="button"
             style={buttonStyle}
             className={css.button_reserved}>забронирована</button>
@@ -59,14 +72,14 @@ export const Button: React.FC<ButtonPropsType> = ({isBooked, dateHanded, handed,
     if (handed === true) {
         return <button
             disabled
-            onClick={onClickHandler}
+            onClick={onClickButtonHandler}
             type="button"
             style={buttonStyle}
-            className={css.button_unactive}>занята до {date} </button>
+            className={css.button_unactive}>занята до {formatDateForButton(dateHanded)} </button>
     }
 
     return <button
-        onClick={onClickHandler}
+        onClick={onClickButtonHandler}
         type="button"
         style={buttonStyle}
         className={css.button_active}> забронировать </button>
