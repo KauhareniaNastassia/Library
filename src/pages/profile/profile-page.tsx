@@ -9,6 +9,7 @@ import AvatarBlock from "./avatar-block/avatar-block";
 import {UserDataBlock} from "./user-data-block/user-data-block";
 import {BlockWrapper} from "./block-wrapper/block-wrapper";
 import {ListItem} from "../books-list/list/list-item/list-item";
+import {EmptyBlockForWrapper} from "./empty-block-for-wrapper/empty-block-for-wrapper";
 
 export const ProfilePage: React.FC = () => {
     const navigate = useNavigate()
@@ -20,6 +21,7 @@ export const ProfilePage: React.FC = () => {
         dispatch(getUserDataTC())
     }, [dispatch])*/
 
+    console.log(user)
 
     return (
         <section className={css.profile__wrapper}>
@@ -41,15 +43,18 @@ export const ProfilePage: React.FC = () => {
                 description='Здесь вы можете просмотреть забронированную книгу, а так же отменить бронь'
             >
                 {
-                    user.booking?.book && <ListItem
-                        bookingImage={user.booking?.book.image}
-                        title={user.booking?.book.title}
-                        authors={user.booking?.book.authors}
-                        issueYear={user.booking?.book.issueYear}
-                        rating={user.booking?.book.rating}
-                        bookingForProfile={user.booking}
-                        deliveryForProfile={user.delivery}
-                    />
+                    user.booking?.book
+                        ? <ListItem
+                            bookingImage={user.booking?.book.image}
+                            title={user.booking?.book.title}
+                            authors={user.booking?.book.authors}
+                            issueYear={user.booking?.book.issueYear}
+                            rating={user.booking?.book.rating}
+                            bookingForProfile={user.booking}
+                            deliveryForProfile={user.delivery}
+                        />
+                        : <EmptyBlockForWrapper title='Забронируйте книгу
+и она отобразится '/>
                 }
             </BlockWrapper>
 
@@ -57,6 +62,7 @@ export const ProfilePage: React.FC = () => {
                 title='Книга которую взяли'
                 description='Здесь можете просмотреть информацию о книге и узнать сроки возврата'
             >
+                <EmptyBlockForWrapper title='Прочитав книгу, она отобразится в истории '/>
                 {/*{
                     user.delivery !== null
                         ? <ListItem
@@ -74,6 +80,9 @@ export const ProfilePage: React.FC = () => {
                 title='История'
                 description='Список прочитанных книг'
             >
+
+                <EmptyBlockForWrapper title='Вы не читали книг из нашей библиотеки'/>
+
                 {/*{
                     user.delivery !== null
                         ? <ListItem
