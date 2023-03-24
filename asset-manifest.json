@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Library/static/css/main.96fc4a40.css",
-    "main.js": "/Library/static/js/main.2c886685.js",
+    "main.css": "/Library/static/css/main.91377c67.css",
+    "main.js": "/Library/static/js/main.afc1020f.js",
     "static/media/avatar.svg": "/Library/static/media/avatar.958064d0ab9f5ba898e1db6419f52137.svg",
     "static/media/default-user-photo.svg": "/Library/static/media/default-user-photo.595900639f7474ce0352a9f7b5564213.svg",
     "static/media/logo-clevertec.svg": "/Library/static/media/logo-clevertec.50d13a224f362513f21bd0cf4fb3f520.svg",
@@ -24,6 +24,7 @@
     "static/media/close-error-icon.svg": "/Library/static/media/close-error-icon.8575e7decb66b89d658dfc5f7e41c08b.svg",
     "index.html": "/Library/index.html",
     "static/media/error-icon.svg": "/Library/static/media/error-icon.d0f931225b9332388d0b94a1c3414a6c.svg",
+    "static/media/camera-icon.svg": "/Library/static/media/camera-icon.8c28886130794f0e197d6d6cf9efd8b7.svg",
     "static/media/linkedin-logo.svg": "/Library/static/media/linkedin-logo.7e716a127ab3f8577a17f83bfefdacc9.svg",
     "static/media/eye-open.svg": "/Library/static/media/eye-open.96a48b3370fa7482a68e11f55306556e.svg",
     "static/media/default-star.svg": "/Library/static/media/default-star.543b964218059add7570c74821c98f4a.svg",
@@ -35,11 +36,11 @@
     "static/media/arrow-for-registration.svg": "/Library/static/media/arrow-for-registration.278783190b4c103035f28aab9d63fdb0.svg",
     "static/media/ok-password-icon.svg": "/Library/static/media/ok-password-icon.06f9aa8f375b7d43f09f753b306dbc91.svg",
     "static/media/drop-down.svg": "/Library/static/media/drop-down.d88fa9a9db2ddddeb0099e13d945eeaf.svg",
-    "main.96fc4a40.css.map": "/Library/static/css/main.96fc4a40.css.map",
-    "main.2c886685.js.map": "/Library/static/js/main.2c886685.js.map"
+    "main.91377c67.css.map": "/Library/static/css/main.91377c67.css.map",
+    "main.afc1020f.js.map": "/Library/static/js/main.afc1020f.js.map"
   },
   "entrypoints": [
-    "static/css/main.96fc4a40.css",
-    "static/js/main.2c886685.js"
+    "static/css/main.91377c67.css",
+    "static/js/main.afc1020f.js"
   ]
 }
