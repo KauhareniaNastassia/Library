@@ -14,7 +14,7 @@ export const userApi = {
         return customInstance.post<AddUserAvatarType[]>('/api/upload', files)
     }, //download avatar to server
     updateUserAvatar(id: number, avatar: number) {
-        return customInstance.put<MeResponseType>(`/api/users/${id}`, avatar)
+        return customInstance.put<MeResponseType>(`/api/users/${id}`, {avatar})
     }
 }
 

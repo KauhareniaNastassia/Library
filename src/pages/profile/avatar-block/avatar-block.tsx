@@ -22,14 +22,13 @@ export const AvatarBlock: React.FC<AvatarBlockPropsType> = ({firstName, lastName
             files.append('files', e.target.files[0])
 
             dispatch(UpdateUserAvatarTC(userId, files))
-            console.log('onchange', e.target.files[0], userId)
-
         }
     }
 
     return (
         <div className={css.profile__avatar_block}>
             <div className={css.profile__avatar_img}>
+
                 <img
                     src={avatar !== null ? `https://strapi.cleverland.by${avatar}` : userAvatar}
                     alt='User avatar'
@@ -38,14 +37,14 @@ export const AvatarBlock: React.FC<AvatarBlockPropsType> = ({firstName, lastName
                 <input
                     className={css.profile__avatar_input}
                     accept='image/*'
+                    id='file-input'
                     type='file'
-                onChange={onClickAvatarChange}/>
+                    onChange={onClickAvatarChange}/>
                 <div className={css.profile__avatar_button}>
                     <img src={cameraIcon} alt='camera icon'/>
 
                 </div>
             </div>
-
 
             <div className={css.profile__avatar_name}>
                    <span>
