@@ -14,6 +14,8 @@ import {schemaForAuth} from "../../../utils/validate/auth-validate/shema-for-aut
 
 import {AuthErrorModal} from "../../../common/modals/modal-info";
 import {BasicModal} from "../../../common/modals/basic-modal";
+import {SaveLocalStorage} from "../../../utils/save-local-storage";
+import SimpleCrypto from "simple-crypto-js";
 
 /*import input = Simulate.input;*/
 
@@ -38,7 +40,10 @@ export const LoginForm = () => {
         resolver: yupResolver(schemaForAuth)
     });
 
+
     const onSubmit = (data: LoginRequestDataType) => {
+        localStorage.setItem('password', JSON.stringify( getValues('password')))
+
         dispatch(loginTC(data))
     }
 

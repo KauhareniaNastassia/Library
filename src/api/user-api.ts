@@ -57,7 +57,7 @@ export type UserOrderedBookType = {
     id: number,
     title: string,
     rating: number | null,
-    issueYear: string  | null
+    issueYear: string | null
     authors: AuthorsType | null,
     image: null | string
 }
@@ -73,11 +73,11 @@ export type UserHistoryType = {
     books: UserOrderedBookType[]
 }
 export type UpdateUserDataRequestType = {
-    email?: string,
-    username?: string,
-    password?: string,
+    username: string,
+    password: string,
     firstName?: string,
     lastName?: string,
+    email: string,
     phone?: string
 }
 export type AddUserAvatarResponseType = AddUserAvatarType[]
@@ -102,7 +102,7 @@ export type AddUserAvatarType = {
 }
 export type FormatsType = {
     thumbnail: FormatType,
-    large:FormatType,
+    large: FormatType,
     medium: FormatType,
     small: FormatType
 }

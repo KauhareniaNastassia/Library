@@ -11,12 +11,14 @@ import {createCommentTC, deleteOrderTC} from "../../redux/book-reducer";
 import {RedMask} from "./red-mask/red-mask";
 import TileItem from "../books-list/tile/tile-item/tile-item";
 import {CommentRequestData} from "../../api/book-api";
+import {Notification} from "../../common/notification/notification";
 
 export const ProfilePage: React.FC = () => {
     const dispatch = useAppDispatch()
     const user = useAppSelector(state => state.user.user)
     const commentsForHistoryBook = user.comments?.map(c => c.bookId)
-
+    const userDataChangeSuccess = useAppSelector(state => state.user.userDataChangeSuccess)
+    const avatarChangeSuccess = useAppSelector(state => state.user.avatarChangeSuccess)
     const onClickDeleteOrderHandler = () => {
         if (user.booking?.id) {
             dispatch(deleteOrderTC(user.booking.id))
@@ -31,6 +33,10 @@ export const ProfilePage: React.FC = () => {
 
     return (
         <section className={css.profile__wrapper}>
+            {userDataChangeSuccess === true && <Notification status='success' message='Изменения успешно сохранены!'/>}
+            {avatarChangeSuccess && <Notification status='success' message='Изменения успешно сохранены!'/>}
+
+
             <AvatarBlock
                 firstName={user.firstName}
                 lastName={user.lastName}

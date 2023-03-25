@@ -26,6 +26,7 @@ export const Header: React.FC = () => {
     const onClickLogoutHandler = () => {
         console.log('logout')
         dispatch(logoutTC())
+        navigate('/auth')
     }
     useOnClickOutside(node, onClickOutsideClose);
 

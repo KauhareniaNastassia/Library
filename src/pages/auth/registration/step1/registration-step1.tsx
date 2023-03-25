@@ -59,7 +59,7 @@ export const RegistrationStep1: React.FC<RegistrationStep1PropsType> = ({
                             входа</label>
 
                         <div className={css.registration_message}>
-                            {!errors.userName && conditionForEmptyNameFocus &&
+                            {!errors.username && conditionForEmptyNameFocus &&
                                 <span>Используйте для логина латинский алфавит и цифры</span>
                             }
                             {errors.username?.type !== 'required' && conditionForEmptyName &&
@@ -68,7 +68,7 @@ export const RegistrationStep1: React.FC<RegistrationStep1PropsType> = ({
                             {!focusUsername && errors.username?.type === 'required' && getFieldState('username').isTouched &&
                                 <span style={{color: 'red'}}>Поле не может быть пустым</span>
                             }
-                            {focusUsername && errors.userName?.type === 'usernameShouldHaveNumberAndLetter' &&
+                            {focusUsername && errors.username?.type === 'usernameShouldHaveNumberAndLetter' &&
                                 <span>Используйте для логина <span style={{color: 'red'}}>латинский алфавит</span> и <span
                                     style={{color: 'red'}}>цифры</span></span>
                             }

@@ -2657,7 +2657,6 @@ export const loginTC = (data: LoginRequestDataType): AppThunkType =>
             const res = await authApi.login(data)
             dispatch(isLoggedInAC(true))
             dispatch(setLoginDataAC(res.data.user))
-
             localStorage.setItem('token', JSON.stringify(res.data.jwt))
             localStorage.setItem('user', JSON.stringify(res.data.user));
 
