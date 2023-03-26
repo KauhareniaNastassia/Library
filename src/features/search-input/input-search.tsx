@@ -7,26 +7,27 @@ type InputSearchPropsType = {
     openSearch?: () => void
     searchOpen?: boolean
     closeSearch?: () => void
+    searchValue: string
+    setSearchValue: (value: string) => void
 }
 
-export const InputSearch = (props: InputSearchPropsType) => {
+export const InputSearch:React.FC<InputSearchPropsType> = ({openSearch, searchValue,  closeSearch, searchOpen, setSearchValue}) => {
 
-    const [searchValue, setSearchValue] = useState('')
 
-    const onChangeInputValue = (e: ChangeEvent<HTMLInputElement>) => {
-        setSearchValue(e.currentTarget.value)
+   /* const onChangeInputValue = (e: ChangeEvent<HTMLInputElement>) => {
+        setSearchValue(event.target.value)
     }
 
     const onBlurInputValue = () => {
-        setSearchValue('')
-    }
+        setSearchValue(event.target.value)
+    }*/
 
     return <div
-        className={props.searchOpen === false ? css.filterBar__search : css.filterBar__search_open}>
+        className={searchOpen === false ? css.filterBar__search : css.filterBar__search_open}>
 
         <button type='button'
                 className={css.filterBar__search_button}
-                onClick={props.openSearch}
+                onClick={openSearch}
         >
 
             <img src={searchIcon} alt="Search icon"/>
@@ -36,16 +37,16 @@ export const InputSearch = (props: InputSearchPropsType) => {
         <input
             value={searchValue}
             aria-label="Search"
-            type={props.searchOpen === false ? 'search' : 'text'}
+            type={searchOpen === false ? 'search' : 'text'}
             placeholder="Поиск книги или автора..."
             className={css.filterBar__search_input}
-            onChange={onChangeInputValue}
-            onBlur={onBlurInputValue}
+            onChange={(event) => setSearchValue(event.target.value)}
+            //nBlur={onBlurInputValue}
         />
 
         <button type='button'
                 className={css.filterBar__search_cancel_icon}
-                onClick={props.closeSearch}
+                onClick={closeSearch}
         >
 
             <img src={cancelSearchIcon} alt="Search icon"/>

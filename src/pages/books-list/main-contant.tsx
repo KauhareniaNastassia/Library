@@ -11,6 +11,7 @@ import {InputSearch} from "../../features/search-input";
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 import {BookListResponseType} from "../../api/books-list-api";
 import {getBooksTC} from "../../redux/books-reducer";
+import {NotFoundMessage} from "../../common/not-found-message/not-found-message";
 
 
 export const MainContent = () => {
@@ -19,6 +20,7 @@ export const MainContent = () => {
     const [searchOpen, setSearchOpen] = useState(false)
     const node = useRef<HTMLDivElement>(null);
     const [sortByRating, setSortByRating] = useState(true)
+    const [searchValue, setSearchValue] = useState<string>('');
     const dispatch = useAppDispatch()
     const {category} = useParams()
     const books = useAppSelector((state) => state.books.books)
@@ -43,6 +45,12 @@ export const MainContent = () => {
         })
 
     }, [selectCategoryBooks,sortByRating])
+
+    const searchAndSortedBooks = useMemo( () => {
+
+        return sortedBooks.filter(book => book.title.toLowerCase().includes(searchValue.toLowerCase()))
+
+    }, [sortedBooks, searchValue] )
 
 
     const onTileButtonClickHandler = () => {
@@ -73,6 +81,8 @@ export const MainContent = () => {
                     <InputSearch openSearch={() => setSearchOpen(true)}
                                  searchOpen={searchOpen}
                                  closeSearch={closeSearch}
+                                 searchValue={searchValue}
+                                 setSearchValue={setSearchValue}
                     />
                 </div>
 
@@ -103,9 +113,12 @@ export const MainContent = () => {
             </div>
         </section>
 
+        {sortedBooks.length === 0 && <NotFoundMessage message='В этой категории книг еще нет'/>}
+        {searchAndSortedBooks.length === 0 && sortedBooks.length !== 0 && <NotFoundMessage message='По запросу ничего не найдено'/>}
+
         {show
-            ? <Tile selectCategoryBooks={sortedBooks}/>
-            : <List selectCategoryBooks={sortedBooks}/>}
+            ? <Tile searchValue={searchValue} selectCategoryBooks={searchAndSortedBooks}/>
+            : <List searchValue={searchValue} selectCategoryBooks={searchAndSortedBooks}/>}
 
     </section>
 

@@ -7,18 +7,18 @@ import {NotFoundMessage} from "../../../common/not-found-message/not-found-messa
 
 type ListPropsType = {
     selectCategoryBooks: BookListResponseType[]
+    searchValue?: string
 }
 
-export const List: React.FC<ListPropsType> = ({selectCategoryBooks}) => {
+export const List: React.FC<ListPropsType> = ({selectCategoryBooks, searchValue}) => {
 
     return <div className={css.wrapper_list}>
-        {selectCategoryBooks.length !== 0 ?
-
-            (selectCategoryBooks.map((item) =>
+        {selectCategoryBooks.map((item) =>
                 <div key={item.id}>
 
                     <NavLink to={`/books/${item.categories}/${item.id}`}>
                         <ListItem
+                            searchValue={searchValue}
                             image={item.image}
                             title={item.title}
                             authors={item.authors}
@@ -29,8 +29,7 @@ export const List: React.FC<ListPropsType> = ({selectCategoryBooks}) => {
                         />
                     </NavLink>
                 </div>
-            ))
-            : <NotFoundMessage message='В этой категории книг еще нет'/>
+            )
         }
     </div>
 }

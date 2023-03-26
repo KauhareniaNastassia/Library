@@ -7,18 +7,18 @@ import {NotFoundMessage} from "../../../common/not-found-message/not-found-messa
 
 type TilePropsType = {
     selectCategoryBooks: BookListResponseType[]
+    searchValue?: string
 }
 
-export const Tile: React.FC<TilePropsType> = ({selectCategoryBooks}) => {
+export const Tile: React.FC<TilePropsType> = ({selectCategoryBooks, searchValue}) => {
 
     return <div className={css.wrapper_tile}>
 
-        {selectCategoryBooks.length !== 0 ?
-
-            (selectCategoryBooks.map((item) =>
+        {selectCategoryBooks.map((item) =>
                 <div key={item.id}>
                     <NavLink to={`/books/${item.categories}/${item.id}`}>
                         <TileItem
+                            searchValue={searchValue}
                             image={item.image}
                             title={item.title}
                             authors={item.authors}
@@ -30,8 +30,7 @@ export const Tile: React.FC<TilePropsType> = ({selectCategoryBooks}) => {
                     </NavLink>
 
                 </div>
-            ))
-            : <NotFoundMessage message='В этой категории книг еще нет'/>
+            )
         }
 
     </div>

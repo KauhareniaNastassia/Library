@@ -1,6 +1,10 @@
 @import "src/common/styles/mixins/mixins";
 @import "src/common/styles/variables/variables";
 
+.highlight {
+  color: #FF5253;
+}
+
 .bookList__item {
   width: 190px;
   height: 470px;
@@ -79,10 +83,10 @@
     }
 
     .bookList__item_info_title {
-      display: flex;
+      //display: flex;
       letter-spacing: 0.1px;
       height: 54px;
-      align-items: center;
+     // align-items: center;
       @include text(14px, 18px, 600, $main-text-color);
 
       @media (max-width: 768px) {

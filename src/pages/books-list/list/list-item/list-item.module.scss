@@ -2,6 +2,9 @@
 @import "src/common/styles/mixins/mixins";
 @import "src/common/styles/variables/variables";
 
+.highlight {
+  color: #FF5253;
+}
 
 .bookList__item {
   display: flex;

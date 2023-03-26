@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import css from "./tile-item.module.scss";
 import defaultBookCover from "../../../../assets/img/default-book-cover.svg";
 import {Rating} from "../../../../features/rating";
@@ -7,6 +7,7 @@ import {AuthorsType, BookingType, DeliveryType, ImageType} from "../../../../api
 import {useAppSelector} from "../../../../hooks/hooks";
 import {BaseModal} from "../../../../common/modals/base-modal/base-modal";
 import CreateCommentModal from "../../../../common/modals/create-comment-modal/create-comment-modal";
+import {Highlighter} from "../../../../utils/helpers/highlighter/highlighter";
 
 
 type TileItemPropsType = {
@@ -18,6 +19,7 @@ type TileItemPropsType = {
     booking?: BookingType | null
     delivery?: DeliveryType | null
     onClickHandler?: () => void
+    searchValue?: string
 
     //==props for history block in profile
     historyBookImage?: string | null
@@ -34,11 +36,24 @@ const TileItem: React.FC<TileItemPropsType> = ({
                                                    issueYear,
                                                    delivery, booking, historyBookImage,
                                                    commentFofBookFromHistory, onClickHandler,
-                                                   historyId, onClickCreateCommentHandler
+                                                   historyId, onClickCreateCommentHandler, searchValue
                                                }) => {
     const [createCommentModalIsOpen, setCreateCommentModalIsOpen] = useState(false)
     const userId = useAppSelector(state => state.auth.profile?.id)
-   const bookIdForComment = commentFofBookFromHistory?.find(b => b === historyId)
+    const bookIdForComment = commentFofBookFromHistory?.find(b => b === historyId)
+
+    let titleForTile
+    if (title.length > 54) {
+        titleForTile = `${title.substring(0, 54).trim()}...`
+    } else {
+        titleForTile = title
+    }
+
+    const highLight = useCallback((string: string) => {
+        if (searchValue) {
+            return Highlighter(searchValue, string)
+        } else return string
+    }, [searchValue])
 
     return (
         <div className={css.bookList__item}>
@@ -59,7 +74,9 @@ const TileItem: React.FC<TileItemPropsType> = ({
 
             <div className={css.bookList__item_info}>
                 <div className={css.bookList__item_info_title}>
-                    {title.length > 54 ? `${title.substring(0, 54).trim()}...` : title}
+                    {highLight(titleForTile)}
+                    {/*{titleForTile}*/}
+
                 </div>
 
                 <div className={css.bookList__item_info_author}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {NavLink} from "react-router-dom";
 import css from "./list-item.module.scss";
 import defaultBookCover from "../../../../assets/img/default-book-cover.svg";
@@ -8,16 +8,18 @@ import {AuthorsType, BookingType, BookListResponseType, DeliveryType, ImageType}
 import {UserBookingType, UserDeliveryType} from "../../../../api/user-api";
 import {RedMask} from "../../../profile/red-mask/red-mask";
 import {useAppSelector} from "../../../../hooks/hooks";
+import {Highlighter} from "../../../../utils/helpers/highlighter/highlighter";
 
 type ListItemPropsType = {
     image?: ImageType | null
-    title: string | null
+    title: string
     authors: AuthorsType | null | undefined
     issueYear: string | null
     rating: number | null
     booking?: BookingType | null
     delivery?: DeliveryType | null
     onClickHandler?: () => void
+    searchValue?: string
     //==props for ordered book from profile
     bookingImage?: string | null
     bookingForProfile?: UserBookingType | null
@@ -36,9 +38,15 @@ export const ListItem: React.FC<ListItemPropsType> = ({
                                                           booking,
                                                           bookingImage, bookingForProfile,
                                                           onClickHandler,
-                                                          deliveryForProfile
+                                                          deliveryForProfile, searchValue
                                                       }) => {
     const userId = useAppSelector(state => state.auth.profile?.id)
+
+    const highLight = useCallback((string: string) => {
+        if (searchValue) {
+            return Highlighter(searchValue, string)
+        } else return string
+    }, [searchValue])
 
     return (
         /*<div key={key}>
@@ -46,7 +54,6 @@ export const ListItem: React.FC<ListItemPropsType> = ({
             <NavLink to={`/books/${item.categories}/${item.id}`}>
 */
         <div className={css.bookList__item}>
-
 
 
             <div className={css.bookList__item_coverWrapper}>
@@ -63,7 +70,7 @@ export const ListItem: React.FC<ListItemPropsType> = ({
 
                 <div className={css.bookList__item_info}>
                     <div className={css.bookList__item_info_title}>
-                        {title}
+                        {highLight(title)}
                     </div>
 
                     <div className={css.bookList__item_info_author}>
