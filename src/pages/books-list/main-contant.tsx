@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {NavLink, useParams} from 'react-router-dom';
 import css from './main-contant.module.scss'
 import ratingIcon from '../../assets/img/rating-icon.svg';
@@ -18,6 +18,7 @@ export const MainContent = () => {
     const [isActive, setIsActive] = useState(true);
     const [searchOpen, setSearchOpen] = useState(false)
     const node = useRef<HTMLDivElement>(null);
+    const [sortByRating, setSortByRating] = useState(true)
     const dispatch = useAppDispatch()
     const {category} = useParams()
     const books = useAppSelector((state) => state.books.books)
@@ -32,6 +33,17 @@ export const MainContent = () => {
     } else {
         selectCategoryBooks = booksInThisCategory
     }
+
+    const sortedBooks = useMemo(() => {
+
+        return [...selectCategoryBooks].sort((prev, next) => {
+            return sortByRating
+                ? (next.rating === null ? 0 : next.rating) - (prev.rating === null ? 0 : prev.rating)
+                : (prev.rating === null ? 0 : prev.rating) - (next.rating === null ? 0 : next.rating);
+        })
+
+    }, [selectCategoryBooks,sortByRating])
+
 
     const onTileButtonClickHandler = () => {
         setIsActive(true)
@@ -49,7 +61,7 @@ export const MainContent = () => {
 
     useOnClickOutside(node, closeSearch);
 
-    useEffect( () => {
+    useEffect(() => {
         dispatch(getBooksTC())
     }, [])
 
@@ -61,11 +73,12 @@ export const MainContent = () => {
                     <InputSearch openSearch={() => setSearchOpen(true)}
                                  searchOpen={searchOpen}
                                  closeSearch={closeSearch}
-                                 />
+                    />
                 </div>
 
                 <button
-                    className={css.filterBar__rating}
+                    className={sortByRating ? css.filterBar__rating : `${css.filterBar__rating} ${css.filterBar__rating_reverse}`}
+                    onClick={() => setSortByRating(!sortByRating)}
                     type="button">
                     <img src={ratingIcon} alt="BurgerMenu icon"/>
                     <span>По рейтингу</span>
@@ -77,15 +90,13 @@ export const MainContent = () => {
                 <button type="button"
                         value="tile"
                         className={isActive ? `${css.filterBar__button} ${css.activeBtn}` : css.filterBar__button}
-                        onClick={onTileButtonClickHandler}
-                        data-test-id='button-menu-view-window'>
+                        onClick={onTileButtonClickHandler}>
                     <img src={tileIcon} alt="Tile icon"/>
                 </button>
                 <button type="button"
                         value="list"
                         className={css.filterBar__button}
-                        onClick={onListButtonClickHandler}
-                        data-test-id='button-menu-view-list'>
+                        onClick={onListButtonClickHandler}>
                     <img src={listIcon} alt="List icon"/>
                 </button>
 
@@ -93,8 +104,8 @@ export const MainContent = () => {
         </section>
 
         {show
-            ? <Tile selectCategoryBooks={selectCategoryBooks}/>
-            : <List selectCategoryBooks={selectCategoryBooks}/>}
+            ? <Tile selectCategoryBooks={sortedBooks}/>
+            : <List selectCategoryBooks={sortedBooks}/>}
 
     </section>
 
