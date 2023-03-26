@@ -22,6 +22,7 @@ import {CommentRequestData, CreateBookingRequestDataType} from "../../../api/boo
 import {BaseModal} from "../../../common/modals/base-modal/base-modal";
 import {getBooksTC} from "../../../redux/books-reducer";
 import OrderModal from "../../../common/modals/order-modal/order-modal";
+import {BookSlider} from "./slider";
 
 export const BookPage = () => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
@@ -149,10 +150,8 @@ export const BookPage = () => {
         <div className={css.bookPage__info}>
             <div className={css.bookPage__info_cover}>
 
-                {book.images?.length && <BookCoverImage image={book.images}/>
-                    /*
-                    : <BookSlider image={book.image}
-                    */
+                {book.images?.length ? <BookCoverImage image={book.images}/>
+                    : <BookSlider image={book.images}/>
                 }
 
             </div>

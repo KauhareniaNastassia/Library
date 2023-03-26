@@ -11,64 +11,35 @@ import "swiper/css/thumbs";
 
 
 // import required modules
-import SwiperCore, {FreeMode, Navigation, Pagination, Thumbs} from "swiper";
+import SwiperCore, {Autoplay, EffectFade, FreeMode, Navigation, Pagination, Thumbs} from "swiper";
 import {BookImage} from "../../../../redux/books-reducer";
+import {ImageType} from "../../../../api/books-list-api";
+import userAvatar from "../../../../assets/img/avatar.svg";
+import defaultBookCover from "../../../../assets/img/defaultCatIcon.svg";
 
-
-
-SwiperCore.use([Navigation])
 
 type BookSliderPropsType = {
-    image: BookImage[]
+    image: ImageType[] | null
 }
 
-export const BookSlider = (props: BookSliderPropsType) => {
-    const [thumbsSwiper, setThumbsSwiper] = useState<SwiperCore | null>(null);
+export const BookSlider:React.FC<BookSliderPropsType> = ({image}) => {
 
-    const pagination = {
-        clickable: true,
-        renderBullet(_: number, className: string) {
-            return `<span class="${className}"></span>`;
-        },
-    };
 
     return (
         <div className='swiper__wrapper'>
             <Swiper
-                navigation={false}
-                loop={true}
-                spaceBetween={10}
+                modules={[EffectFade, Autoplay]}
                 slidesPerView={1}
-                thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
-                modules={[Pagination, FreeMode, Navigation, Thumbs]}
-                pagination={{
-                    clickable: true,
-                }}
-                className='swiper_up'
-                data-test-id='slide-big'
-            >
-                {props.image.map(({ imageId, image }) => (
-                    <SwiperSlide key={imageId} data-test-id='slide-mini'>
-                        <img src={image} className='image' alt='book' />
-                    </SwiperSlide>
-                ))}
-            </Swiper>
-            <Swiper
-                pagination={pagination}
-                onSwiper={setThumbsSwiper}
+                autoHeight={false}
                 loop={true}
-                spaceBetween={30}
-                slidesPerView={5}
-                freeMode={true}
-                watchSlidesProgress={true}
-                modules={[FreeMode, Navigation, Thumbs]}
-                className='swiper_down'
+                autoplay={{delay: 8000}}
             >
-                {props.image.map(({ imageId, image }) => (
-                    <SwiperSlide key={imageId}>
-                        <img src={image} alt='book' />
+                {image && image.map((photo, i) => {
+                    return <SwiperSlide key={i} >
+
+                        <img src={photo !== null ? `https://strapi.cleverland.by${photo.url}` : defaultBookCover} alt='photo'/>
                     </SwiperSlide>
-                ))}
+                })}
             </Swiper>
         </div>
     );
