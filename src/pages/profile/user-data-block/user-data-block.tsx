@@ -2,17 +2,13 @@ import React, {useState} from 'react';
 import css from "./user-data-block.module.scss";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
-import {ShemaForRegistration} from "../../../utils/validate/registration-validate/shema-for-registration";
-import {InputTypesRegistration} from "../../auth/registration/registration-form";
 import {useAppDispatch, useAppSelector} from "../../../hooks/hooks";
 import okPasswordIcon from "../../../assets/img/ok-password-icon.svg";
 import eyeOpen from "../../../assets/img/eye-open.svg";
 import eyeClose from "../../../assets/img/eye-close.svg";
 import ReactInputMask from "react-input-mask";
 import {SchemaForUserDataProfile} from "../../../utils/validate/user-data-validate/schema-for-user-data-profile";
-import {GetLocalStorage} from "../../../utils/get-local-storage";
 import {UpdateUserDataTC} from "../../../redux/user-reducer";
-import {UpdateUserDataRequestType} from "../../../api/user-api";
 
 export interface InputTypesUserDataBlock {
     email: string,

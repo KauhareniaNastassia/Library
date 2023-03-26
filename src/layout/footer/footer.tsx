@@ -4,8 +4,9 @@ import instagramLogo from '../../assets/img/instagram-logo.svg'
 import linkedinLogo from '../../assets/img/linkedin-logo.svg'
 import vkLogo from '../../assets/img/vk-logo.svg'
 import css from './footer.module.scss'
+import React from "react";
 
-export const Footer = () => (
+export const Footer:React.FC = () => (
     <section className={css.wrapper}>
         <span>
             © 2020-2023 Cleverland. Все права защищены.

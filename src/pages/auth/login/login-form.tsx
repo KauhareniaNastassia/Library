@@ -8,14 +8,11 @@ import css from './login-form.module.scss'
 import eyeOpen from '../../../assets/img/eye-open.svg'
 import eyeClose from '../../../assets/img/eye-close.svg'
 import arrowToRegistration from '../../../assets/img/arrow-for-registration.svg'
-import {Simulate} from "react-dom/test-utils";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
 import {schemaForAuth} from "../../../utils/validate/auth-validate/shema-for-auth";
 
 import {AuthErrorModal} from "../../../common/modals/modal-info";
 import {BasicModal} from "../../../common/modals/basic-modal";
-import {SaveLocalStorage} from "../../../utils/save-local-storage";
-import SimpleCrypto from "simple-crypto-js";
 
 /*import input = Simulate.input;*/
 

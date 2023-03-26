@@ -41,38 +41,26 @@ export const Sidebar = (props: SidebarPropsType) => {
     }, [props.showMenuBtn, location.pathname])
 
 
-    /*useEffect(() => {
-        dispatch(getCategoriesListTC())
-    }, [])*/
-
-
     return <nav className={css.sidebar}>
 
         <div className={css.sidebar__upperline}>
 
-            <h3>
-                <NavLink to="/books/all"
-
-                         className={activeShowcase
-                             ? `${css.active_link} ${css.sidebar__showcase_active}`
-                             : css.sidebar__showcase_unActive}
-                         onClick={() => setActiveShowcase(true)}
-                >
-
-                    <div className={css.sidebar__showcase_title}>
-                        <div>
-                            Витрина книг
-                        </div>
-                        <button
-                            type='button'
-                            className={showMenu ? css.sidebar__showcase_toggleBtn : css.sidebar__showcase_toggleBtn_rotate}
-                            onClick={() => setShowMenu(!showMenu)}
-                        >
-                            <img src={sidebarArrowIcon} alt='sidebar-arrow'/>
-                        </button>
-                    </div>
-
-                </NavLink>
+            <h3 className={activeShowcase
+                ? `${css.active_link} ${css.sidebar__showcase_active}`
+                : css.sidebar__showcase_unActive}
+            >
+                <div className={css.sidebar__showcase_title}>
+                    <NavLink to="/books/all" onClick={() => setActiveShowcase(true)}>
+                        Витрина книг
+                    </NavLink>
+                    <button
+                        type='button'
+                        className={showMenu ? css.sidebar__showcase_toggleBtn : css.sidebar__showcase_toggleBtn_rotate}
+                        onClick={() => setShowMenu(!showMenu)}
+                    >
+                        <img src={sidebarArrowIcon} alt='sidebar-arrow'/>
+                    </button>
+                </div>
             </h3>
 
             {activeShowcase &&
