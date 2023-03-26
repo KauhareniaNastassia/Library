@@ -1,7 +1,8 @@
 import React, {CSSProperties} from 'react';
 import css from './button.module.scss'
-import {UserBookingType, UserDeliveryType} from "../../api/user-api";
+import {UserBookingType, UserCommentType, UserDeliveryType} from "../../api/user-api";
 import {formatDateForButton} from "../../utils/helpers/format-date-for-button/format-date-for-button";
+
 
 type ButtonPropsType = {
     isBooked?: boolean
@@ -12,7 +13,7 @@ type ButtonPropsType = {
     orderByAuthUser?: boolean
     bookingForProfile?: UserBookingType | null
     deliveryForProfile?: UserDeliveryType | null
-    commentedBookId?: number
+    searchComment?: UserCommentType | null
     historyId?: number
     onClickToOpenCommentModal?: () => void
 
@@ -27,7 +28,7 @@ export const Button: React.FC<ButtonPropsType> = ({
                                                       orderByAuthUser,
                                                       bookingForProfile,
                                                       deliveryForProfile,
-                                                      commentedBookId,
+                                                      searchComment,
                                                       historyId,
                                                       onClickToOpenCommentModal
                                                   }) => {
@@ -51,7 +52,7 @@ export const Button: React.FC<ButtonPropsType> = ({
         </div>
     }
 
-    if (commentedBookId && historyId) {
+    if (searchComment && historyId) {
         return <button
             onClick={onClickButtonForModalHandler}
             type="button"
@@ -60,7 +61,7 @@ export const Button: React.FC<ButtonPropsType> = ({
         //for books with comments from you from history block from profile
     }
 
-    if (!commentedBookId && historyId) {
+    if (!searchComment && historyId) {
         return <button
             onClick={onClickButtonForModalHandler}
             type="button"

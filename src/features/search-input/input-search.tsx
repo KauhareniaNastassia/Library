@@ -11,16 +11,13 @@ type InputSearchPropsType = {
     setSearchValue: (value: string) => void
 }
 
-export const InputSearch:React.FC<InputSearchPropsType> = ({openSearch, searchValue,  closeSearch, searchOpen, setSearchValue}) => {
-
-
-   /* const onChangeInputValue = (e: ChangeEvent<HTMLInputElement>) => {
-        setSearchValue(event.target.value)
-    }
-
-    const onBlurInputValue = () => {
-        setSearchValue(event.target.value)
-    }*/
+export const InputSearch: React.FC<InputSearchPropsType> = ({
+                                                                openSearch,
+                                                                searchValue,
+                                                                closeSearch,
+                                                                searchOpen,
+                                                                setSearchValue
+                                                            }) => {
 
     return <div
         className={searchOpen === false ? css.filterBar__search : css.filterBar__search_open}>
@@ -29,7 +26,6 @@ export const InputSearch:React.FC<InputSearchPropsType> = ({openSearch, searchVa
                 className={css.filterBar__search_button}
                 onClick={openSearch}
         >
-
             <img src={searchIcon} alt="Search icon"/>
 
         </button>
@@ -41,16 +37,13 @@ export const InputSearch:React.FC<InputSearchPropsType> = ({openSearch, searchVa
             placeholder="Поиск книги или автора..."
             className={css.filterBar__search_input}
             onChange={(event) => setSearchValue(event.target.value)}
-            //nBlur={onBlurInputValue}
         />
 
         <button type='button'
                 className={css.filterBar__search_cancel_icon}
                 onClick={closeSearch}
         >
-
             <img src={cancelSearchIcon} alt="Search icon"/>
-
         </button>
     </div>
 }

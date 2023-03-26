@@ -2541,6 +2541,7 @@ import {bookApi, BookResponseType, CommentRequestData, CreateBookingRequestDataT
 import {AppThunkType} from "./store";
 import {setAppErrorAC, setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
 import {AxiosError} from "axios";
+import {getUserDataTC} from "./user-reducer";
 
 
 const initialState: InitialBookStateType = {
@@ -2649,6 +2650,22 @@ export const createCommentTC = (data: CommentRequestData): AppThunkType =>
         dispatch(setAppStatusAC('loading'))
         try {
             const res = await bookApi.createComment(data)
+            dispatch(setCreateCommentSuccessAC(res.statusText))
+            dispatch(getBookTC(Number(data.data.book)))
+            dispatch(setAppStatusAC('succeeded'))
+            dispatch(setAppSuccessMessageAC('success'))
+        } catch (err) {
+            const error = err as AxiosError
+            dispatch(setAppStatusAC('failed'))
+            dispatch(setCreateCommentErrorAC(error.message))
+        }
+    }
+
+export const updateCommentTC = (commentId: number, data: CommentRequestData): AppThunkType =>
+    async (dispatch) => {
+        dispatch(setAppStatusAC('loading'))
+        try {
+            const res = await bookApi.updateComment(commentId, data)
             dispatch(setCreateCommentSuccessAC(res.statusText))
             dispatch(getBookTC(Number(data.data.book)))
             dispatch(setAppStatusAC('succeeded'))

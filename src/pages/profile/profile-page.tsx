@@ -12,11 +12,13 @@ import {RedMask} from "./red-mask/red-mask";
 import TileItem from "../books-list/tile/tile-item/tile-item";
 import {CommentRequestData} from "../../api/book-api";
 import {Notification} from "../../common/notification/notification";
+import {HistoryBooks} from "./history-books/history-books";
 
 export const ProfilePage: React.FC = () => {
     const dispatch = useAppDispatch()
     const user = useAppSelector(state => state.user.user)
     const commentsForHistoryBook = user.comments?.map(c => c.bookId)
+
     const userDataChangeSuccess = useAppSelector(state => state.user.userDataChangeSuccess)
     const avatarChangeSuccess = useAppSelector(state => state.user.avatarChangeSuccess)
     const onClickDeleteOrderHandler = () => {
@@ -100,38 +102,7 @@ export const ProfilePage: React.FC = () => {
                 title='История'
                 description='Список прочитанных книг'>
 
-                {user.history?.books &&
-                    user.history?.books.map((item) => {
-
-                            const onClickCreateCommentHandler = (rating: null | number, comment: string) => {
-                                if (item.id && user.id) {
-                                    const commentData: CommentRequestData = {
-                                        data: {
-                                            rating: rating ? rating : 0,
-                                            text: comment,
-                                            book: item.id.toString(),
-                                            user: user.id.toString(),
-                                        }
-                                    }
-                                    dispatch(createCommentTC(commentData))
-                                    dispatch(getUserDataTC())
-                                }
-                            }
-
-                            return <TileItem
-                                key={item.id}
-                                historyId={item.id}
-                                historyBookImage={item.image}
-                                title={item.title}
-                                authors={item.authors}
-                                issueYear={item.issueYear}
-                                rating={item.rating}
-                                commentFofBookFromHistory={commentsForHistoryBook}
-                                onClickCreateCommentHandler={onClickCreateCommentHandler}
-                            />
-                        }
-                    )
-                }
+                {user.history?.books && <HistoryBooks/>}
 
                 {!user.history?.books && <EmptyBlockForWrapper title='Вы не читали книг из нашей библиотеки'/>}
             </BlockWrapper>

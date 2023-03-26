@@ -6,15 +6,17 @@ import {useAppDispatch, useAppSelector} from "../../../hooks/hooks";
 import {useParams} from "react-router-dom";
 import {CommentRequestData} from "../../../api/book-api";
 import {createCommentTC, getBookTC} from "../../../redux/book-reducer";
+import {UserCommentType} from "../../../api/user-api";
 
 type CreateCommentModalPropsType = {
     onCloseHandler: () => void
     onClickHandler: (rating: null | number, comment: string) => void
+    searchComment?: UserCommentType | null
 }
 
-const CreateCommentModal: React.FC<CreateCommentModalPropsType> = ({onCloseHandler, onClickHandler}) => {
-    const [rating, setRating] = useState<null | number>(null)
-    const [comment, setComment] = useState<string>('')
+const CreateCommentModal: React.FC<CreateCommentModalPropsType> = ({onCloseHandler, onClickHandler, searchComment}) => {
+    const [rating, setRating] = useState<null | number>(searchComment ? searchComment.rating : null)
+    const [comment, setComment] = useState<string>(searchComment ? searchComment.text as string : '')
 
     const onClickCreateCommentHandler = () => {
         onClickHandler(rating, comment)
@@ -25,6 +27,7 @@ const CreateCommentModal: React.FC<CreateCommentModalPropsType> = ({onCloseHandl
 
     return (
         <div className={css.modal_content_wrapper}>
+
             <h3 className={css.modal_title}>Оцените книгу</h3>
             <div className={css.modal_stars_block}>
                 <h5 className={css.modal_stars_title}>Ваша оценка</h5>
@@ -33,18 +36,20 @@ const CreateCommentModal: React.FC<CreateCommentModalPropsType> = ({onCloseHandl
                     setRating={setRating}/>
             </div>
             <div className={css.modal_textarea_wrapper}>
-                <textarea
-                    className={css.modal_textarea}
-                    placeholder='Оставить отзыв'
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
-                />
+                            <textarea
+                                className={css.modal_textarea}
+                                placeholder='Оставить отзыв'
+                                value={comment}
+                                onChange={(e) => setComment(e.target.value)}
+                            />
             </div>
             <ButtonForModal
                 onClickHandler={onClickCreateCommentHandler}
                 title='оценить'
             />
         </div>
+
+
     );
 };
 

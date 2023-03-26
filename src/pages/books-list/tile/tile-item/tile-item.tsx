@@ -8,6 +8,8 @@ import {useAppSelector} from "../../../../hooks/hooks";
 import {BaseModal} from "../../../../common/modals/base-modal/base-modal";
 import CreateCommentModal from "../../../../common/modals/create-comment-modal/create-comment-modal";
 import {Highlighter} from "../../../../utils/helpers/highlighter/highlighter";
+import {UserCommentType} from "../../../../api/user-api";
+
 
 
 type TileItemPropsType = {
@@ -24,7 +26,7 @@ type TileItemPropsType = {
     //==props for history block in profile
     historyBookImage?: string | null
     historyId?: number
-    commentFofBookFromHistory?: number[]
+    searchComment?:  UserCommentType | null
     onClickCreateCommentHandler?: (rating: null | number, comment: string) => void
 }
 
@@ -34,13 +36,12 @@ const TileItem: React.FC<TileItemPropsType> = ({
                                                    authors,
                                                    title,
                                                    issueYear,
-                                                   delivery, booking, historyBookImage,
-                                                   commentFofBookFromHistory, onClickHandler,
-                                                   historyId, onClickCreateCommentHandler, searchValue
+                                                   delivery, booking, historyBookImage, onClickHandler,
+                                                   historyId, onClickCreateCommentHandler, searchValue, searchComment
                                                }) => {
     const [createCommentModalIsOpen, setCreateCommentModalIsOpen] = useState(false)
     const userId = useAppSelector(state => state.auth.profile?.id)
-    const bookIdForComment = commentFofBookFromHistory?.find(b => b === historyId)
+    //const bookIdForComment = commentFofBookFromHistory?.find(b => b === historyId)
 
     let titleForTile
     if (title.length > 54) {
@@ -92,11 +93,22 @@ const TileItem: React.FC<TileItemPropsType> = ({
                     orderByAuthUser={booking?.customerId === userId}
 
                     onClickHandler={onClickHandler}
-                    commentedBookId={bookIdForComment}
+
+                    searchComment={searchComment}
                     historyId={historyId}
+
                     onClickToOpenCommentModal={() => setCreateCommentModalIsOpen(true)}
                 />
             </div>
+
+            {createCommentModalIsOpen && searchComment && onClickCreateCommentHandler &&
+            <BaseModal
+                onCloseHandler={() => setCreateCommentModalIsOpen(false)}>
+                <CreateCommentModal
+                    searchComment={searchComment}
+                    onCloseHandler={() => setCreateCommentModalIsOpen(false)}
+                    onClickHandler={onClickCreateCommentHandler}/>
+            </BaseModal>}
 
             {createCommentModalIsOpen && onClickCreateCommentHandler &&
                 <BaseModal
