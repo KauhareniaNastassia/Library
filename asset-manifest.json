@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Library/static/css/main.20194431.css",
-    "main.js": "/Library/static/js/main.1b03cdaa.js",
+    "main.css": "/Library/static/css/main.362f7ea3.css",
+    "main.js": "/Library/static/js/main.b199ff48.js",
     "static/media/avatar.svg": "/Library/static/media/avatar.958064d0ab9f5ba898e1db6419f52137.svg",
     "static/media/default-user-photo.svg": "/Library/static/media/default-user-photo.595900639f7474ce0352a9f7b5564213.svg",
     "static/media/logo-clevertec.svg": "/Library/static/media/logo-clevertec.50d13a224f362513f21bd0cf4fb3f520.svg",
@@ -36,11 +36,11 @@
     "static/media/arrow-for-registration.svg": "/Library/static/media/arrow-for-registration.278783190b4c103035f28aab9d63fdb0.svg",
     "static/media/ok-password-icon.svg": "/Library/static/media/ok-password-icon.06f9aa8f375b7d43f09f753b306dbc91.svg",
     "static/media/drop-down.svg": "/Library/static/media/drop-down.d88fa9a9db2ddddeb0099e13d945eeaf.svg",
-    "main.20194431.css.map": "/Library/static/css/main.20194431.css.map",
-    "main.1b03cdaa.js.map": "/Library/static/js/main.1b03cdaa.js.map"
+    "main.362f7ea3.css.map": "/Library/static/css/main.362f7ea3.css.map",
+    "main.b199ff48.js.map": "/Library/static/js/main.b199ff48.js.map"
   },
   "entrypoints": [
-    "static/css/main.20194431.css",
-    "static/js/main.1b03cdaa.js"
+    "static/css/main.362f7ea3.css",
+    "static/js/main.b199ff48.js"
   ]
 }
