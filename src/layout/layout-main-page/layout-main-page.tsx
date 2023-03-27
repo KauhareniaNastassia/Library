@@ -25,9 +25,6 @@ export const LayoutMainPage = () => {
 
     }, [isLoggedIn, dispatch])
 
-   /* useEffect(() => {
-        dispatch(getUserDataTC())
-    }, [dispatch])*/
 
     return (
         <section className={css.wrapper}>

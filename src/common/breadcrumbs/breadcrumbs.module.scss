@@ -1,0 +1,33 @@
+@import "src/common/styles/mixins/mixins";
+@import "src/common/styles/variables/variables";
+
+.bookPage__path {
+  min-width: 98.9vw;
+  transform: translateX(-50%);
+  margin-left: 50%;
+  background: #F9F9FA;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  padding: 23px 165px;
+  @include text(14px, 18px, 400, $unActive-color);
+
+  @media (max-width: 768px) {
+    position: relative;
+    display: inline;
+    min-width: 768px;
+    padding: 20px 64px;
+    z-index: -1;
+
+    span {
+      margin-right: 4px;
+    }
+  }
+
+  @media (max-width: 320px) {
+    min-width: 320px;
+    padding: 20px 16px;
+    @include text(12px, 16px, 500, $unActive-color);
+  }
+}

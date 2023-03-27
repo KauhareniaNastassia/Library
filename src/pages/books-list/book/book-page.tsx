@@ -23,6 +23,7 @@ import {BaseModal} from "../../../common/modals/base-modal/base-modal";
 import {getBooksTC} from "../../../redux/books-reducer";
 import OrderModal from "../../../common/modals/order-modal/order-modal";
 import {BookSlider} from "./slider";
+import {Breadcrumbs} from "../../../common/breadcrumbs/breadcrumbs";
 
 export const BookPage = () => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
@@ -139,18 +140,22 @@ export const BookPage = () => {
                 onClickHandler={onClickClearNotificationHandler}/>}
 
 
-        <div className={css.bookPage__path}>
+        <Breadcrumbs categories={book.categories} title={book.title} />
+        {/*<div className={css.bookPage__path}>
             <span onClick={() => navigate(-1)}>
                 <span>{book.categories ? book.categories[0] : 'all'}</span>
             </span>
 
             <span>/</span>
             <span>{book.title}</span>
-        </div>
+        </div>*/}
+
+
         <div className={css.bookPage__info}>
             <div className={css.bookPage__info_cover}>
 
-                {book.images?.length ? <BookCoverImage image={book.images}/>
+                {book.images?.length
+                    ? <BookCoverImage image={book.images}/>
                     : <BookSlider image={book.images}/>
                 }
 

@@ -71,7 +71,7 @@ export const MainContent = () => {
 
     useEffect(() => {
         dispatch(getBooksTC())
-    }, [])
+    }, [dispatch])
 
     return <section className={css.wrapper}>
         <section className={!searchOpen ? css.filterBar : css.filterBar__search_open}>
