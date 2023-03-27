@@ -1,30 +1,45 @@
 import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
-import {getUserDataTC} from "../../redux/user-reducer";
+import {getUserDataTC, setAvatarChangeSuccessAC, setUserDataChangeSuccessAC} from "../../redux/user-reducer";
 import css from './profile-page.module.scss'
 import AvatarBlock from "./avatar-block/avatar-block";
 import {UserDataBlock} from "./user-data-block/user-data-block";
 import {BlockWrapper} from "./block-wrapper/block-wrapper";
 import {ListItem} from "../books-list/list/list-item/list-item";
 import {EmptyBlockForWrapper} from "./empty-block-for-wrapper/empty-block-for-wrapper";
-import {createCommentTC, deleteOrderTC} from "../../redux/book-reducer";
+import {
+    deleteOrderTC,
+    setCreateCommentSuccessAC,
+    setCreateOrderSuccessAC, setDeleteOrderSuccessAC,
+    setUpdateOrderSuccessAC
+} from "../../redux/book-reducer";
 import {RedMask} from "./red-mask/red-mask";
-import TileItem from "../books-list/tile/tile-item/tile-item";
-import {CommentRequestData} from "../../api/book-api";
 import {Notification} from "../../common/notification/notification";
 import {HistoryBooks} from "./history-books/history-books";
 
 export const ProfilePage: React.FC = () => {
     const dispatch = useAppDispatch()
     const user = useAppSelector(state => state.user.user)
-    const commentsForHistoryBook = user.comments?.map(c => c.bookId)
-
+    const status = useAppSelector(state => state.app.status)
+    const deleteOrderSuccess = useAppSelector(state => state.book.deleteOrderSuccess)
     const userDataChangeSuccess = useAppSelector(state => state.user.userDataChangeSuccess)
     const avatarChangeSuccess = useAppSelector(state => state.user.avatarChangeSuccess)
     const onClickDeleteOrderHandler = () => {
         if (user.booking?.id) {
             dispatch(deleteOrderTC(user.booking.id))
             dispatch(getUserDataTC())
+        }
+    }
+
+    const onClickClearNotificationHandler = () => {
+        if (userDataChangeSuccess) {
+            dispatch(setUserDataChangeSuccessAC(null))
+        } if (avatarChangeSuccess) {
+            dispatch(setAvatarChangeSuccessAC(null))
+        } if (deleteOrderSuccess) {
+            dispatch(setDeleteOrderSuccessAC(null))
+        } if (deleteOrderSuccess) {
+            dispatch(setDeleteOrderSuccessAC(null))
         }
     }
 
@@ -35,8 +50,36 @@ export const ProfilePage: React.FC = () => {
 
     return (
         <section className={css.profile__wrapper}>
-            {userDataChangeSuccess === true && <Notification status='success' message='Изменения успешно сохранены!'/>}
-            {avatarChangeSuccess && <Notification status='success' message='Изменения успешно сохранены!'/>}
+            {userDataChangeSuccess && status === 'succeeded' &&
+                <Notification
+                    status='succeeded'
+                    message='Изменения успешно сохранены!'
+                    onClickHandler={onClickClearNotificationHandler}/>}
+            {!userDataChangeSuccess && status === 'failed' &&
+                <Notification
+                    status='failed'
+                    message='Изменения не были сохранены. Попробуйте позже!'
+                    onClickHandler={onClickClearNotificationHandler}/>}
+            {avatarChangeSuccess && status === 'succeeded' &&
+                <Notification
+                    status='succeeded'
+                    message='Фото успешно сохранено!'
+                    onClickHandler={onClickClearNotificationHandler}/>}
+            {!avatarChangeSuccess && status === 'failed' &&
+                <Notification
+                    status='failed'
+                    message='Что-то пошло не так, фото не сохранилось. Попробуйте позже!'
+                    onClickHandler={onClickClearNotificationHandler}/>}
+            {deleteOrderSuccess && status === 'succeeded' &&
+                <Notification
+                    status='succeeded'
+                    message='Бронирование книги успешно отменено!'
+                    onClickHandler={onClickClearNotificationHandler}/>}
+            {!deleteOrderSuccess && status === 'failed' &&
+                <Notification
+                    status='failed'
+                    message='Не удалось снять бронирование книги. Попробуйте позже!'
+                    onClickHandler={onClickClearNotificationHandler}/>}
 
 
             <AvatarBlock

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Link, NavLink, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import css from './book-page.module.scss'
 import {Rating} from '../../../features/rating';
 
@@ -10,17 +10,18 @@ import reviewArrowUpIcon from '../../../assets/img/review-arrow-up.svg';
 import {useAppDispatch, useAppSelector} from "../../../hooks/hooks";
 import {BookCoverImage} from "./book-image/book-cover-image";
 import {
-    createCommentTC, createOrderTC, deleteOrderTC,
+    createCommentTC,
+    createOrderTC,
+    deleteOrderTC,
     getBookTC,
-    setCreateCommentErrorAC,
-    setCreateCommentSuccessAC, updateOrderTC
+    setCreateCommentSuccessAC, setCreateOrderSuccessAC, setDeleteOrderSuccessAC, setUpdateOrderSuccessAC,
+    updateOrderTC
 } from "../../../redux/book-reducer";
 
 import CreateCommentModal from "../../../common/modals/create-comment-modal/create-comment-modal";
 import {Notification} from "../../../common/notification/notification";
 import {CommentRequestData, CreateBookingRequestDataType} from "../../../api/book-api";
 import {BaseModal} from "../../../common/modals/base-modal/base-modal";
-import {getBooksTC} from "../../../redux/books-reducer";
 import OrderModal from "../../../common/modals/order-modal/order-modal";
 import {BookSlider} from "./slider";
 import {Breadcrumbs} from "../../../common/breadcrumbs/breadcrumbs";
@@ -29,12 +30,13 @@ export const BookPage = () => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const book = useAppSelector((state) => state.book.book)
     const bookingId = useAppSelector((state) => state.book.book.booking?.id)
-    const status = useAppSelector(state => state.app.status)
-    const createCommentError = useAppSelector(state => state.book.createCommentError)
-    const createCommentSuccess = useAppSelector(state => state.book.createCommentSuccess)
     const userId = useAppSelector(state => state.auth.profile?.id)
-    const createOrderStatus = useAppSelector((state) => state.book.createOrderStatus)
-    const createOrderError = useAppSelector((state) => state.book.createOrderError)
+    const status = useAppSelector(state => state.app.status)
+    const createCommentSuccess = useAppSelector(state => state.book.createCommentSuccess)
+    const updateCommentSuccess = useAppSelector(state => state.book.updateCommentSuccess)
+    const createOrderSuccess = useAppSelector(state => state.book.createOrderSuccess)
+    const updateOrderSuccess = useAppSelector(state => state.book.updateOrderSuccess)
+    const deleteOrderSuccess = useAppSelector(state => state.book.deleteOrderSuccess)
 
     const dispatch = useAppDispatch()
     const {bookId} = useParams()
@@ -48,8 +50,12 @@ export const BookPage = () => {
     const onClickClearNotificationHandler = () => {
         if (createCommentSuccess) {
             dispatch(setCreateCommentSuccessAC(null))
-        } else if (createCommentError) {
-            dispatch(setCreateCommentErrorAC(null))
+        } if (createOrderSuccess) {
+            dispatch(setCreateOrderSuccessAC(null))
+        } if (updateOrderSuccess) {
+            dispatch(setUpdateOrderSuccessAC(null))
+        } if (deleteOrderSuccess) {
+            dispatch(setDeleteOrderSuccessAC(null))
         }
     }
 
@@ -66,7 +72,6 @@ export const BookPage = () => {
             dispatch(createCommentTC(commentData))
         }
     }
-
     const onClickCreateNewOrderHandler = (date: string) => {
 
         if (bookId && userId) {
@@ -82,7 +87,6 @@ export const BookPage = () => {
             dispatch(getBookTC(Number(bookId)))
         }
     }
-
     const onClickUpdateOrderHandler = (date: string) => {
 
         if (bookId && userId && bookingId) {
@@ -98,7 +102,6 @@ export const BookPage = () => {
             dispatch(getBookTC(Number(bookId)))
         }
     }
-
     const onClickDeleteOrderHandler = () => {
         if (bookingId) {
             dispatch(deleteOrderTC(bookingId))
@@ -117,25 +120,48 @@ export const BookPage = () => {
 
     return <section className={css.wrapper}>
 
-        {createCommentSuccess !== null && status === 'succeeded' &&
+        {createCommentSuccess && status === 'succeeded' &&
             <Notification
                 status='succeeded'
                 message='Спасибо,что нашли время оценить книгу!'
                 onClickHandler={onClickClearNotificationHandler}/>}
-        {createCommentError && status === 'failed' &&
+        {!createCommentSuccess && status === 'failed' &&
             <Notification
                 status='failed'
                 message='Оценка не была отправлена. Попробуйте позже!'
                 onClickHandler={onClickClearNotificationHandler}/>}
-        {createOrderStatus === 200 && status === 'succeeded' &&
+
+        {createOrderSuccess && status === 'succeeded' &&
             <Notification
                 status='succeeded'
                 message='Книга забронирована. Подробности можно посмотреть на странице Профиль'
                 onClickHandler={onClickClearNotificationHandler}/>}
-        {createOrderError && status === 'failed' &&
+        {!createOrderSuccess  && status === 'failed' &&
             <Notification
                 status='failed'
                 message='Что-то пошло не так, книга не забронирована. Попробуйте позже!'
+                onClickHandler={onClickClearNotificationHandler}/>}
+
+        {updateOrderSuccess  && status === 'succeeded' &&
+            <Notification
+                status='succeeded'
+                message='Бронирование новой даты успешно изменено. Подробности можно посмотреть на странице Профиль'
+                onClickHandler={onClickClearNotificationHandler}/>}
+        {!updateOrderSuccess  && status === 'failed' &&
+            <Notification
+                status='failed'
+                message='Что-то пошло не так, дату бронирования не удалось изменить. Попробуйте позже!'
+                onClickHandler={onClickClearNotificationHandler}/>}
+
+        {deleteOrderSuccess  && status === 'succeeded' &&
+            <Notification
+                status='succeeded'
+                message='Бронирование книги успешно отменено!'
+                onClickHandler={onClickClearNotificationHandler}/>}
+        {!deleteOrderSuccess  && status === 'failed' &&
+            <Notification
+                status='failed'
+                message='Не удалось отменить бронирование книги. Попробуйте позже!'
                 onClickHandler={onClickClearNotificationHandler}/>}
 
 

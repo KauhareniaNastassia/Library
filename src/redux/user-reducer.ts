@@ -55,11 +55,11 @@ export const setUserAC = (user: MeResponseType) => ({
     type: 'user/SET-USER',
     user
 } as const)
-export const setAvatarChangeSuccessAC = (avatarChangeSuccess: boolean) => ({
+export const setAvatarChangeSuccessAC = (avatarChangeSuccess: null | boolean) => ({
     type: 'user/SET-AVATAR-CHANGE-SUCCESS',
     avatarChangeSuccess
 } as const)
-export const setUserDataChangeSuccessAC = (userDataChangeSuccess: boolean) => ({
+export const setUserDataChangeSuccessAC = (userDataChangeSuccess: null | boolean) => ({
     type: 'user/SET-USER-DATA-CHANGE-SUCCESS',
     userDataChangeSuccess
 } as const)
@@ -95,7 +95,7 @@ export const UpdateUserAvatarTC = (userId: number, files: FormData): AppThunkTyp
         } catch (err) {
             const error = err as AxiosError
             dispatch(setAppStatusAC('failed'))
-            dispatch(setAppErrorAC(error.message))
+            dispatch(setAvatarChangeSuccessAC(false))
         }
     }
 
@@ -112,7 +112,7 @@ export const UpdateUserDataTC = (id: number, data: UpdateUserDataRequestType): A
         } catch (err) {
             const error = err as AxiosError
             dispatch(setAppStatusAC('failed'))
-            dispatch(setAppErrorAC(error.message))
+            dispatch(setUserDataChangeSuccessAC(false))
         }
     }
 

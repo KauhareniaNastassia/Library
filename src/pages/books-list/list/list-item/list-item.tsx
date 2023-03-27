@@ -10,10 +10,17 @@ import {RedMask} from "../../../profile/red-mask/red-mask";
 import {useAppDispatch, useAppSelector} from "../../../../hooks/hooks";
 import {Highlighter} from "../../../../utils/helpers/highlighter/highlighter";
 import {CreateBookingRequestDataType} from "../../../../api/book-api";
-import {createOrderTC, deleteOrderTC, getBookTC, updateOrderTC} from "../../../../redux/book-reducer";
+import {
+    createOrderTC,
+    deleteOrderTC,
+    getBookTC,
+    setCreateOrderSuccessAC, setDeleteOrderSuccessAC, setUpdateOrderSuccessAC,
+    updateOrderTC
+} from "../../../../redux/book-reducer";
 import {BaseModal} from "../../../../common/modals/base-modal/base-modal";
 import OrderModal from "../../../../common/modals/order-modal/order-modal";
 import {getBooksTC} from "../../../../redux/books-reducer";
+import {Notification} from "../../../../common/notification/notification";
 
 type ListItemPropsType = {
     image?: ImageType | null
@@ -47,9 +54,13 @@ export const ListItem: React.FC<ListItemPropsType> = ({
                                                           onClickHandler,
                                                           deliveryForProfile, searchValue
                                                       }) => {
-    const userId = useAppSelector(state => state.auth.profile?.id)
     const [orderModalIsOpen, setOrderModalIsOpen] = useState(false)
     const dispatch = useAppDispatch()
+    const userId = useAppSelector(state => state.auth.profile?.id)
+    const status = useAppSelector(state => state.app.status)
+    const createOrderSuccess = useAppSelector(state => state.book.createOrderSuccess)
+    const updateOrderSuccess = useAppSelector(state => state.book.updateOrderSuccess)
+    const deleteOrderSuccess = useAppSelector(state => state.book.deleteOrderSuccess)
 
     const highLight = useCallback((string: string) => {
         if (searchValue) {
@@ -72,7 +83,6 @@ export const ListItem: React.FC<ListItemPropsType> = ({
             dispatch(getBooksTC())
         }
     }
-
     const onClickUpdateOrderHandler = (date: string) => {
 
         if (id && userId && booking?.id) {
@@ -88,67 +98,110 @@ export const ListItem: React.FC<ListItemPropsType> = ({
             dispatch(getBooksTC())
         }
     }
-
     const onClickDeleteOrderHandler = () => {
         if (booking?.id) {
             dispatch(deleteOrderTC(booking?.id))
             dispatch(getBookTC(Number(id)))
         }
     }
-
     const onClickOpenModalHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         e.stopPropagation();
         setOrderModalIsOpen(true)
     }
 
+    const onClickClearNotificationHandler = () => {
+        if (createOrderSuccess) {
+            dispatch(setCreateOrderSuccessAC(null))
+        } if (updateOrderSuccess) {
+            dispatch(setUpdateOrderSuccessAC(null))
+        } if (deleteOrderSuccess) {
+            dispatch(setDeleteOrderSuccessAC(null))
+        }
+    }
+
     return (
-        <div className={css.bookList__item}>
+        <>
 
-            <div className={css.bookList__item_coverWrapper}>
-                <img src={image?.url.length
-                    ? `https://strapi.cleverland.by${image.url}`
-                    : bookingImage
-                        ? `https://strapi.cleverland.by${bookingImage}`
-                        : defaultBookCover}
-                     alt="Book cover"
-                     className={css.bookList__item_cover}/>
-            </div>
+            {createOrderSuccess && status === 'succeeded' &&
+                <Notification
+                    status='succeeded'
+                    message='Книга забронирована. Подробности можно посмотреть на странице Профиль'
+                    onClickHandler={onClickClearNotificationHandler}/>}
+            {!createOrderSuccess  && status === 'failed' &&
+                <Notification
+                    status='failed'
+                    message='Что-то пошло не так, книга не забронирована. Попробуйте позже!'
+                    onClickHandler={onClickClearNotificationHandler}/>}
 
-            <div className={css.bookList__item_infoWrapper}>
+            {updateOrderSuccess  && status === 'succeeded' &&
+                <Notification
+                    status='succeeded'
+                    message='Бронирование новой даты успешно изменено. Подробности можно посмотреть на странице Профиль'
+                    onClickHandler={onClickClearNotificationHandler}/>}
+            {!updateOrderSuccess  && status === 'failed' &&
+                <Notification
+                    status='failed'
+                    message='Что-то пошло не так, дату бронирования не удалось изменить. Попробуйте позже!'
+                    onClickHandler={onClickClearNotificationHandler}/>}
 
-                <div className={css.bookList__item_info}>
-                    <div className={css.bookList__item_info_title}>
-                        {highLight(title)}
+            {deleteOrderSuccess  && status === 'succeeded' &&
+                <Notification
+                    status='succeeded'
+                    message='Бронирование книги успешно отменено!'
+                    onClickHandler={onClickClearNotificationHandler}/>}
+            {!deleteOrderSuccess  && status === 'failed' &&
+                <Notification
+                    status='failed'
+                    message='Не удалось отменить бронирование книги. Попробуйте позже!'
+                    onClickHandler={onClickClearNotificationHandler}/>}
+
+            <div className={css.bookList__item}>
+
+                <div className={css.bookList__item_coverWrapper}>
+                    <img src={image?.url.length
+                        ? `https://strapi.cleverland.by${image.url}`
+                        : bookingImage
+                            ? `https://strapi.cleverland.by${bookingImage}`
+                            : defaultBookCover}
+                         alt="Book cover"
+                         className={css.bookList__item_cover}/>
+                </div>
+
+                <div className={css.bookList__item_infoWrapper}>
+
+                    <div className={css.bookList__item_info}>
+                        <div className={css.bookList__item_info_title}>
+                            {highLight(title)}
+                        </div>
+
+                        <div className={css.bookList__item_info_author}>
+                            {authors}, {issueYear}
+                        </div>
                     </div>
 
-                    <div className={css.bookList__item_info_author}>
-                        {authors}, {issueYear}
+
+                    <div className={css.bookList__item_buttonBlock}>
+                        <div className={css.bookList__item_rating}>
+                            <Rating rating={rating}/>
+                        </div>
+
+                        <div className={css.bookList__item_button}>
+                            <Button
+                                isBooked={booking?.order}//забронирована
+                                dateHanded={delivery?.dateHandedFrom?.toString()}
+                                handed={delivery?.handed}
+                                orderByAuthUser={booking?.customerId === userId}
+                                onClickHandler={onClickHandler}
+                                onClickOpenModalHandler={onClickOpenModalHandler}//for open order modal
+                                bookingForProfile={bookingForProfile}
+                                deliveryForProfile={deliveryForProfile}
+                            />
+                        </div>
                     </div>
                 </div>
 
-
-                <div className={css.bookList__item_buttonBlock}>
-                    <div className={css.bookList__item_rating}>
-                        <Rating rating={rating}/>
-                    </div>
-
-                    <div className={css.bookList__item_button}>
-                        <Button
-                            isBooked={booking?.order}//забронирована
-                            dateHanded={delivery?.dateHandedFrom?.toString()}
-                            handed={delivery?.handed}
-                            orderByAuthUser={booking?.customerId === userId}
-                            onClickHandler={onClickHandler}
-                            onClickOpenModalHandler={onClickOpenModalHandler}//for open order modal
-                            bookingForProfile={bookingForProfile}
-                            deliveryForProfile={deliveryForProfile}
-                        />
-                    </div>
-                </div>
-            </div>
-
-            { orderModalIsOpen && <BaseModal
+                { orderModalIsOpen && <BaseModal
                     onCloseHandler={() => setOrderModalIsOpen(false)}>
                     <OrderModal
                         customerId={booking?.customerId === userId}
@@ -159,7 +212,9 @@ export const ListItem: React.FC<ListItemPropsType> = ({
                     />
                 </BaseModal>}
 
-        </div>
+            </div>
+        </>
+
 
     );
 };

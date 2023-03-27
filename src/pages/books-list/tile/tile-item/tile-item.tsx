@@ -11,8 +11,16 @@ import {Highlighter} from "../../../../utils/helpers/highlighter/highlighter";
 import {UserCommentType} from "../../../../api/user-api";
 import OrderModal from "../../../../common/modals/order-modal/order-modal";
 import {CreateBookingRequestDataType} from "../../../../api/book-api";
-import {createOrderTC, deleteOrderTC, getBookTC, updateOrderTC} from "../../../../redux/book-reducer";
+import {
+    createOrderTC,
+    deleteOrderTC,
+    setCreateOrderSuccessAC,
+    setDeleteOrderSuccessAC,
+    setUpdateOrderSuccessAC,
+    updateOrderTC
+} from "../../../../redux/book-reducer";
 import {getBooksTC} from "../../../../redux/books-reducer";
+import {Notification} from "../../../../common/notification/notification";
 
 
 type TileItemPropsType = {
@@ -50,13 +58,17 @@ const TileItem: React.FC<TileItemPropsType> = ({
                                                    id
                                                }) => {
     const [createCommentModalIsOpen, setCreateCommentModalIsOpen] = useState(false)
-    const userId = useAppSelector(state => state.auth.profile?.id)
     const [orderModalIsOpen, setOrderModalIsOpen] = useState(false)
     const dispatch = useAppDispatch()
+    const userId = useAppSelector(state => state.auth.profile?.id)
+    const status = useAppSelector(state => state.app.status)
+    const createOrderSuccess = useAppSelector(state => state.book.createOrderSuccess)
+    const updateOrderSuccess = useAppSelector(state => state.book.updateOrderSuccess)
+    const deleteOrderSuccess = useAppSelector(state => state.book.deleteOrderSuccess)
 
     let titleForTile
-    if (title.length > 54) {
-        titleForTile = `${title.substring(0, 54).trim()}...`
+    if (title.length > 50) {
+        titleForTile = `${title.substring(0, 50).trim()}...`
     } else {
         titleForTile = title
     }
@@ -82,7 +94,6 @@ const TileItem: React.FC<TileItemPropsType> = ({
             dispatch(getBooksTC())
         }
     }
-
     const onClickUpdateOrderHandler = (date: string) => {
 
         if (id && userId && booking?.id) {
@@ -98,23 +109,66 @@ const TileItem: React.FC<TileItemPropsType> = ({
             dispatch(getBooksTC())
         }
     }
-
     const onClickDeleteOrderHandler = () => {
         if (booking?.id) {
             dispatch(deleteOrderTC(booking?.id))
             dispatch(getBooksTC())
         }
     }
-
     const onClickOpenModalHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         e.stopPropagation();
         setOrderModalIsOpen(true)
     }
 
+    const onClickClearNotificationHandler = () => {
+        if (createOrderSuccess) {
+            dispatch(setCreateOrderSuccessAC(null))
+        } if (updateOrderSuccess) {
+            dispatch(setUpdateOrderSuccessAC(null))
+        } if (deleteOrderSuccess) {
+            dispatch(setDeleteOrderSuccessAC(null))
+        }
+    }
+
 
     return (
-        <div className={css.bookList__item}>
+        <>
+
+            {createOrderSuccess && status === 'succeeded' &&
+                <Notification
+                    status='succeeded'
+                    message='Книга забронирована. Подробности можно посмотреть на странице Профиль'
+                    onClickHandler={onClickClearNotificationHandler}/>}
+            {!createOrderSuccess  && status === 'failed' &&
+                <Notification
+                    status='failed'
+                    message='Что-то пошло не так, книга не забронирована. Попробуйте позже!'
+                    onClickHandler={onClickClearNotificationHandler}/>}
+
+            {updateOrderSuccess  && status === 'succeeded' &&
+                <Notification
+                    status='succeeded'
+                    message='Бронирование новой даты успешно изменено. Подробности можно посмотреть на странице Профиль'
+                    onClickHandler={onClickClearNotificationHandler}/>}
+            {!updateOrderSuccess  && status === 'failed' &&
+                <Notification
+                    status='failed'
+                    message='Что-то пошло не так, дату бронирования не удалось изменить. Попробуйте позже!'
+                    onClickHandler={onClickClearNotificationHandler}/>}
+
+            {deleteOrderSuccess  && status === 'succeeded' &&
+                <Notification
+                    status='succeeded'
+                    message='Бронирование книги успешно отменено!'
+                    onClickHandler={onClickClearNotificationHandler}/>}
+            {!deleteOrderSuccess  && status === 'failed' &&
+                <Notification
+                    status='failed'
+                    message='Не удалось отменить бронирование книги. Попробуйте позже!'
+                    onClickHandler={onClickClearNotificationHandler}/>}
+
+            <div className={css.bookList__item}>
 
             <div className={css.bookList__item_coveWrapper}>
                 <img src={image?.url.length
@@ -186,6 +240,8 @@ const TileItem: React.FC<TileItemPropsType> = ({
                 </BaseModal>}
 
         </div>
+        </>
+
     );
 };
 

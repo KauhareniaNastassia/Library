@@ -12,17 +12,21 @@ import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 import {BookListResponseType} from "../../api/books-list-api";
 import {getBooksTC} from "../../redux/books-reducer";
 import {NotFoundMessage} from "../../common/not-found-message/not-found-message";
+import {getCategoriesListTC} from "../../redux/category-reducer";
+import {getUserDataTC} from "../../redux/user-reducer";
 
 
-export const MainContent = () => {
+export const MainContent:React.FC = () => {
+    const node = useRef<HTMLDivElement>(null);
+    const dispatch = useAppDispatch()
+    const {category} = useParams()
+
     const [show, setShow] = useState(true)
     const [isActive, setIsActive] = useState(true);
     const [searchOpen, setSearchOpen] = useState(false)
-    const node = useRef<HTMLDivElement>(null);
     const [sortByRating, setSortByRating] = useState(true)
     const [searchValue, setSearchValue] = useState<string>('');
-    const dispatch = useAppDispatch()
-    const {category} = useParams()
+
     const books = useAppSelector((state) => state.books.books)
     const currentCategory = useAppSelector(state => state.categories.items.find(el => el.path === category))
     const booksInThisCategory = books.filter((book) => book.categories?.find((ctgrs) => ctgrs === currentCategory?.name))
@@ -37,21 +41,16 @@ export const MainContent = () => {
     }
 
     const sortedBooks = useMemo(() => {
-
         return [...selectCategoryBooks].sort((prev, next) => {
             return sortByRating
                 ? (next.rating === null ? 0 : next.rating) - (prev.rating === null ? 0 : prev.rating)
                 : (prev.rating === null ? 0 : prev.rating) - (next.rating === null ? 0 : next.rating);
         })
-
     }, [selectCategoryBooks,sortByRating])
 
     const searchAndSortedBooks = useMemo( () => {
-
         return sortedBooks.filter(book => book.title.toLowerCase().includes(searchValue.toLowerCase()))
-
     }, [sortedBooks, searchValue] )
-
 
     const onTileButtonClickHandler = () => {
         setIsActive(true)
@@ -69,9 +68,9 @@ export const MainContent = () => {
 
     useOnClickOutside(node, closeSearch);
 
-   /* useEffect(() => {
-        dispatch(getBooksTC())
-    }, [dispatch])*/
+    useEffect(() => {
+            dispatch(getBooksTC())
+    }, [dispatch])
 
     return <section className={css.wrapper}>
         <section className={!searchOpen ? css.filterBar : css.filterBar__search_open}>

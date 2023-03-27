@@ -6,6 +6,9 @@
   position: absolute;
   background-color: #F9D423;
   top: 64px;
+  z-index: 1000;
+  width: 1110px;
+  left: 205px;
 
   .wrapper {
     display: flex;
