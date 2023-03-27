@@ -2728,12 +2728,13 @@ export const updateOrderTC = (bookingId: number, data: CreateBookingRequestDataT
         }
     }
 
-export const deleteOrderTC = (bookingId: number): AppThunkType =>
+export const deleteOrderTC = (bookingId: number, cb?: () => void): AppThunkType =>
     async (dispatch) => {
         dispatch(setAppStatusAC('loading'))
         try {
             const res = await bookApi.deleteBooking(bookingId)
             dispatch(setDeleteOrderSuccessAC(true))
+            cb && cb()
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
         } catch (err) {

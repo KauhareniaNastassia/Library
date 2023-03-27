@@ -25,6 +25,14 @@
     }
   }
 
+  .bookPage__path_link {
+    margin-left: 40px;
+
+    @media (max-width: 768px) {
+      margin-left: 0;
+    }
+  }
+
 
   @media (max-width: 320px) {
     min-width: 320px;

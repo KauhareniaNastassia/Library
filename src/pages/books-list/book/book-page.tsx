@@ -14,7 +14,10 @@ import {
     createOrderTC,
     deleteOrderTC,
     getBookTC,
-    setCreateCommentSuccessAC, setCreateOrderSuccessAC, setDeleteOrderSuccessAC, setUpdateOrderSuccessAC,
+    setCreateCommentSuccessAC,
+    setCreateOrderSuccessAC,
+    setDeleteOrderSuccessAC,
+    setUpdateOrderSuccessAC,
     updateOrderTC
 } from "../../../redux/book-reducer";
 
@@ -23,7 +26,6 @@ import {Notification} from "../../../common/notification/notification";
 import {CommentRequestData, CreateBookingRequestDataType} from "../../../api/book-api";
 import {BaseModal} from "../../../common/modals/base-modal/base-modal";
 import OrderModal from "../../../common/modals/order-modal/order-modal";
-import {BookSlider} from "./slider";
 import {Breadcrumbs} from "../../../common/breadcrumbs/breadcrumbs";
 
 export const BookPage = () => {

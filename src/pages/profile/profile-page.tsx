@@ -16,6 +16,7 @@ import {
 import {RedMask} from "./red-mask/red-mask";
 import {Notification} from "../../common/notification/notification";
 import {HistoryBooks} from "./history-books/history-books";
+import {ListItemForProfile} from "./list-item-for-profile/list-item-for-profile";
 
 export const ProfilePage: React.FC = () => {
     const dispatch = useAppDispatch()
@@ -25,12 +26,7 @@ export const ProfilePage: React.FC = () => {
     const userDataChangeSuccess = useAppSelector(state => state.user.userDataChangeSuccess)
     const avatarChangeSuccess = useAppSelector(state => state.user.avatarChangeSuccess)
 
-    const onClickDeleteOrderHandler = () => {
-        if (user.booking?.id) {
-            dispatch(deleteOrderTC(user.booking.id))
-            dispatch(getUserDataTC())
-        }
-    }
+
 
     const onClickClearNotificationHandler = () => {
         if (userDataChangeSuccess) {
@@ -41,6 +37,12 @@ export const ProfilePage: React.FC = () => {
             dispatch(setDeleteOrderSuccessAC(null))
         } if (deleteOrderSuccess) {
             dispatch(setDeleteOrderSuccessAC(null))
+        }
+    }
+
+    const onClickDeleteOrderHandler = () => {
+        if (user.booking?.id) {
+            dispatch(deleteOrderTC(user.booking?.id, () => dispatch(getUserDataTC()) ))
         }
     }
 
@@ -102,13 +104,12 @@ export const ProfilePage: React.FC = () => {
                 description='Здесь вы можете просмотреть забронированную книгу, а так же отменить бронь'>
 
                 <div className={css.book__block__wrapper}>
-                    {user.booking?.book && <ListItem
+                    {user.booking?.book && <ListItemForProfile
                         bookingImage={user.booking?.book.image}
                         title={user.booking?.book.title}
                         authors={user.booking?.book.authors}
                         issueYear={user.booking?.book.issueYear}
                         rating={user.booking?.book.rating}
-                        bookingForProfile={user.booking}
                         onClickHandler={onClickDeleteOrderHandler}
                     />}
 
@@ -125,7 +126,7 @@ export const ProfilePage: React.FC = () => {
                 description='Здесь можете просмотреть информацию о книге и узнать сроки возврата'>
 
                 <div className={css.book__block__wrapper}>
-                    {user.delivery?.book && <ListItem
+                    {user.delivery?.book && <ListItemForProfile
                         bookingImage={user.delivery?.book.image}
                         title={user.delivery?.book.title}
                         authors={user.delivery?.book.authors}

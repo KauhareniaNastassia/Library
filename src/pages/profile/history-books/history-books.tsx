@@ -17,8 +17,6 @@ export const HistoryBooks:React.FC = () => {
     return (
         <div>
             {user.history?.books.map((item) => {
-                    // const bookIdForComment = commentsForHistoryBook?.find(b => b === item.id)
-
 
                     const searchComment = user?.comments && user?.comments.find((elem) => elem.bookId === item.id);
 

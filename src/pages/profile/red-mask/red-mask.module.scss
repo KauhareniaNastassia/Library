@@ -14,13 +14,28 @@
   flex-direction: column;
   gap: 16px;
 
+  @media (max-width: 320px) {
+    padding: 10px;
+    gap: 12px;
+  }
+
   .red_mask_title {
     @include text(32px, 40px, 700, #ffffff);
     width: 30%;
+
+    @media (max-width: 320px) {
+      @include text(18px, 28px, 700, #ffffff);
+      width: 100%;
+    }
   }
 
   .red_mask_description {
     @include text(16px, 24px, 600, #ffffff);
     width: 35%;
+
+    @media (max-width: 320px) {
+      @include text(14px, 18px, 700, #ffffff);
+      width: 100%;
+    }
   }
 }

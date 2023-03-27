@@ -34,8 +34,6 @@ type ListItemPropsType = {
     onClickHandler?: () => void
     searchValue?: string
     //==props for ordered book from profile
-    bookingImage?: string | null
-    bookingForProfile?: UserBookingType | null
     //==props for delivered book from profile
     deliveryForProfile?: UserDeliveryType | null
 
@@ -50,7 +48,6 @@ export const ListItem: React.FC<ListItemPropsType> = ({
                                                           issueYear,
                                                           delivery,
                                                           booking,
-                                                          bookingImage, bookingForProfile,
                                                           onClickHandler,
                                                           deliveryForProfile, searchValue
                                                       }) => {
@@ -162,8 +159,6 @@ export const ListItem: React.FC<ListItemPropsType> = ({
                 <div className={css.bookList__item_coverWrapper}>
                     <img src={image?.url.length
                         ? `https://strapi.cleverland.by${image.url}`
-                        : bookingImage
-                            ? `https://strapi.cleverland.by${bookingImage}`
                             : defaultBookCover}
                          alt="Book cover"
                          className={css.bookList__item_cover}/>
@@ -195,8 +190,7 @@ export const ListItem: React.FC<ListItemPropsType> = ({
                                 orderByAuthUser={booking?.customerId === userId}
                                 onClickHandler={onClickHandler}
                                 onClickOpenModalHandler={onClickOpenModalHandler}//for open order modal
-                                bookingForProfile={bookingForProfile}
-                                deliveryForProfile={deliveryForProfile}
+
                             />
                         </div>
                     </div>

@@ -203,9 +203,6 @@ const TileItem: React.FC<TileItemPropsType> = ({
                     orderByAuthUser={booking?.customerId === userId}
                     onClickOpenModalHandler={onClickOpenModalHandler}//for open order modal
                     onClickHandler={onClickHandler}
-                    searchComment={searchComment}
-                    historyId={historyId}
-                    onClickToOpenCommentModal={() => setCreateCommentModalIsOpen(true)}
                 />
             </div>
 
