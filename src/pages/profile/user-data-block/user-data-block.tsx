@@ -54,7 +54,7 @@ export const UserDataBlock: React.FC = () => {
             lastName: user.lastName,
             phone: user.phone,
         },
-        mode: 'onSubmit',
+        mode: 'onBlur',
         resolver: yupResolver(SchemaForUserDataProfile)
     });
 
@@ -71,10 +71,7 @@ export const UserDataBlock: React.FC = () => {
         setEditMode(false)
     }
 
-
-    const conditionForEmptyNameFocus = isChangeInputName && focusUsername && getValues('username') === '';
     const conditionForEmptyName = isChangeInputName && !focusUsername && getValues('username') === '';
-    const conditionForEmptyPassword = isChangeInputPassword && !focusPassword && getValues('password') === '';
     const conditionEmptyEmail = isChangeInputEmail && !focusEmail && getValues('email') === '';
     const conditionForEmptyPhone = isChangeInputPhone && !focusPhone && getValues('phone') === '';
 
@@ -102,7 +99,7 @@ export const UserDataBlock: React.FC = () => {
                         <label className={css.registration__label} htmlFor='username'>Логин</label>
 
                         <div className={css.registration_message}>
-                            {editMode &&
+                            {!errors.username  && editMode &&
                                 <span>Используйте для логина латинский алфавит и цифры</span>
                             }
                             {errors.username?.type !== 'required' && conditionForEmptyName &&
@@ -112,8 +109,7 @@ export const UserDataBlock: React.FC = () => {
                                 <span style={{color: 'red'}}>Поле не может быть пустым</span>
                             }
                             {focusUsername && errors.username?.type === 'usernameShouldHaveNumberAndLetter' &&
-                                <span>Используйте для логина <span
-                                    style={{color: 'red'}}>латинский алфавит</span> и <span
+                                <span>Используйте для логина <span style={{color: 'red'}}>латинский алфавит</span> и <span
                                     style={{color: 'red'}}>цифры</span></span>
                             }
                             {focusUsername && errors.username?.type === 'usernameShouldHaveLatinLetters' &&
@@ -207,7 +203,7 @@ export const UserDataBlock: React.FC = () => {
 
 
                         <div className={css.registration_message}>
-                            {editMode &&
+                            {!errors.password  && !focusPassword && editMode &&
                                 <span>Пароль не менее 8 символов, с заглавной буквой и цифрой</span>
                             }
                             {!focusPassword && errors.password?.type === 'required' && getFieldState('password').isTouched &&
@@ -217,10 +213,9 @@ export const UserDataBlock: React.FC = () => {
                                 <span>Пароль не менее 8 символов, с заглавной буквой и цифрой</span>
                             }
                             {errors.password && errors.password?.type !== 'required' && !focusPassword &&
-                                <span
-                                    style={{color: 'red'}}>Пароль не менее 8 символов, с заглавной буквой и цифрой</span>
+                                <span style={{color: 'red'}}>Пароль не менее 8 символов, с заглавной буквой и цифрой</span>
                             }
-                            {focusPassword && !errors.password &&
+                            {focusPassword && !errors.password && editMode &&
                                 <span>Пароль не менее 8 символов, с заглавной буквой и цифрой</span>
                             }
                             {focusPassword && errors.password?.type === 'passwordLengthError' &&

@@ -13,7 +13,6 @@
   align-items: center;
   justify-content: center;
 
-
   .modal_wrapper {
     display: flex;
     flex-direction: column;
@@ -23,6 +22,11 @@
     border-radius: 16px;
     cursor: default;
     width: 528px;
+
+    @media (max-width: 320px) {
+      padding: 16px ;
+      width: 288px;
+    }
 
     .modal_button {
       align-self: flex-end;
@@ -39,6 +43,19 @@
         outline: none !important;
         background-color: #f3f3f3;
         transition: .5s, ease-in-out, all;
+      }
+
+      @media (max-width: 320px) {
+        width: 32px;
+        height: 32px;
+        padding: 8px;
+        top: 16px;
+        right: 16px;
+
+        img {
+          width: 16px;
+          height: 16px;
+        }
       }
 
     }

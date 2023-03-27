@@ -24,6 +24,7 @@ export const ProfilePage: React.FC = () => {
     const deleteOrderSuccess = useAppSelector(state => state.book.deleteOrderSuccess)
     const userDataChangeSuccess = useAppSelector(state => state.user.userDataChangeSuccess)
     const avatarChangeSuccess = useAppSelector(state => state.user.avatarChangeSuccess)
+
     const onClickDeleteOrderHandler = () => {
         if (user.booking?.id) {
             dispatch(deleteOrderTC(user.booking.id))

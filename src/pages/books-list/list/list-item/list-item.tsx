@@ -98,6 +98,7 @@ export const ListItem: React.FC<ListItemPropsType> = ({
             dispatch(getBooksTC())
         }
     }
+
     const onClickDeleteOrderHandler = () => {
         if (booking?.id) {
             dispatch(deleteOrderTC(booking?.id))

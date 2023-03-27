@@ -13,6 +13,12 @@
   border: none;
   padding: 14px 0;
 
+  @media (max-width: 320px) {
+    width: 256px;
+    height: 40px;
+    @include text(12px, 18px, 600, #FFFFFF);
+  }
+
   &:disabled {
     background: #EBEBEB;
     cursor: none;

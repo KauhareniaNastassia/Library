@@ -38,7 +38,6 @@ const OrderModal: React.FC<CreateCommentModalPropsType> = ({onCloseHandler, onCl
                 selectedDate={selectedDay}
                 selectDate={(date: Date) => setSelectedDay(date)}/>
 
-
             {customerId
                 ? (<div>
                     <ButtonForModal

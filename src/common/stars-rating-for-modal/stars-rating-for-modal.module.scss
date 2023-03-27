@@ -8,6 +8,11 @@
 
   img {
     cursor: pointer;
+
+    @media (max-width: 320px) {
+      width: 32px;
+      height: 32px;
+    }
   }
 
 }

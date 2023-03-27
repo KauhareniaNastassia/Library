@@ -1,5 +1,5 @@
 import React from 'react';
-import {Navigate, NavLink, useNavigate} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import {ModalType} from "./modal-info";
 import css from './basicModal.module.scss'
 

@@ -134,7 +134,6 @@ const TileItem: React.FC<TileItemPropsType> = ({
 
     return (
         <>
-
             {createOrderSuccess && status === 'succeeded' &&
                 <Notification
                     status='succeeded'

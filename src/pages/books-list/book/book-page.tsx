@@ -171,9 +171,8 @@ export const BookPage = () => {
         <div className={css.bookPage__info}>
             <div className={css.bookPage__info_cover}>
 
-                {book.images?.length
-                    ? <BookCoverImage image={book.images}/>
-                    : <BookSlider image={book.images}/>
+                {book.images?.length && <BookCoverImage image={book.images}/>
+                    /*: <BookSlider image={book.images}/>*/
                 }
 
             </div>

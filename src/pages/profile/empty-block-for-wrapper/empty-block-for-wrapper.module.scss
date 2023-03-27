@@ -9,9 +9,18 @@
   border-radius: 10px;
   backdrop-filter: blur(10px);
 
+  @media (max-width: 320px) {
+    height: 182px;
+  }
+
   p{
     width: 50%;
-    @include text(32px, 40px, 700, #ffffff)
+    @include text(32px, 40px, 700, #ffffff);
+
+    @media (max-width: 320px) {
+      width: 100%;
+      @include text(18px, 28px, 700, #ffffff);
+    }
   }
 
 }

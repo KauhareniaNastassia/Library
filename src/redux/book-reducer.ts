@@ -2733,7 +2733,6 @@ export const deleteOrderTC = (bookingId: number): AppThunkType =>
         dispatch(setAppStatusAC('loading'))
         try {
             const res = await bookApi.deleteBooking(bookingId)
-
             dispatch(setDeleteOrderSuccessAC(true))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))

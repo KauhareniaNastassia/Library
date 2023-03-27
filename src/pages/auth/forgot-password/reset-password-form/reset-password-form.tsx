@@ -41,12 +41,10 @@ export const ResetPasswordForm: React.FC<ResetPasswordPropsType> = ({code}) => {
     });
 
     const onSubmit = (data: ResetPasswordType) => {
-
         const dataForReset = {
             ...data,
             code
         }
-
         dispatch(resetPasswordTC(dataForReset))
     }
 

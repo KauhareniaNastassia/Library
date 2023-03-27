@@ -12,6 +12,11 @@
     flex-direction: row;
     gap: 30px;
 
+    @media (max-width: 320px) {
+      flex-direction: column;
+      gap: 16px;
+    }
+
     .profile__data_column {
       display: flex;
       flex-direction: column;
@@ -39,6 +44,10 @@
           border-top-left-radius: 4px;
           bottom: 20px;
           padding: 19px 12px;
+          
+          @media (max-width: 320px) {
+            width: 288px;
+          }
 
           &:disabled {
             padding-top: 33px;
@@ -83,6 +92,10 @@
           position: absolute;
           top: 19px;
           right: 40px;
+
+          @media (max-width: 320px) {
+            right: 20px;
+          }
         }
 
         input:not(:placeholder-shown) ~ .registration__input_eyeBtn {
@@ -93,6 +106,10 @@
           right: 12px;
           border: none;
           background-color: transparent;
+
+          @media (max-width: 320px) {
+            right: -10px;
+          }
         }
 
         .registration__input_eyeBtn {
@@ -107,6 +124,7 @@
 
           @media (max-width: 320px) {
             padding-left: 0px;
+            @include text(11px, 14px, 400, $unActive-color);
           }
         }
       }
@@ -118,6 +136,11 @@
     flex-direction: row;
     gap: 30px;
 
+    @media (max-width: 320px) {
+      flex-direction: column;
+      gap: 16px;
+    }
+
     .edit_button {
       width: 25%;
       height: 100%;
@@ -128,6 +151,10 @@
       border: 1px solid #BFC4C9;
       background-color: #FFFFFF;
       padding: 14px 0;
+
+      @media (max-width: 320px) {
+         width: 100%;
+      }
     }
 
     .save_button {
@@ -140,6 +167,10 @@
       border-radius: 30px;
       border: none;
       padding: 14px 0;
+
+      @media (max-width: 320px) {
+        width: 100%;
+      }
 
       &:disabled {
         background: #EBEBEB;

@@ -7,55 +7,20 @@
   align-items: center;
   gap: 32px;
 
+  @media (max-width: 320px) {
+    gap: 24px;
+    margin: 26px 0 16px 0;
+  }
+
   .modal_title {
     @include text(24px, 30px, 700, $main-text-color);
-    letter-spacing: 0.1px;
+    letter-spacing: 0.2px;
     text-align: center;
-  }
+    width: 80%;
 
-  .modal_stars_block {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    align-items: center;
-
-    .modal_stars_title {
-      @include text(16px, 24px,600, $main-text-color);
-      letter-spacing: 0.1px;
-      text-align: center;
-      margin: 0 auto;
+    @media (max-width: 320px) {
+      @include text(18px, 28px, 700, $main-text-color);
     }
   }
 
-  .modal_textarea_wrapper {
-    height: 152px;
-    width: 100%;
-    position: relative;
-
-    .modal_textarea {
-      position: absolute;
-      left: 0%;
-      right: 0%;
-      top: 0px;
-      bottom: 20px;
-      border: none;
-      width: 100%;
-      resize: none;
-      background: #F9F9FA;
-      border-radius: 4px;
-      padding: 19px 12px;
-      @include text(16px, 24px,400, $main-text-color);
-      letter-spacing: 0.1px;
-
-      &::placeholder{
-        @include text(14px, 18px,400, $unActive-color);
-        letter-spacing: 0.1px;
-
-      }
-
-      &:focus {
-        outline: none !important;;
-      }
-    }
-  }
 }
