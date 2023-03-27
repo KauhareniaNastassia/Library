@@ -2,7 +2,7 @@ import React from 'react';
 import css from './button-for-modal.module.scss'
 
 type ButtonForModalPropsType = {
-    onClickHandler: () => void
+    onClickHandler: (e: React.MouseEvent<HTMLButtonElement>) => void
     title: string
     disabled?: boolean
 }

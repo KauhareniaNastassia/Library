@@ -1,4 +1,4 @@
-import React, {CSSProperties} from 'react';
+import React, {CSSProperties, MouseEventHandler} from 'react';
 import css from './button.module.scss'
 import {UserBookingType, UserCommentType, UserDeliveryType} from "../../api/user-api";
 import {formatDateForButton} from "../../utils/helpers/format-date-for-button/format-date-for-button";
@@ -10,6 +10,7 @@ type ButtonPropsType = {
     handed?: boolean
     buttonStyle?: CSSProperties
     onClickHandler?: () => void
+    onClickOpenModalHandler?: (e: React.MouseEvent<HTMLButtonElement>) => void
     orderByAuthUser?: boolean
     bookingForProfile?: UserBookingType | null
     deliveryForProfile?: UserDeliveryType | null
@@ -30,7 +31,7 @@ export const Button: React.FC<ButtonPropsType> = ({
                                                       deliveryForProfile,
                                                       searchComment,
                                                       historyId,
-                                                      onClickToOpenCommentModal
+                                                      onClickToOpenCommentModal, onClickOpenModalHandler
                                                   }) => {
 
 
@@ -39,12 +40,16 @@ export const Button: React.FC<ButtonPropsType> = ({
             onClickHandler()
         }
     }
+    const onClickButtonOpenModalHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+        if (onClickOpenModalHandler) {
+            onClickOpenModalHandler(e)
+        }
+    }
     const onClickButtonForModalHandler = () => {
         if (onClickToOpenCommentModal) {
             onClickToOpenCommentModal()
         }
     }
-
 
     if (deliveryForProfile) {
         return <div className={css.deliveryInfo}>
@@ -106,7 +111,7 @@ export const Button: React.FC<ButtonPropsType> = ({
     }
 
     return <button
-        onClick={onClickButtonHandler}
+        onClick={onClickHandler ? onClickButtonHandler : (e) => onClickButtonOpenModalHandler(e)}//for buttons to open order modal in list/tile and in book page
         type="button"
         style={buttonStyle}
         className={css.button_active}> забронировать </button>

@@ -1,10 +1,8 @@
 import React from 'react';
 import css from "../../pages/books-list/book/book-page.module.scss";
-import {BookResponseType} from "../../api/book-api";
-import {Link, NavLink, useNavigate, useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {CategoriesType} from "../../api/books-list-api";
-import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
-import {getBooksTC} from "../../redux/books-reducer";
+import {useAppSelector} from "../../hooks/hooks";
 
 type BreadcrumbsPropsType = {
     categories: CategoriesType | null
@@ -26,7 +24,6 @@ export const Breadcrumbs: React.FC<BreadcrumbsPropsType> = ({categories, title})
     } else {
         categoryName = categoriesFromServer.find(({name}) => name === category);
     }
-
 
     return (
         <div className={css.bookPage__path}>

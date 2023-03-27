@@ -37,16 +37,13 @@ export const BookPage = () => {
     const createOrderError = useAppSelector((state) => state.book.createOrderError)
 
     const dispatch = useAppDispatch()
-    const {bookId, category} = useParams()
+    const {bookId} = useParams()
     const navigate = useNavigate()
 
     const [showReviews, setShowReviews] = useState(false)
     const [createCommentModalIsOpen, setCreateCommentModalIsOpen] = useState(false)
     const [orderModalIsOpen, setOrderModalIsOpen] = useState(false)
 
-    const onClickNavigateToCategoryBooksHandler = () => {
-        navigate(`/books/${category}`);
-    }
 
     const onClickClearNotificationHandler = () => {
         if (createCommentSuccess) {
@@ -82,6 +79,7 @@ export const BookPage = () => {
                 }
             }
             dispatch(createOrderTC(data))
+            dispatch(getBookTC(Number(bookId)))
         }
     }
 
@@ -97,6 +95,7 @@ export const BookPage = () => {
                 }
             }
             dispatch(updateOrderTC(bookingId, data))
+            dispatch(getBookTC(Number(bookId)))
         }
     }
 
@@ -141,14 +140,6 @@ export const BookPage = () => {
 
 
         <Breadcrumbs categories={book.categories} title={book.title} />
-        {/*<div className={css.bookPage__path}>
-            <span onClick={() => navigate(-1)}>
-                <span>{book.categories ? book.categories[0] : 'all'}</span>
-            </span>
-
-            <span>/</span>
-            <span>{book.title}</span>
-        </div>*/}
 
 
         <div className={css.bookPage__info}>

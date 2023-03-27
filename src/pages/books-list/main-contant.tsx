@@ -69,9 +69,9 @@ export const MainContent = () => {
 
     useOnClickOutside(node, closeSearch);
 
-    useEffect(() => {
+   /* useEffect(() => {
         dispatch(getBooksTC())
-    }, [dispatch])
+    }, [dispatch])*/
 
     return <section className={css.wrapper}>
         <section className={!searchOpen ? css.filterBar : css.filterBar__search_open}>

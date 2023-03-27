@@ -5,6 +5,7 @@ import {Sidebar} from '../side-bar';
 import {getCategoriesListTC} from "../../redux/category-reducer";
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 import {getUserDataTC} from "../../redux/user-reducer";
+import {getBooksTC} from "../../redux/books-reducer";
 
 
 export const LayoutMainPage = () => {
@@ -18,7 +19,7 @@ export const LayoutMainPage = () => {
         if(isLoggedIn) {
             dispatch(getCategoriesListTC())
             dispatch(getUserDataTC())
-            /*dispatch(getBooksTC())*/
+            dispatch(getBooksTC())
         } else {
             navigate('/auth')
         }

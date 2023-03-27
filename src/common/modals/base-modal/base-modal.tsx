@@ -9,7 +9,11 @@ type BaseModalPropsType = {
 
 export const BaseModal: React.FC<BaseModalPropsType> = ({children, onCloseHandler}) => {
     return (
-        <div className={css.wrapper}>
+        <div className={css.wrapper}
+             onClick={e => {
+                 e.stopPropagation()
+                 e.preventDefault()
+             }}>
             <div className={css.modal_wrapper}>
                 <button onClick={onCloseHandler} className={css.modal_button}>
                     <img src={closeIcon} alt='close icon'/>

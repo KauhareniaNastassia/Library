@@ -16,8 +16,7 @@ type SidebarShowcaseItemPropsType = {
 export const SidebarShowcaseItem: React.FC<SidebarShowcaseItemPropsType> = ({
                                                                                 categoryId,
                                                                                 category,
-                                                                                name,
-                                                                                closeSideBar
+                                                                                name, closeSideBar
                                                                             }) => {
     const books = useAppSelector(state => state.books.books)
 

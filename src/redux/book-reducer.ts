@@ -2683,10 +2683,7 @@ export const createOrderTC = (data: CreateBookingRequestDataType): AppThunkType 
         try {
             const res = await bookApi.createBooking(data)
             dispatch(setCreateOrderAC(res.data.attributes.order))
-
             dispatch(setCreateOrderStatusAC(res.status))
-            dispatch(getBookTC(Number(data.data.book)))
-
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
             console.log(res.data.attributes.order)
@@ -2705,10 +2702,7 @@ export const updateOrderTC = (bookingId: number, data: CreateBookingRequestDataT
         dispatch(setAppStatusAC('loading'))
         try {
             const res = await bookApi.updateBooking(bookingId, data)
-
             dispatch(setCreateOrderAC(res.data.attributes.order))
-
-            dispatch(getBookTC(Number(data.data.book)))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
             console.log(res.data.attributes.order)

@@ -15,9 +15,9 @@ export const List: React.FC<ListPropsType> = ({selectCategoryBooks, searchValue}
     return <div className={css.wrapper_list}>
         {selectCategoryBooks.map((item) =>
                 <div key={item.id}>
-
                     <NavLink to={`/books/${item.categories}/${item.id}`}>
                         <ListItem
+                            id={item.id}
                             searchValue={searchValue}
                             image={item.image}
                             title={item.title}

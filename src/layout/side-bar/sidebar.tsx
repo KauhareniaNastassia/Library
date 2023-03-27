@@ -25,10 +25,8 @@ export const Sidebar = (props: SidebarPropsType) => {
 
 
     const onClickLogoutHandler = () => {
-
         dispatch(logoutTC())
     }
-
 
     useEffect(() => {
         if (props.showMenuBtn === true) {
@@ -37,7 +35,6 @@ export const Sidebar = (props: SidebarPropsType) => {
         if (props.showMenuBtn === true && !location.pathname.includes('books')) {
             setActiveShowcase(false)
         }
-
     }, [props.showMenuBtn, location.pathname])
 
 
