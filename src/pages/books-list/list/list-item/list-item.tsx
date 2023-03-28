@@ -33,10 +33,6 @@ type ListItemPropsType = {
     delivery?: DeliveryType | null
     onClickHandler?: () => void
     searchValue?: string
-    //==props for ordered book from profile
-    //==props for delivered book from profile
-    deliveryForProfile?: UserDeliveryType | null
-
 }
 
 export const ListItem: React.FC<ListItemPropsType> = ({
@@ -49,7 +45,7 @@ export const ListItem: React.FC<ListItemPropsType> = ({
                                                           delivery,
                                                           booking,
                                                           onClickHandler,
-                                                          deliveryForProfile, searchValue
+                                                          searchValue
                                                       }) => {
     const [orderModalIsOpen, setOrderModalIsOpen] = useState(false)
     const dispatch = useAppDispatch()
@@ -200,6 +196,7 @@ export const ListItem: React.FC<ListItemPropsType> = ({
                     onCloseHandler={() => setOrderModalIsOpen(false)}>
                     <OrderModal
                         customerId={booking?.customerId === userId}
+                        dateOrder={booking?.dateOrder}
                         onCloseHandler={() => setOrderModalIsOpen(false)}
                         onClickCreateHandler={onClickCreateNewOrderHandler}
                         onClickUpdateHandler={onClickUpdateOrderHandler}

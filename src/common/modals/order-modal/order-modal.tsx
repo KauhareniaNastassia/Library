@@ -9,12 +9,14 @@ type CreateCommentModalPropsType = {
     customerId?: boolean
     onClickUpdateHandler: (date: string) => void
     onClickDeleteHandler: () => void
+    dateOrder?: string | null | undefined
 }
 
 
-const OrderModal: React.FC<CreateCommentModalPropsType> = ({onCloseHandler, onClickCreateHandler, customerId, onClickUpdateHandler, onClickDeleteHandler}) => {
+const OrderModal: React.FC<CreateCommentModalPropsType> = ({onCloseHandler, onClickCreateHandler, customerId, onClickUpdateHandler, onClickDeleteHandler, dateOrder}) => {
 
     const [selectedDay, setSelectedDay] = useState(new Date())
+    const [disableOrderButton, setDisableOrderButton] = useState(true)
 
     const onClickCreateOrderHandler = () => {
         onClickCreateHandler(selectedDay.toJSON())
@@ -30,26 +32,32 @@ const OrderModal: React.FC<CreateCommentModalPropsType> = ({onCloseHandler, onCl
         onCloseHandler()
     }
 
+/*    console.log(dateOrder && dateOrder)
+    console.log(dateOrder && new Date(dateOrder).getDate()-1)
+    console.log(selectedDay.getDate())*/
+
     return (
         <div className={css.modal_content_wrapper}>
             <h3 className={css.modal_title}>Выбор даты бронирования</h3>
 
             <Calendar
                 selectedDate={selectedDay}
-                selectDate={(date: Date) => setSelectedDay(date)}/>
+                selectDate={(date: Date) => setSelectedDay(date)}
+                setDisableOrderButton={() => setDisableOrderButton(false)}
+                dateOrder={dateOrder}/>
 
             {customerId
-                ? (<div>
+                ? (<div className={css.modal_buttons_block}>
                     <ButtonForModal
                         onClickHandler={onClickUpdateOrderHandler}
                         title='забронировать'
-                        disabled={!selectedDay}
+                        disabled={disableOrderButton}
                     />
 
                     <ButtonForModal
                         onClickHandler={onClickDeleteOrderHandler}
                         title='отменить бронь'
-                        disabled={!selectedDay}
+                        disabled={false}
                     />
                 </div>)
 
@@ -57,7 +65,7 @@ const OrderModal: React.FC<CreateCommentModalPropsType> = ({onCloseHandler, onCl
                     <ButtonForModal
                         onClickHandler={onClickCreateOrderHandler}
                         title='забронировать'
-                        disabled={!selectedDay}
+                        disabled={disableOrderButton}
                     />
                 )
             }

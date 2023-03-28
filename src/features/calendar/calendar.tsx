@@ -14,6 +14,8 @@ type CalendarPropsType = {
     selectDate: (date: Date) => void
     locale?: string
     firstWeekDay?: number
+    setDisableOrderButton: () => void
+    dateOrder?: string | null | undefined
 }
 
 
@@ -21,7 +23,8 @@ export const Calendar: React.FC<CalendarPropsType> = ({
                                                           selectedDate,
                                                           selectDate,
                                                           locale = 'default',
-                                                          firstWeekDay = 2
+                                                          firstWeekDay = 2, setDisableOrderButton,
+                                                          dateOrder
                                                       }) => {
 
     const {state, functions} = useCalendar({firstWeekDay, locale, selectedDate})
@@ -32,7 +35,7 @@ export const Calendar: React.FC<CalendarPropsType> = ({
         <div className={css.calendar}>
             <div className={css.calendar__title}>
 
-                <label  className={css.calendar__title__label} htmlFor='select'>
+                <label className={css.calendar__title__label} htmlFor='select'>
                     <select
                         id='select'
                         name='select'
@@ -40,7 +43,7 @@ export const Calendar: React.FC<CalendarPropsType> = ({
                         value={state.selectedMonth.monthIndex}
                         onChange={(event => functions.setSelectedMonthByIndex(Number(event.currentTarget.value)))}>
                         {state.monthsNames.map((month, index) =>
-                            <option key={month.month} value={index} >
+                            <option key={month.month} value={index}>
                                 {month.month[0].toUpperCase() + month.month.slice(1)} {state.selectedYear}
                             </option>
                         )}
@@ -93,10 +96,12 @@ export const Calendar: React.FC<CalendarPropsType> = ({
                                 const isToday = checkIsToday(day.date)
                                 const isSelectedDay = checkDateIsEqual(day.date, state.selectedDay.date)
                                 const isAdditionalDay = day.monthIndex !== state.selectedMonth.monthIndex
-                                const isWeekEnd =  day.dayNumberInWeek === 1 || day.dayNumberInWeek === 7
+                                const isWeekEnd = day.dayNumberInWeek === 1 || day.dayNumberInWeek === 7
                                 const isWeekEndInThisMonth = isWeekEnd && day.monthIndex === state.selectedMonth.monthIndex
                                 const currentDay = new Date().getDate()
                                 const isDayForOrder = checkIsDayForOrder(currentDay, day.monthIndex)
+
+                                console.log(day.dayNumber === (dateOrder && new Date(dateOrder).getDate() - 1))
 
                                 return (<button
                                     key={`${day.dayNumber}-${day.monthIndex}`}
@@ -108,10 +113,17 @@ export const Calendar: React.FC<CalendarPropsType> = ({
                                         isWeekEndInThisMonth ? css.calendar__weekend__day : '',
                                         day.dayNumber === isDayForOrder ? css.calendar__day_for_order : ''
                                     ].join(' ')}
-                                    disabled={day.dayNumber !== isDayForOrder && day.dayNumber !== currentDay}
-                                    onClick={() =>{
+                                    disabled={
+                                        (dateOrder && new Date(dateOrder).getDate()) === isDayForOrder
+                                            ? day.dayNumber !== currentDay
+                                            : (dateOrder && new Date(dateOrder).getDate()) === currentDay
+                                                ? day.dayNumber !== isDayForOrder
+                                                : (day.dayNumber !== isDayForOrder && day.dayNumber !== currentDay)
+                                    }
+                                    onClick={() => {
                                         functions.setSelectedDay(day)
                                         selectDate(day.date)
+                                        setDisableOrderButton()
                                     }}
                                 >
                                     {day.dayNumber}

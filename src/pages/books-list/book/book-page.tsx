@@ -299,7 +299,6 @@ const commentByUser = book.comments?.find(comment => comment.user.commentUserId 
                 type="button"
                 className={commentByUser ? `${css.bookPage__review_button} ${css.bookPage__review_button_unActive}` : `${css.bookPage__review_button} ${css.bookPage__review_button_active}`}
                 onClick={() => setCreateCommentModalIsOpen(true)}
-                /*disabled={book.comments?.map(comment => comment.user.commentUserId === userId).includes(true)}*/
             > {commentByUser ? 'изменить оценку' : 'оценить книгу'}
             </button>
 
@@ -309,6 +308,7 @@ const commentByUser = book.comments?.find(comment => comment.user.commentUserId 
                 onCloseHandler={() => setOrderModalIsOpen(false)}>
                 <OrderModal
                     customerId={book.booking?.customerId === userId}
+                    dateOrder={book.booking?.dateOrder}
                     onCloseHandler={() => setOrderModalIsOpen(false)}
                     onClickCreateHandler={onClickCreateNewOrderHandler}
                     onClickUpdateHandler={onClickUpdateOrderHandler}

@@ -26,12 +26,18 @@
     .calendar__title__label {
       display: flex;
       flex-direction: row;
-      justify-content: flex-start ;
+      justify-content: flex-start;
       gap: 4px;
       position: relative;
 
-      select option{width:0; }
-      select option:hover{width:auto;}
+      select option {
+        width: 0;
+      }
+
+      select option:hover {
+        width: auto;
+      }
+
       .calendar__title__select {
         @include text(16px, 24px, 400, $unActive-color);
         border: none;
@@ -42,14 +48,13 @@
         width: auto;
 
 
-
-        &:focus{
+        &:focus {
           outline: none;
           width: auto;
         }
 
         img {
-         left: 0;
+          left: 0;
           cursor: pointer;
           height: 24px;
           position: absolute;
@@ -101,13 +106,13 @@
         border: none;
         background-color: transparent;
         @include text(12px, 16px, 400, #BFC4C9);
-        left: calc(50% - 13px/2 + 0.5px);
-        top: calc(50% - 16px/2);
+        left: calc(50% - 13px / 2 + 0.5px);
+        top: calc(50% - 16px / 2);
 
 
         &:hover:enabled,
         &:active:enabled,
-        &:focus:enabled{
+        &:focus:enabled {
           width: 32px;
           height: 32px;
           background: linear-gradient(231.58deg, #F83600 -53.35%, #F9D423 297.76%);
@@ -123,6 +128,11 @@
 
       .calendar__today__item {
         color: #f85700;
+
+        &:disabled {
+          cursor: inherit;
+          color: #BFC4C9
+        }
       }
 
       .calendar__weekend__day {
@@ -134,6 +144,11 @@
 
       .calendar__day_for_order {
         color: $main-text-color;
+
+        &:disabled {
+          cursor: inherit;
+          color: #BFC4C9
+        }
       }
 
     }

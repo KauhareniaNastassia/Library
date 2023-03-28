@@ -53,7 +53,7 @@ const TileItem: React.FC<TileItemPropsType> = ({
 
                                                    id
                                                }) => {
-    const [createCommentModalIsOpen, setCreateCommentModalIsOpen] = useState(false)
+
     const [orderModalIsOpen, setOrderModalIsOpen] = useState(false)
     const dispatch = useAppDispatch()
     const userId = useAppSelector(state => state.auth.profile?.id)
@@ -205,6 +205,7 @@ const TileItem: React.FC<TileItemPropsType> = ({
                     onCloseHandler={() => setOrderModalIsOpen(false)}>
                     <OrderModal
                         customerId={booking?.customerId === userId}
+                        dateOrder={booking?.dateOrder}
                         onCloseHandler={() => setOrderModalIsOpen(false)}
                         onClickCreateHandler={onClickCreateNewOrderHandler}
                         onClickUpdateHandler={onClickUpdateOrderHandler}
