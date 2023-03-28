@@ -3,19 +3,17 @@ import {CommentRequestData} from "../../../api/book-api";
 import {createCommentTC, updateCommentTC} from "../../../redux/book-reducer";
 import {getUserDataTC} from "../../../redux/user-reducer";
 import TileItem from "../../books-list/tile/tile-item/tile-item";
+import css from './history-books.module.scss'
 import {useAppDispatch, useAppSelector} from "../../../hooks/hooks";
+import {TileItemForProfile} from "../tile-item-for-profile/tile-item-for-profile";
 
-type HistoryBooksPropsType = {
-
-}
 
 export const HistoryBooks:React.FC = () => {
     const dispatch= useAppDispatch()
     const user = useAppSelector(state => state.user.user)
 
-
     return (
-        <div>
+        <div className={css.history_books_wrapper}>
             {user.history?.books.map((item) => {
 
                     const searchComment = user?.comments && user?.comments.find((elem) => elem.bookId === item.id);
@@ -32,18 +30,15 @@ export const HistoryBooks:React.FC = () => {
                                 }
                             }
                             if(searchComment) {
-                                dispatch(updateCommentTC(searchComment.id, commentData))
-                                dispatch(getUserDataTC())
+                                dispatch(updateCommentTC(searchComment.id, commentData, ()=> dispatch(getUserDataTC())))
                             } else {
-                                dispatch(createCommentTC(commentData))
-                                dispatch(getUserDataTC())
+                                dispatch(createCommentTC(commentData,()=> dispatch(getUserDataTC())))
                             }
                         }
                     }
-                    return <TileItem
+                    return <TileItemForProfile
                         key={item.id}
-                        historyId={item.id}
-                        historyBookImage={item.image}
+                        image={item.image}
                         title={item.title}
                         authors={item.authors}
                         issueYear={item.issueYear}
@@ -56,4 +51,3 @@ export const HistoryBooks:React.FC = () => {
         </div>
     );
 };
-

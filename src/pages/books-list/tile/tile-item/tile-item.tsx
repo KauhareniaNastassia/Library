@@ -34,11 +34,8 @@ type TileItemPropsType = {
     delivery?: DeliveryType | null
     onClickHandler?: () => void
     searchValue?: string
-    //==props for history block in profile
-    historyBookImage?: string | null
-    historyId?: number
-    searchComment?: UserCommentType | null
-    onClickCreateCommentHandler?: (rating: null | number, comment: string) => void
+
+
 }
 
 const TileItem: React.FC<TileItemPropsType> = ({
@@ -49,12 +46,11 @@ const TileItem: React.FC<TileItemPropsType> = ({
                                                    issueYear,
                                                    delivery,
                                                    booking,
-                                                   historyBookImage,
+
                                                    onClickHandler,
-                                                   historyId,
-                                                   onClickCreateCommentHandler,
+
                                                    searchValue,
-                                                   searchComment,
+
                                                    id
                                                }) => {
     const [createCommentModalIsOpen, setCreateCommentModalIsOpen] = useState(false)
@@ -172,9 +168,7 @@ const TileItem: React.FC<TileItemPropsType> = ({
             <div className={css.bookList__item_coveWrapper}>
                 <img src={image?.url.length
                     ? `https://strapi.cleverland.by${image.url}`
-                    : historyBookImage
-                        ? `https://strapi.cleverland.by${historyBookImage}`
-                        : defaultBookCover}
+                    : defaultBookCover}
                      alt="Book cover"
                      className={css.bookList__item_cover}/>
             </div>
@@ -216,23 +210,6 @@ const TileItem: React.FC<TileItemPropsType> = ({
                         onClickUpdateHandler={onClickUpdateOrderHandler}
                         onClickDeleteHandler={onClickDeleteOrderHandler}
                     />
-                </BaseModal>}
-
-            {createCommentModalIsOpen && searchComment && onClickCreateCommentHandler &&
-                <BaseModal
-                    onCloseHandler={() => setCreateCommentModalIsOpen(false)}>
-                    <CreateCommentModal
-                        searchComment={searchComment}
-                        onCloseHandler={() => setCreateCommentModalIsOpen(false)}
-                        onClickHandler={onClickCreateCommentHandler}/>
-                </BaseModal>}
-
-            {createCommentModalIsOpen && onClickCreateCommentHandler &&
-                <BaseModal
-                    onCloseHandler={() => setCreateCommentModalIsOpen(false)}>
-                    <CreateCommentModal
-                        onCloseHandler={() => setCreateCommentModalIsOpen(false)}
-                        onClickHandler={onClickCreateCommentHandler}/>
                 </BaseModal>}
 
         </div>

@@ -284,38 +284,41 @@
             width: 350px;
             height: 52px;
             text-transform: uppercase;
-            @include text(16px, 24px, 600, #FFFFFF);
-            background: linear-gradient(233.73deg, #F83600 -16.08%, #F9D423 327.37%);
-            border-radius: 30px;
-            border: none;
             letter-spacing: 0.2px;
+            border-radius: 30px;
 
-            &:hover:enabled {
+            &:hover{
                 cursor: pointer;
                 box-shadow: 0px 5px 10px 0px rgba(128, 128, 128, 0.5);
                 transition: .3s ease-in-out all;
             }
 
-            &:disabled {
-                @include text(16px, 18px, 600, $main-text-color);
-                letter-spacing: 0.2px;
-                box-sizing: border-box;
-                border: 1px solid #BFC4C9;
-                border-radius: 20px;
-                background: #FFFFFF;
-            }
-
             @media (max-width: 768px) {
-                width: 100%;
-                @include text(16px, 150%, 600, #FFFFFF);
-                margin-top: -10px;
-            }
+            width: 100%;
+            @include text(16px, 150%, 600, #FFFFFF);
+            margin-top: -10px;
+        }
 
             @media (max-width: 320px) {
                 margin-top: -4px;
                 height: 40px;
             }
         }
+
+        .bookPage__review_button_active {
+            @include text(16px, 24px, 600, #FFFFFF);
+            background: linear-gradient(233.73deg, #F83600 -16.08%, #F9D423 327.37%);
+            border: none;
+        }
+        .bookPage__review_button_unActive {
+            @include text(16px, 18px, 600, $main-text-color);
+            //letter-spacing: 0.2px;
+            box-sizing: border-box;
+            border: 1px solid #BFC4C9;
+           // border-radius: 20px;
+            background: #FFFFFF;
+        }
+
     }
 
 }

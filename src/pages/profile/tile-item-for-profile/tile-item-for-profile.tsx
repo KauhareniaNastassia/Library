@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import css from "./tile-item-for-profile.module.scss";
-import defaultBookCover from "../../../../assets/img/default-book-cover.svg";
+import defaultBookCover from "../../../assets/img/default-book-cover.svg";
 import {AuthorsType, BookingType, DeliveryType, ImageType} from "../../../api/books-list-api";
 import {UserCommentType} from "../../../api/user-api";
 import {useAppDispatch, useAppSelector} from "../../../hooks/hooks";
@@ -15,38 +15,25 @@ import {formatDateForButton} from "../../../utils/helpers/format-date-for-button
 
 
 type TileItemPropsType = {
-    image?: ImageType | null
+    image?: string | null
     title: string
-    id?: number
     authors: AuthorsType | null | undefined
     issueYear: string | null
     rating: number | null
-    booking?: BookingType | null
-    delivery?: DeliveryType | null
     onClickHandler?: () => void
     searchValue?: string
-    //==props for history block in profile
-    historyBookImage?: string | null
-    historyId?: number
     searchComment?: UserCommentType | null
     onClickCreateCommentHandler?: (rating: null | number, comment: string) => void
 }
 
-const TileItemForProfile: React.FC<TileItemPropsType> = ({
+export const TileItemForProfile: React.FC<TileItemPropsType> = ({
                                                              image,
                                                              rating,
                                                              authors,
                                                              title,
                                                              issueYear,
-                                                             delivery,
-                                                             booking,
-                                                             historyBookImage,
-                                                             onClickHandler,
-                                                             historyId,
                                                              onClickCreateCommentHandler,
-                                                             searchValue,
                                                              searchComment,
-                                                             id
                                                          }) => {
     const [createCommentModalIsOpen, setCreateCommentModalIsOpen] = useState(false)
     const dispatch = useAppDispatch()
@@ -54,6 +41,8 @@ const TileItemForProfile: React.FC<TileItemPropsType> = ({
     const createCommentSuccess = useAppSelector(state => state.book.createCommentSuccess)
     const updateCommentSuccess = useAppSelector(state => state.book.updateCommentSuccess)
     const status = useAppSelector(state => state.app.status)
+
+
 
     let titleForTile
     if (title.length > 50) {
@@ -88,8 +77,8 @@ const TileItemForProfile: React.FC<TileItemPropsType> = ({
                 <div className={css.bookList__item}>
 
                     <div className={css.bookList__item_coveWrapper}>
-                        <img src={historyBookImage
-                            ? `https://strapi.cleverland.by${historyBookImage}`
+                        <img src={image
+                            ? `https://strapi.cleverland.by${image}`
                             : defaultBookCover}
                              alt="Book cover"
                              className={css.bookList__item_cover}/>
@@ -127,7 +116,8 @@ const TileItemForProfile: React.FC<TileItemPropsType> = ({
                         <BaseModal
                             onCloseHandler={() => setCreateCommentModalIsOpen(false)}>
                             <CreateCommentModal
-                                searchComment={searchComment}
+                                commentRating={searchComment.rating}
+                                commentText={searchComment.text}
                                 onCloseHandler={() => setCreateCommentModalIsOpen(false)}
                                 onClickHandler={onClickCreateCommentHandler}/>
                         </BaseModal>}

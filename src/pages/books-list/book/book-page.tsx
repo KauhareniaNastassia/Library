@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import css from './book-page.module.scss'
 import {Rating} from '../../../features/rating';
-
 import {BookInfo} from './book-info';
 import {Review} from './review';
 import {Button} from '../../../features/button';
@@ -17,16 +16,16 @@ import {
     setCreateCommentSuccessAC,
     setCreateOrderSuccessAC,
     setDeleteOrderSuccessAC,
-    setUpdateOrderSuccessAC,
+    setUpdateOrderSuccessAC, updateCommentTC,
     updateOrderTC
 } from "../../../redux/book-reducer";
-
 import CreateCommentModal from "../../../common/modals/create-comment-modal/create-comment-modal";
 import {Notification} from "../../../common/notification/notification";
 import {CommentRequestData, CreateBookingRequestDataType} from "../../../api/book-api";
 import {BaseModal} from "../../../common/modals/base-modal/base-modal";
 import OrderModal from "../../../common/modals/order-modal/order-modal";
 import {Breadcrumbs} from "../../../common/breadcrumbs/breadcrumbs";
+import {getUserDataTC} from "../../../redux/user-reducer";
 
 export const BookPage = () => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
@@ -48,6 +47,9 @@ export const BookPage = () => {
     const [createCommentModalIsOpen, setCreateCommentModalIsOpen] = useState(false)
     const [orderModalIsOpen, setOrderModalIsOpen] = useState(false)
 
+const commentByUser = book.comments?.find(comment => comment.user.commentUserId === userId)
+
+    console.log(commentByUser)
 
     const onClickClearNotificationHandler = () => {
         if (createCommentSuccess) {
@@ -71,7 +73,14 @@ export const BookPage = () => {
                     user: userId.toString(),
                 }
             }
-            dispatch(createCommentTC(commentData))
+
+            if(commentByUser?.id) {
+                dispatch(updateCommentTC(commentByUser.id, commentData, () => dispatch(getBookTC(Number(bookId)))))
+            } else {
+                dispatch(createCommentTC(commentData, () => dispatch(getBookTC(Number(bookId)))))
+            }
+
+
         }
     }
     const onClickCreateNewOrderHandler = (date: string) => {
@@ -173,9 +182,7 @@ export const BookPage = () => {
         <div className={css.bookPage__info}>
             <div className={css.bookPage__info_cover}>
 
-                {book.images?.length && <BookCoverImage image={book.images}/>
-                    /*: <BookSlider image={book.images}/>*/
-                }
+                {book.images?.length && <BookCoverImage image={book.images}/>}
 
             </div>
 
@@ -290,10 +297,10 @@ export const BookPage = () => {
 
             <button
                 type="button"
-                className={css.bookPage__review_button}
+                className={commentByUser ? `${css.bookPage__review_button} ${css.bookPage__review_button_unActive}` : `${css.bookPage__review_button} ${css.bookPage__review_button_active}`}
                 onClick={() => setCreateCommentModalIsOpen(true)}
-                disabled={book.comments?.map(comment => comment.user.commentUserId === userId).includes(true)}
-            > оценить книгу
+                /*disabled={book.comments?.map(comment => comment.user.commentUserId === userId).includes(true)}*/
+            > {commentByUser ? 'изменить оценку' : 'оценить книгу'}
             </button>
 
         </div>
@@ -309,7 +316,17 @@ export const BookPage = () => {
                 />
             </BaseModal>}
 
-        {createCommentModalIsOpen &&
+        {createCommentModalIsOpen && commentByUser &&
+            <BaseModal
+                onCloseHandler={() => setCreateCommentModalIsOpen(false)}>
+                <CreateCommentModal
+                    commentRating={commentByUser.rating}
+                    commentText={commentByUser.text}
+                    onCloseHandler={() => setCreateCommentModalIsOpen(false)}
+                    onClickHandler={onClickCreateCommentHandler}/>
+            </BaseModal>}
+
+        {createCommentModalIsOpen && !commentByUser &&
             <BaseModal
                 onCloseHandler={() => setCreateCommentModalIsOpen(false)}>
                 <CreateCommentModal

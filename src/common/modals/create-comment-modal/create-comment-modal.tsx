@@ -11,12 +11,17 @@ import {UserCommentType} from "../../../api/user-api";
 type CreateCommentModalPropsType = {
     onCloseHandler: () => void
     onClickHandler: (rating: null | number, comment: string) => void
-    searchComment?: UserCommentType | null
+    commentRating?: number
+    commentText?: string | null
 }
 
-const CreateCommentModal: React.FC<CreateCommentModalPropsType> = ({onCloseHandler, onClickHandler, searchComment}) => {
-    const [rating, setRating] = useState<null | number>(searchComment ? searchComment.rating : null)
-    const [comment, setComment] = useState<string>(searchComment ? searchComment.text as string : '')
+const CreateCommentModal: React.FC<CreateCommentModalPropsType> = ({onCloseHandler, onClickHandler, commentRating, commentText}) => {
+
+    console.log(commentRating, commentText)
+
+    const [rating, setRating] = useState<null | number>(commentRating ? commentRating : null)
+    const [comment, setComment] = useState<string>(commentText ? commentText : '')
+
 
     const onClickCreateCommentHandler = () => {
         onClickHandler(rating, comment)

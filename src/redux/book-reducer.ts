@@ -2657,13 +2657,14 @@ export const getBookTC = (id: number): AppThunkType =>
         }
     }
 
-export const createCommentTC = (data: CommentRequestData): AppThunkType =>
+export const createCommentTC = (data: CommentRequestData, cb?: () => void): AppThunkType =>
     async (dispatch) => {
         dispatch(setAppStatusAC('loading'))
         try {
             const res = await bookApi.createComment(data)
             dispatch(setCreateCommentSuccessAC(true))
-            dispatch(getBookTC(Number(data.data.book)))
+            cb && cb()
+            //dispatch(getBookTC(Number(data.data.book)))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
         } catch (err) {
@@ -2673,13 +2674,14 @@ export const createCommentTC = (data: CommentRequestData): AppThunkType =>
         }
     }
 
-export const updateCommentTC = (commentId: number, data: CommentRequestData): AppThunkType =>
+export const updateCommentTC = (commentId: number, data: CommentRequestData, cb?: () => void): AppThunkType =>
     async (dispatch) => {
         dispatch(setAppStatusAC('loading'))
         try {
             const res = await bookApi.updateComment(commentId, data)
             dispatch(setUpdateCommentErrorAC(true))
-            dispatch(getBookTC(Number(data.data.book)))
+            cb && cb()
+            //dispatch(getBookTC(Number(data.data.book)))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
         } catch (err) {
@@ -2694,11 +2696,6 @@ export const createOrderTC = (data: CreateBookingRequestDataType): AppThunkType 
         dispatch(setAppStatusAC('loading'))
         try {
             const res = await bookApi.createBooking(data)
-
-
-            //dispatch(setCreateOrderAC(res.data.attributes.order))
-
-
             dispatch(setCreateOrderSuccessAC(true))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))

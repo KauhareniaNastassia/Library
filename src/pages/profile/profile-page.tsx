@@ -17,6 +17,7 @@ import {RedMask} from "./red-mask/red-mask";
 import {Notification} from "../../common/notification/notification";
 import {HistoryBooks} from "./history-books/history-books";
 import {ListItemForProfile} from "./list-item-for-profile/list-item-for-profile";
+import {TileItemForProfile} from "./tile-item-for-profile/tile-item-for-profile";
 
 export const ProfilePage: React.FC = () => {
     const dispatch = useAppDispatch()
@@ -25,7 +26,6 @@ export const ProfilePage: React.FC = () => {
     const deleteOrderSuccess = useAppSelector(state => state.book.deleteOrderSuccess)
     const userDataChangeSuccess = useAppSelector(state => state.user.userDataChangeSuccess)
     const avatarChangeSuccess = useAppSelector(state => state.user.avatarChangeSuccess)
-
 
 
     const onClickClearNotificationHandler = () => {

@@ -12,9 +12,7 @@ type ButtonPropsType = {
     onClickHandler?: () => void
     onClickOpenModalHandler?: (e: React.MouseEvent<HTMLButtonElement>) => void
     orderByAuthUser?: boolean
-    searchComment?: UserCommentType | null
-    historyId?: number
-    onClickToOpenCommentModal?: () => void
+
 
 }
 
@@ -24,13 +22,8 @@ export const Button: React.FC<ButtonPropsType> = ({
                                                       handed,
                                                       buttonStyle,
                                                       onClickHandler,
-                                                      orderByAuthUser,
-
-                                                      searchComment,
-                                                      historyId,
-                                                      onClickToOpenCommentModal, onClickOpenModalHandler
+                                                      orderByAuthUser, onClickOpenModalHandler
                                                   }) => {
-
 
     const onClickButtonHandler = () => {
         if (onClickHandler) {
@@ -42,10 +35,6 @@ export const Button: React.FC<ButtonPropsType> = ({
             onClickOpenModalHandler(e)
         }
     }
-
-
-
-
 
     if (orderByAuthUser) {
         return <button

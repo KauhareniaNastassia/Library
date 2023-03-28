@@ -22,7 +22,8 @@ export const MainContent:React.FC = () => {
     const {category} = useParams()
 
     const [show, setShow] = useState(true)
-    const [isActive, setIsActive] = useState(true);
+    const [isTileActive, setIsTileActive] = useState(true);
+    const [isListActive, setIsListActive] = useState(false);
     const [searchOpen, setSearchOpen] = useState(false)
     const [sortByRating, setSortByRating] = useState(true)
     const [searchValue, setSearchValue] = useState<string>('');
@@ -53,12 +54,14 @@ export const MainContent:React.FC = () => {
     }, [sortedBooks, searchValue] )
 
     const onTileButtonClickHandler = () => {
-        setIsActive(true)
+        setIsTileActive(true)
+        setIsListActive(false)
         setShow(true)
     }
 
     const onListButtonClickHandler = () => {
-        setIsActive(false)
+        setIsTileActive(false)
+        setIsListActive(true)
         setShow(false)
     }
 
@@ -98,13 +101,13 @@ export const MainContent:React.FC = () => {
             <div className={css.filterBar_right}>
                 <button type="button"
                         value="tile"
-                        className={isActive ? `${css.filterBar__button} ${css.activeBtn}` : css.filterBar__button}
+                        className={isTileActive ? `${css.filterBar__button} ${css.activeBtn}` : css.filterBar__button}
                         onClick={onTileButtonClickHandler}>
                     <img src={tileIcon} alt="Tile icon"/>
                 </button>
                 <button type="button"
                         value="list"
-                        className={css.filterBar__button}
+                        className={isListActive ? `${css.filterBar__button} ${css.activeBtn}` : css.filterBar__button}
                         onClick={onListButtonClickHandler}>
                     <img src={listIcon} alt="List icon"/>
                 </button>
