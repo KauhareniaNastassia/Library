@@ -1,20 +1,16 @@
-
 import {BookListResponseType, booksListApi} from "../api/books-list-api";
 import {AppThunkType} from "./store";
 import {setAppErrorAC, setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
 import {AxiosError} from "axios/index";
-import {ReviewType} from "./reviews-reducer";
 
 const initialState: InitialBooksStateType = {
     books: [] as BookListResponseType[]
 }
 
-
 export const booksReducer = (state: InitialBooksStateType = initialState, action: BookListActionTypes): InitialBooksStateType => {
     switch (action.type) {
         case 'bookList/SET-BOOKLIST':
             return {...state, books: [...action.books]}
-
 
         default:
             return state
@@ -29,18 +25,14 @@ export const setBooksAC = (books: BookListResponseType[]) => ({
     } as const)
 
 
-
-
 //  thunk
 
 export const getBooksTC = (): AppThunkType =>
     async (dispatch) => {
         dispatch(setAppStatusAC('loading'))
-        console.log('TC')
         try {
             const res = await booksListApi.getBookList()
             dispatch(setBooksAC(res.data))
-            console.log(res.data)
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
         } catch (err) {
@@ -50,33 +42,14 @@ export const getBooksTC = (): AppThunkType =>
         }
     }
 
-
 //  types
 
 export type BookListActionTypes =
     | ReturnType<typeof setBooksAC>
 
-
 type InitialBooksStateType = {
     books: BookListResponseType[]
 }
-
-
-export type BookType = {
-    bookId: string,
-    image: BookImage[],
-    category: string,
-    categoryForPath: string,
-    author: string,
-    title: string,
-    rating: number,
-    year: number,
-    isBooked: boolean,
-    bookedTill: string
-    review: ReviewType[]
-}
-
-
 
 export type BookImage = {
     imageId: string;

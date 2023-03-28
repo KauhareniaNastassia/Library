@@ -1,6 +1,5 @@
-import React, {CSSProperties, MouseEventHandler} from 'react';
+import React, {CSSProperties} from 'react';
 import css from './button.module.scss'
-import {UserBookingType, UserCommentType, UserDeliveryType} from "../../api/user-api";
 import {formatDateForButton} from "../../utils/helpers/format-date-for-button/format-date-for-button";
 
 
@@ -12,8 +11,6 @@ type ButtonPropsType = {
     onClickHandler?: () => void
     onClickOpenModalHandler?: (e: React.MouseEvent<HTMLButtonElement>) => void
     orderByAuthUser?: boolean
-
-
 }
 
 export const Button: React.FC<ButtonPropsType> = ({
@@ -63,7 +60,9 @@ export const Button: React.FC<ButtonPropsType> = ({
     }
 
     return <button
-        onClick={onClickHandler ? onClickButtonHandler : (e) => onClickButtonOpenModalHandler(e)}//for buttons to open order modal in list/tile and in book page
+        onClick={onClickHandler
+            ? onClickButtonHandler
+            : (e) => onClickButtonOpenModalHandler(e)}//for buttons to open order modal in list/tile and in book page
         type="button"
         style={buttonStyle}
         className={css.button_active}> забронировать </button>

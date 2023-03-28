@@ -26,7 +26,6 @@ export const BasicModal:React.FC<BasicModalPropsType> = ({modalInfo}) => {
                     {modalInfo.buttonTitle}
                 </NavLink>
             }
-
         </div>
     );
 };

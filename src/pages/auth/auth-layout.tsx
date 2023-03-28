@@ -15,7 +15,6 @@ export const AuthLayout: React.FC = () => {
         }
     }, [isLoggedIn, navigate]);
 
-
     return (
         <div className={css.wrapper_login}>
 
@@ -23,7 +22,6 @@ export const AuthLayout: React.FC = () => {
 
             <h1 className={css.wrapper__login_header}>Cleverland</h1>
             <Outlet/>
-
         </div>
     );
 };

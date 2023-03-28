@@ -1,13 +1,10 @@
-import {customInstance, instance} from "./instance";
-
+import {customInstance} from "./instance";
 
 export const booksListApi = {
     getBookList() {
         return customInstance.get<BookListResponseType[]>(`/api/books`)
     }
 }
-
-
 
 //  ===========TYPES=========
 
@@ -23,8 +20,6 @@ export type BookListResponseType = {
     delivery: DeliveryType | null,
     histories: HistoriesType | null
 }
-
-
 export type AuthorsType = string[]
 export type CategoriesType = string[]
 export type ImageType = {

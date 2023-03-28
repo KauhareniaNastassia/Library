@@ -145,13 +145,9 @@ export const RegistrationStep1: React.FC<RegistrationStep1PropsType> = ({
                                 <span>Пароль <span style={{color: 'red'}}>не менее 8 символов</span>, <span
                                     style={{color: 'red'}}>с заглавной буквой</span> и цифрой</span>
                             }
-
                         </div>
-
                     </div>
                 </div>
-
-
 
                 <input
                     className={css.registration_submitBTN}

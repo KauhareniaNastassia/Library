@@ -26,7 +26,6 @@ export const RegistrationStep3: React.FC<RegistrationStep3PropsType> = ({
     const conditionForEmptyPhone= isChangeInputPhone && !focusPhone && getValues('phone') === '';
     const conditionForEmptyPhoneFocus= isChangeInputPhone && focusPhone && getValues('phone') === '';
 
-
     return (
             <React.Fragment>
                 <div className={css.registration__inputBlock}>
@@ -80,8 +79,6 @@ export const RegistrationStep3: React.FC<RegistrationStep3PropsType> = ({
                         </div>
                     </div>
 
-
-
                     <input
                         className={css.registration_submitBTN}
                         type='submit'
@@ -91,7 +88,6 @@ export const RegistrationStep3: React.FC<RegistrationStep3PropsType> = ({
                             || errors.email
                             || errors.phone}
                     />
-
                 </div>
             </React.Fragment>
     );

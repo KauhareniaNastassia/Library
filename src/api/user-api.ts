@@ -1,7 +1,5 @@
 import {customInstance} from "./instance";
-import {bool} from "yup";
 import {AuthorsType} from "./books-list-api";
-
 
 export const userApi = {
     me() {
@@ -17,6 +15,8 @@ export const userApi = {
         return customInstance.put<MeResponseType>(`/api/users/${id}`, {avatar})
     }
 }
+
+//===========TYPES=========
 
 export type MeResponseType = {
     id: number, //this user id

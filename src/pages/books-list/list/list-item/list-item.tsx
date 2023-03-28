@@ -18,7 +18,7 @@ import {
     updateOrderTC
 } from "../../../../redux/book-reducer";
 import {BaseModal} from "../../../../common/modals/base-modal/base-modal";
-import OrderModal from "../../../../common/modals/order-modal/order-modal";
+import {OrderModal} from "../../../../common/modals/order-modal/order-modal";
 import {getBooksTC} from "../../../../redux/books-reducer";
 import {Notification} from "../../../../common/notification/notification";
 
@@ -62,7 +62,6 @@ export const ListItem: React.FC<ListItemPropsType> = ({
     }, [searchValue])
 
     const onClickCreateNewOrderHandler = (date: string) => {
-
         if (id && userId) {
             const data: CreateBookingRequestDataType = {
                 data: {
@@ -77,7 +76,6 @@ export const ListItem: React.FC<ListItemPropsType> = ({
         }
     }
     const onClickUpdateOrderHandler = (date: string) => {
-
         if (id && userId && booking?.id) {
             const data: CreateBookingRequestDataType = {
                 data: {
@@ -172,7 +170,6 @@ export const ListItem: React.FC<ListItemPropsType> = ({
                         </div>
                     </div>
 
-
                     <div className={css.bookList__item_buttonBlock}>
                         <div className={css.bookList__item_rating}>
                             <Rating rating={rating}/>
@@ -186,7 +183,6 @@ export const ListItem: React.FC<ListItemPropsType> = ({
                                 orderByAuthUser={booking?.customerId === userId}
                                 onClickHandler={onClickHandler}
                                 onClickOpenModalHandler={onClickOpenModalHandler}//for open order modal
-
                             />
                         </div>
                     </div>
@@ -203,11 +199,8 @@ export const ListItem: React.FC<ListItemPropsType> = ({
                         onClickDeleteHandler={onClickDeleteOrderHandler}
                     />
                 </BaseModal>}
-
             </div>
         </>
-
-
     );
 };
 

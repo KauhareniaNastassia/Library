@@ -34,6 +34,11 @@
       cursor: pointer;
       pointer-events: visible;
     }
+
+    .img_active {
+      transition: .3s ease-in-out all;
+      filter: invert(57%) sepia(39%) saturate(6343%) hue-rotate(342deg) brightness(102%) contrast(95%);
+    }
   }
 
   input[type="search"]::-webkit-search-cancel-button {

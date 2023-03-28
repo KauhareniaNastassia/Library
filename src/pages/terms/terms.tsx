@@ -2,7 +2,7 @@ import React from 'react';
 
 import css from './terms.module.scss'
 
-export const Terms = () => (
+export const Terms: React.FC = () => (
     <section className={css.terms}>
         <h1 className={css.terms__title}>
             Правила пользования

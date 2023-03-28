@@ -2,7 +2,7 @@ import React from 'react';
 
 import css from './contract.module.scss'
 
-export const Contract = () => (
+export const Contract: React.FC = () => (
     <section className={css.contract}>
         <h1 className={css.contract__title}>
             Договор оферты

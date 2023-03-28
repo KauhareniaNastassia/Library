@@ -1,16 +1,13 @@
 import React, {useState} from "react";
 import {useForm} from "react-hook-form";
-import {useAppDispatch, useAppSelector} from "../../../../hooks/hooks";
+import {useAppDispatch} from "../../../../hooks/hooks";
 import css from './reset-password-form.module.scss'
 import eyeOpen from '../../../../assets/img/eye-open.svg'
 import eyeClose from '../../../../assets/img/eye-close.svg'
 import okPasswordIcon from "../../../../assets/img/ok-password-icon.svg";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
 import {schemaResetPassword} from "../../../../utils/validate/reset-password-validation/reset-password-validation";
-import {useLocation, useSearchParams} from "react-router-dom";
 import {resetPasswordTC} from "../../../../redux/auth-reducer";
-import {BasicModal} from "../../../../common/modals/basic-modal";
-import {NewPasswordSaveErrorModal, NewPasswordSaveModal} from "../../../../common/modals/modal-info";
 
 
 type ResetPasswordType = {
@@ -169,7 +166,6 @@ export const ResetPasswordForm: React.FC<ResetPasswordPropsType> = ({code}) => {
                         />
 
                         <span className={css.resetPassword_registrationBlock_message}>После сохранения, войдите в библиотеку, используя новый пароль</span>
-
                     </div>
                 </div>
             </form>

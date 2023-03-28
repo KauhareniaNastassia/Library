@@ -2,22 +2,15 @@ import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 import {getUserDataTC, setAvatarChangeSuccessAC, setUserDataChangeSuccessAC} from "../../redux/user-reducer";
 import css from './profile-page.module.scss'
-import AvatarBlock from "./avatar-block/avatar-block";
+import {AvatarBlock} from "./avatar-block/avatar-block";
 import {UserDataBlock} from "./user-data-block/user-data-block";
 import {BlockWrapper} from "./block-wrapper/block-wrapper";
-import {ListItem} from "../books-list/list/list-item/list-item";
 import {EmptyBlockForWrapper} from "./empty-block-for-wrapper/empty-block-for-wrapper";
-import {
-    deleteOrderTC,
-    setCreateCommentSuccessAC,
-    setCreateOrderSuccessAC, setDeleteOrderSuccessAC,
-    setUpdateOrderSuccessAC
-} from "../../redux/book-reducer";
+import {deleteOrderTC, setDeleteOrderSuccessAC} from "../../redux/book-reducer";
 import {RedMask} from "./red-mask/red-mask";
 import {Notification} from "../../common/notification/notification";
 import {HistoryBooks} from "./history-books/history-books";
 import {ListItemForProfile} from "./list-item-for-profile/list-item-for-profile";
-import {TileItemForProfile} from "./tile-item-for-profile/tile-item-for-profile";
 
 export const ProfilePage: React.FC = () => {
     const dispatch = useAppDispatch()
@@ -26,7 +19,6 @@ export const ProfilePage: React.FC = () => {
     const deleteOrderSuccess = useAppSelector(state => state.book.deleteOrderSuccess)
     const userDataChangeSuccess = useAppSelector(state => state.user.userDataChangeSuccess)
     const avatarChangeSuccess = useAppSelector(state => state.user.avatarChangeSuccess)
-
 
     const onClickClearNotificationHandler = () => {
         if (userDataChangeSuccess) {
@@ -49,7 +41,6 @@ export const ProfilePage: React.FC = () => {
     useEffect(() => {
         dispatch(getUserDataTC())
     }, [])
-
 
     return (
         <section className={css.profile__wrapper}>
@@ -83,7 +74,6 @@ export const ProfilePage: React.FC = () => {
                     status='failed'
                     message='Не удалось снять бронирование книги. Попробуйте позже!'
                     onClickHandler={onClickClearNotificationHandler}/>}
-
 
             <AvatarBlock
                 firstName={user.firstName}

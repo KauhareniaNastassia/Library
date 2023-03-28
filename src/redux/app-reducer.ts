@@ -1,15 +1,8 @@
-
-
-import {bookApi, BookResponseType} from "../api/book-api";
-import {AppThunkType} from "./store";
-
-
 const initialState: InitialAppStateType = {
     status: 'idle',
     appError: '',
     successMessage: ''
 }
-
 
 export const appReducer = (state: InitialAppStateType = initialState, action: AppActionsType): InitialAppStateType => {
     switch (action.type) {
@@ -18,9 +11,7 @@ export const appReducer = (state: InitialAppStateType = initialState, action: Ap
         case "app/SET-APP-ERROR":
             return {...state, appError: action.appError}
         case "app/SET-APP-SUCCESS":
-            // @ts-ignore
             return {...state, successMessage: action.successMessage}
-
 
         default:
             return state
@@ -43,20 +34,6 @@ export const setAppSuccessMessageAC = (successMessage: string | null) => ({
 } as const)
 
 
-//  thunk
-
-/*export const getBookTC = (id: number): AppThunkType =>
-    async (dispatch) => {
-
-        try {
-            const res = await bookApi.getBook(id)
-            dispatch(setBookAC(res.data))
-        } catch (e) {
-
-        }
-    }*/
-
-
 //  types
 
 export type AppActionsType =
@@ -64,12 +41,11 @@ export type AppActionsType =
     | ReturnType<typeof setAppErrorAC>
     | ReturnType<typeof setAppSuccessMessageAC>
 
-
 type InitialAppStateType = {
     status: AppStatusType
     appError: string | null
     successMessage: string | null
 }
 
-export type AppStatusType ='idle' | 'loading' | 'succeeded' | 'failed'
+export type AppStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 

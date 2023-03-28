@@ -3,39 +3,39 @@
 
 
 .item {
-    @include text(16px, 24px, 400, $main-text-color);
-    margin-top: 16px;
-    padding-left: 4px;
+  @include text(16px, 24px, 400, $main-text-color);
+  margin-top: 16px;
+  padding-left: 4px;
 
+  .item__name {
+    margin-left: 4px;
+  }
+
+  .item__count {
+    padding-right: 4px;
+    padding-left: 6px;
+    font-size: 14px;
+    color: $unActive-color;
+  }
+
+  &:hover {
     .item__name {
-        margin-left: 4px;
+      @include active-color
     }
 
     .item__count {
-        padding-right: 4px;
-        padding-left: 6px;
-        font-size: 14px;
-        color: $unActive-color;
+      color: $main-text-color
+    }
+  }
+
+  .active_item {
+    .item__name {
+      @include active-color
     }
 
-    &:hover {
-        .item__name {
-            @include active-color
-        }
-
-        .item__count {
-            color: $main-text-color
-        }
+    .item__count {
+      color: $main-text-color
     }
-
-    .active_item {
-        .item__name {
-            @include active-color
-        }
-
-        .item__count {
-            color: $main-text-color
-        }
-    }
+  }
 }
 

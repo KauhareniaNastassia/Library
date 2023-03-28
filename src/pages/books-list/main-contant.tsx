@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
-import {NavLink, useParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import css from './main-contant.module.scss'
 import ratingIcon from '../../assets/img/rating-icon.svg';
 import tileIcon from '../../assets/img/tile-icon.svg';
@@ -12,8 +12,6 @@ import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 import {BookListResponseType} from "../../api/books-list-api";
 import {getBooksTC} from "../../redux/books-reducer";
 import {NotFoundMessage} from "../../common/not-found-message/not-found-message";
-import {getCategoriesListTC} from "../../redux/category-reducer";
-import {getUserDataTC} from "../../redux/user-reducer";
 
 
 export const MainContent:React.FC = () => {
@@ -123,6 +121,5 @@ export const MainContent:React.FC = () => {
             : <List searchValue={searchValue} selectCategoryBooks={searchAndSortedBooks}/>}
 
     </section>
-
 }
 

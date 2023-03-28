@@ -1,7 +1,6 @@
 import {instance} from "./instance";
 import {AxiosResponse} from "axios";
 
-
 export const authApi = {
     registration(data: RegistrationDataType) {
         return instance.post<AuthResponseType>(`/api/auth/local/register`, data)
@@ -17,9 +16,7 @@ export const authApi = {
     }
 }
 
-
 //===========TYPES=========
-
 
 export type RegistrationDataType = {
     email: string,
@@ -29,12 +26,10 @@ export type RegistrationDataType = {
     lastName: string,
     phone: string
 }
-
 export type AuthResponseType = {
     jwt: string,
     user: AuthUserResponseType
 }
-
 export type AuthUserResponseType = {
     id: number,
     username: string,
@@ -48,27 +43,21 @@ export type AuthUserResponseType = {
     lastName: string,
     phone: string
 }
-
 export type LoginRequestDataType = {
     identifier: string,
     password: string
 }
-
 export type ForgotPasswordResponseType = {
     ok: boolean
 }
-
 export type ForgotPasswordRequestType = {
     email: string,
 }
-
-
 export type ResetPasswordRequestData = {
     password: string,
     passwordConfirmation: string,
     code: string
 }
-
 export type ErrorResponseType = {
     data: null;
     error: {

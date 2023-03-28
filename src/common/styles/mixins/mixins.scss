@@ -1,6 +1,5 @@
 @import "src/common/styles/variables/variables";
 
-
 @mixin text($fontSize, $lineHeight, $fontWeight, $color) {
     font-size: $fontSize;
     line-height: $lineHeight;

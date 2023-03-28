@@ -1,5 +1,4 @@
-import {customInstance, instance} from "./instance";
-
+import {customInstance} from "./instance";
 
 
 export const categoriesApi = {
@@ -8,9 +7,7 @@ export const categoriesApi = {
     }
 }
 
-
 //===========TYPES=========
-
 
 export type CategoryItemType = {
     name: string,

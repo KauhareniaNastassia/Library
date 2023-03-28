@@ -53,7 +53,6 @@ export const RegistrationStep2: React.FC<RegistrationStep2PropsType> = ({
                             {conditionEmptyFirstName &&
                                 <span style={{color: 'red'}}>Поле не может быть пустым</span>}
                         </div>
-
                     </div>
 
                     <div className={css.registration__input_item_wrapper}>
@@ -80,11 +79,8 @@ export const RegistrationStep2: React.FC<RegistrationStep2PropsType> = ({
                             {conditionEmptyLastName &&
                                 <span style={{color: 'red'}}>Поле не может быть пустым</span>}
                         </div>
-
                     </div>
                 </div>
-
-
 
                 <input
                     className={css.registration_submitBTN}

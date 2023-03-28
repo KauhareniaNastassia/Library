@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const FormatDateForComments = (date: string) => {
     let arr = []
     arr = date?.slice(0, 10).split('-');

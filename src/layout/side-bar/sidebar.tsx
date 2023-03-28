@@ -1,5 +1,4 @@
-import {useEffect, useState} from "react";
-
+import React, {useEffect, useState} from "react";
 import {NavLink, useLocation} from 'react-router-dom';
 import css from './sidebar.module.scss'
 import sidebarArrowIcon from '../../assets/img/sidebar-arrow-icon.svg';
@@ -8,34 +7,30 @@ import {SidebarShowcaseItem} from "./sidebar-showcase-item";
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 import {logoutTC} from "../../redux/auth-reducer";
 
-
 type SidebarPropsType = {
     closeSideBar?: () => void
     showMenuBtn?: boolean
 }
 
-export const Sidebar = (props: SidebarPropsType) => {
-
+export const Sidebar: React.FC<SidebarPropsType> = ({closeSideBar, showMenuBtn}) => {
     const categories = useAppSelector(state => state.categories.items)
     const dispatch = useAppDispatch()
     const location = useLocation()
-
     const [showMenu, setShowMenu] = useState(true)
     const [activeShowcase, setActiveShowcase] = useState<boolean>(true)
-
 
     const onClickLogoutHandler = () => {
         dispatch(logoutTC())
     }
 
     useEffect(() => {
-        if (props.showMenuBtn === true) {
+        if (showMenuBtn === true) {
             setShowMenu(false)
         }
-        if (props.showMenuBtn === true && !location.pathname.includes('books')) {
+        if (showMenuBtn === true && !location.pathname.includes('books')) {
             setActiveShowcase(false)
         }
-    }, [props.showMenuBtn, location.pathname])
+    }, [showMenuBtn, location.pathname])
 
 
     return <nav className={css.sidebar}>
@@ -67,7 +62,7 @@ export const Sidebar = (props: SidebarPropsType) => {
                             <div className={css.sidebar__menu_title}>
                                 <NavLink to="/books/all"
                                          className={({isActive}) => isActive ? css.active_menu_title : ''}
-                                         onClick={props.closeSideBar}>
+                                         onClick={closeSideBar}>
                                     Все книги
                                 </NavLink>
                             </div>
@@ -80,7 +75,7 @@ export const Sidebar = (props: SidebarPropsType) => {
                                         category={category.path}
                                         name={category.name}
 
-                                        closeSideBar={props.closeSideBar}
+                                        closeSideBar={closeSideBar}
                                     />
                                 )}
                             </ul>
@@ -93,13 +88,13 @@ export const Sidebar = (props: SidebarPropsType) => {
                 path="/terms"
                 title='Правила пользования'
                 setActiveShowcase={() => setActiveShowcase(false)}
-                closeSideBar={props.closeSideBar}
+                closeSideBar={closeSideBar}
             />
             <SidebarMainItem
                 path="/contract"
                 title='Договор оферты'
                 setActiveShowcase={() => setActiveShowcase(false)}
-                closeSideBar={props.closeSideBar}
+                closeSideBar={closeSideBar}
             />
         </div>
 
@@ -109,19 +104,17 @@ export const Sidebar = (props: SidebarPropsType) => {
                 path="/profile"
                 title='Профиль'
                 setActiveShowcase={() => setActiveShowcase(false)}
-                closeSideBar={props.closeSideBar}
+                closeSideBar={closeSideBar}
             />
             <div onClick={onClickLogoutHandler}>
                 <SidebarMainItem
                     path="/auth"
                     title='Выход'
                     setActiveShowcase={() => setActiveShowcase(false)}
-                    closeSideBar={props.closeSideBar}
+                    closeSideBar={closeSideBar}
                     onClickLogoutHandler={onClickLogoutHandler}
                 />
             </div>
-
         </div>
-
     </nav>
 }

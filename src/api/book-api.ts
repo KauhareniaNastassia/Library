@@ -1,13 +1,5 @@
-import {customInstance, instance} from "./instance";
-import {
-    AuthorsType,
-    BookingType,
-    CategoriesType,
-    DeliveryType,
-    HistoriesType,
-    ImageType
-} from "./books-list-api";
-import {boolean, string} from "yup";
+import {customInstance} from "./instance";
+import {AuthorsType, BookingType, CategoriesType, DeliveryType, HistoriesType, ImageType} from "./books-list-api";
 
 
 export const bookApi = {
@@ -55,7 +47,6 @@ export type BookResponseType = {
     delivery: DeliveryType | null,
     histories: HistoriesType | null
 }
-
 export type CommentsType = {
     id: number | null,
     rating: number,
@@ -76,7 +67,6 @@ export type CreateBookingRequestDataType = {
         book: string, // book id
         customer: string //user id, who has booked
     }
-
 }
 export type BookingResponseType = {
     id: number, //bookingId

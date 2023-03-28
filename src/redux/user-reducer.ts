@@ -1,6 +1,4 @@
 import {MeResponseType, UpdateUserDataRequestType, userApi} from "../api/user-api";
-import {setBookAC} from "./book-reducer";
-import {bookApi, BookResponseType} from "../api/book-api";
 import {AppThunkType} from "./store";
 import {setAppErrorAC, setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
 import {AxiosError} from "axios/index";
@@ -33,7 +31,6 @@ const initialState: InitialUserStateType = {
 
     avatarChangeSuccess: null,
     userDataChangeSuccess: null
-
 }
 
 export const userReducer = (state: InitialUserStateType = initialState, action: UserActionsType): InitialUserStateType => {
@@ -123,7 +120,6 @@ export type UserActionsType =
     | ReturnType<typeof setUserAC>
     | ReturnType<typeof setAvatarChangeSuccessAC>
     | ReturnType<typeof setUserDataChangeSuccessAC>
-
 
 type InitialUserStateType = {
     user: MeResponseType

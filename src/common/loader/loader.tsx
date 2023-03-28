@@ -1,13 +1,11 @@
 import loader from '../../assets/img/loader.svg'
 import css from './loader.module.scss'
+import React from "react";
 
-export const Loader = () => (
-
+export const Loader: React.FC = () => (
     <div className={css.loader_wrapper}>
         <div className={css.loader} data-test-id='loader'>
             <img src={loader} alt="loader"/>
         </div>
     </div>
-
-
 );

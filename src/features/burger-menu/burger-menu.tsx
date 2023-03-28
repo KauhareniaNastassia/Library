@@ -4,11 +4,9 @@ import {Sidebar} from "../../layout/side-bar";
 import {useOnClickOutside} from "../../hooks/use-on-click-outside";
 
 
-export const BurgerMenu = () => {
-
+export const BurgerMenu: React.FC = () => {
     const [showMenuBtn, setShowMenuBtn] = useState(false)
     const [popUpClose, setPopUpClose] = useState(true)
-
     const node = useRef<HTMLDivElement>(null);
 
     const onClickOpenMenu = () => {
@@ -37,12 +35,10 @@ export const BurgerMenu = () => {
             </button>
 
             {!popUpClose && <div className={css.sidebar_wrapper}>
-
                 <Sidebar
                     closeSideBar={closeSideBar}
                     showMenuBtn={showMenuBtn}
                 />
-
             </div>
             }
         </div>

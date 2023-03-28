@@ -1,5 +1,6 @@
 import {NavLink} from 'react-router-dom';
 import css from './sidebar-main-item.module.scss'
+import React from "react";
 
 
 type SidebarMainItemPropsType = {

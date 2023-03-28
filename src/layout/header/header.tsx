@@ -12,7 +12,6 @@ import {useOnClickOutside} from "../../hooks/use-on-click-outside";
 export const Header: React.FC = () => {
     const status = useAppSelector(state => state.app.status)
     const appError = useAppSelector(state => state.app.appError)
-    const profile = useAppSelector(state => state.auth.profile)
     const user = useAppSelector(state => state.user.user)
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
@@ -24,10 +23,10 @@ export const Header: React.FC = () => {
     }
 
     const onClickLogoutHandler = () => {
-        console.log('logout')
         dispatch(logoutTC())
         navigate('/auth')
     }
+
     useOnClickOutside(node, onClickOutsideClose);
 
     return (
@@ -42,20 +41,17 @@ export const Header: React.FC = () => {
                 <NavLink to='/'>
                     <img src={clevertecLogoImg} alt='Cleverland logo'/>
                 </NavLink>
-
             </div>
-            <div className={css.header__title}>
 
+            <div className={css.header__title}>
                 <div className={css.header__title_burger}>
                     <BurgerMenu/>
                 </div>
-
                 Библиотека
             </div>
 
             <div className={css.header__user} onClick={() => setPopUpClose(!popUpClose)}>
                 <span>Привет, {user.firstName}!</span>
-
                 <img
                     src={user.avatar !== null ? `https://strapi.cleverland.by${user.avatar}` : userAvatar}
                     alt='User avatar'/>
@@ -70,8 +66,7 @@ export const Header: React.FC = () => {
                             navigate('/profile')
                             onClickOutsideClose()
                         }}
-                    >
-                        Профиль
+                    > Профиль
                     </button>
                     <button className={css.popUp_button} type='button' onClick={onClickLogoutHandler}>Выход
                     </button>

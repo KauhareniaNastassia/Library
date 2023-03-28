@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from 'react';
+import React from 'react';
 import css from './input-search.module.scss'
 import searchIcon from "../../assets/img/search-icon.svg";
 import cancelSearchIcon from "../../assets/img/cancel-icon.svg";
@@ -26,8 +26,7 @@ export const InputSearch: React.FC<InputSearchPropsType> = ({
                 className={css.filterBar__search_button}
                 onClick={openSearch}
         >
-            <img src={searchIcon} alt="Search icon"/>
-
+            <img src={searchIcon} alt="Search icon" className={searchValue.length>0 ? css.img_active : ''}/>
         </button>
 
         <input

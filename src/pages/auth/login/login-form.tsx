@@ -14,10 +14,7 @@ import {schemaForAuth} from "../../../utils/validate/auth-validate/shema-for-aut
 import {AuthErrorModal} from "../../../common/modals/modal-info";
 import {BasicModal} from "../../../common/modals/basic-modal";
 
-/*import input = Simulate.input;*/
-
-
-export const LoginForm = () => {
+export const LoginForm: React.FC = () => {
     const dispatch = useAppDispatch()
     const registrationStatus = useAppSelector(state => state.auth.registrationStatus)
 
@@ -28,7 +25,7 @@ export const LoginForm = () => {
     const [isShowPassword, setIsShowPassword] = useState(false)
 
 
-    const {register, handleSubmit, getValues, getFieldState, formState: {errors}} = useForm<LoginRequestDataType>({
+    const {register, handleSubmit, getValues, formState: {errors}} = useForm<LoginRequestDataType>({
         defaultValues: {
             identifier: '',
             password: '',
@@ -37,10 +34,8 @@ export const LoginForm = () => {
         resolver: yupResolver(schemaForAuth)
     });
 
-
     const onSubmit = (data: LoginRequestDataType) => {
-        localStorage.setItem('password', JSON.stringify( getValues('password')))
-
+        localStorage.setItem('password', JSON.stringify(getValues('password')))
         dispatch(loginTC(data))
     }
 
@@ -49,7 +44,6 @@ export const LoginForm = () => {
 
     return (
         <div>
-
             {
                 (!registrationStatus || registrationStatus === 400) &&
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -61,7 +55,9 @@ export const LoginForm = () => {
                             <div className={css.loginForm__input_wrapper}>
                                 <div className={css.loginForm__input_item}>
                                     <input
-                                        className={(conditionEmptyIdentifier || registrationStatus === 400) ? `${css.loginForm__input} ${css.input__error}` : css.loginForm__input}
+                                        className={(conditionEmptyIdentifier || registrationStatus === 400)
+                                            ? `${css.loginForm__input} ${css.input__error}`
+                                            : css.loginForm__input}
                                         type='text'
                                         id='identifier'
                                         placeholder=' '
@@ -82,12 +78,13 @@ export const LoginForm = () => {
                                         {conditionEmptyIdentifier &&
                                             <span style={{color: 'red'}}>Поле не должно быть пустым</span>}
                                     </div>
-
                                 </div>
 
                                 <div className={css.loginForm__input_item}>
                                     <input
-                                        className={(conditionEmptyPassword || registrationStatus === 400) ? `${css.loginForm__input} ${css.input__error}` : css.loginForm__input}
+                                        className={(conditionEmptyPassword || registrationStatus === 400)
+                                            ? `${css.loginForm__input} ${css.input__error}`
+                                            : css.loginForm__input}
                                         type={isShowPassword ? 'text' : 'password'}
                                         id='password'
                                         placeholder=' '
@@ -104,7 +101,10 @@ export const LoginForm = () => {
                                         })}/>
                                     <label className={css.loginForm__label} htmlFor='password'>Пароль</label>
 
-                                    <button type='button' className={css.loginForm__input_eyeBtn} onClick={() => {
+                                    <button
+                                        type='button'
+                                        className={css.loginForm__input_eyeBtn}
+                                        onClick={() => {
                                         setIsShowPassword(!isShowPassword)
                                     }}>
                                         <img src={isShowPassword ? eyeOpen : eyeClose}/>
@@ -145,7 +145,6 @@ export const LoginForm = () => {
                                     <img src={arrowToRegistration} alt='arrow to registration'/></NavLink>
                             </div>
                         </div>
-
                     </div>
                 </form>
             }

@@ -24,13 +24,11 @@ export interface InputTypesRegistration {
     phone: string
 }
 
-
 export const RegistrationForm: React.FC = () => {
     const dispatch = useAppDispatch()
     const registrationStatus = useAppSelector(state => state.auth.registrationStatus)
     const registrationError = useAppSelector(state => state.auth.registrationError)
     const [stepOfRegistration, setStepOfRegistration] = useState<number>(1)
-
 
     const {
         register,
@@ -79,7 +77,6 @@ export const RegistrationForm: React.FC = () => {
                         setStepOfRegistration={setStepOfRegistration}
                     />}
 
-
                     {stepOfRegistration === 2 && <RegistrationStep2
                         getFieldState={getFieldState}
                         register={register}
@@ -88,14 +85,12 @@ export const RegistrationForm: React.FC = () => {
                         setStepOfRegistration={setStepOfRegistration}
                     />}
 
-
                     {stepOfRegistration === 3 && <RegistrationStep3
                         register={register}
                         errors={errors}
                         getFieldState={getFieldState}
                         getValues={getValues}
                     />}
-
 
                     <div className={css.registration_buttonBlock}>
 
@@ -115,7 +110,6 @@ export const RegistrationForm: React.FC = () => {
             {registrationError && registrationStatus === 400 && <BasicModal modalInfo={Error400Modal}/>}
             {registrationError && registrationStatus !== 200 && registrationStatus !== 400 &&
                 <BasicModal modalInfo={ErrorRegistrationModal}/>}
-
         </div>
     );
 };

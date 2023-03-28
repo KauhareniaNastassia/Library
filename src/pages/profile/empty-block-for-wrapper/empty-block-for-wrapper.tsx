@@ -5,13 +5,12 @@ type EmptyBlockForWrapperPropsType = {
     title: string
 }
 
-export const EmptyBlockForWrapper:React.FC<EmptyBlockForWrapperPropsType> = ({title}) => {
+export const EmptyBlockForWrapper: React.FC<EmptyBlockForWrapperPropsType> = ({title}) => {
     return (
         <div className={css.message_block}>
             <p>
                 {title}
             </p>
-
         </div>
     );
 };

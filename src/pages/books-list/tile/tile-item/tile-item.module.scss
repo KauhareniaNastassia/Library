@@ -32,7 +32,6 @@
     align-items: center;
     justify-content: center;
 
-
     @media (max-width: 768px) {
       margin-bottom: 16px;
       gap: 0;
@@ -83,10 +82,8 @@
     }
 
     .bookList__item_info_title {
-      //display: flex;
       letter-spacing: 0.1px;
       height: 54px;
-     // align-items: center;
       @include text(14px, 18px, 600, $main-text-color);
 
       @media (max-width: 768px) {
@@ -148,6 +145,5 @@
       height: 40px;
       align-self: center;
     }
-
   }
 }

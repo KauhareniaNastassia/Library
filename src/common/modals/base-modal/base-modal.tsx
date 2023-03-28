@@ -20,7 +20,6 @@ export const BaseModal: React.FC<BaseModalPropsType> = ({children, onCloseHandle
                 </button>
                 {children}
             </div>
-
         </div>
     );
 };

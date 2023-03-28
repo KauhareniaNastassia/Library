@@ -6,7 +6,6 @@
   flex-direction: column;
   gap: 32px;
 
-
   .profile__data {
     display: flex;
     flex-direction: row;
@@ -76,7 +75,6 @@
           @include text(12px, 16px, 500, rgba(167, 167, 167, 1));
           transform: translateY(-13px);
         }
-
 
         label {
           position: absolute;

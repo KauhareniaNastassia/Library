@@ -8,7 +8,6 @@ type SidebarShowcaseItemPropsType = {
     categoryId: number
     category: string
     name: string
-
     closeSideBar?: () => void
 }
 
@@ -19,9 +18,7 @@ export const SidebarShowcaseItem: React.FC<SidebarShowcaseItemPropsType> = ({
                                                                                 name, closeSideBar
                                                                             }) => {
     const books = useAppSelector(state => state.books.books)
-
     let categoryCount = books.filter((book) => book.categories?.find((categories) => categories === name)).length
-
 
     return (
         <li key={categoryId} className={css.item}>

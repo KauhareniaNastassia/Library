@@ -12,8 +12,6 @@
   flex-direction: column;
   gap: 16px;
 
-
-
   .registration__input_item_wrapper {
     width: 416px;
     height: 76px;
@@ -56,7 +54,6 @@
       @include text(12px, 16px, 500, rgba(167, 167, 167, 1));
       transform: translateY(-13px);
     }
-
 
     label {
       position: absolute;
@@ -102,8 +99,6 @@
   }
 }
 
-
-
   .registration_submitBTN {
     width: 100%;
     padding: 14px 0;
@@ -113,7 +108,6 @@
     background: linear-gradient(231.58deg, #F83600 -53.35%, #F9D423 297.76%);
     border-radius: 30px;
     border: none;
-
 
     @media (max-width: 320px) {
       padding: 11px 0;

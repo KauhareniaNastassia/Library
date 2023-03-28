@@ -8,29 +8,25 @@ import {getUserDataTC} from "../../redux/user-reducer";
 import {getBooksTC} from "../../redux/books-reducer";
 
 
-export const LayoutMainPage = () => {
-
+export const LayoutMainPage: React.FC = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    const status = useAppSelector(state => state.app.status)
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 
     useEffect(() => {
-        if(isLoggedIn) {
+        if (isLoggedIn) {
             dispatch(getCategoriesListTC())
             dispatch(getUserDataTC())
             dispatch(getBooksTC())
         } else {
             navigate('/auth')
         }
-
     }, [isLoggedIn, dispatch])
-
 
     return (
         <section className={css.wrapper}>
             <div className={css.sidebar}>
-                <Sidebar />
+                <Sidebar/>
             </div>
 
             <div className={css.content}>
@@ -39,7 +35,6 @@ export const LayoutMainPage = () => {
 
         </section>
     )
-
 }
 
 

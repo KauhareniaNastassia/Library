@@ -8,7 +8,8 @@ type StarsRatingForModalPropsType = {
     setRating: any
 }
 
-export const StarsRatingForModal:React.FC<StarsRatingForModalPropsType> = ({rating, setRating}) => {
+export const StarsRatingForModal: React.FC<StarsRatingForModalPropsType> = ({
+                                                                                rating, setRating}) => {
     return (
         <div className={css.stars_wrapper}>
             {[...Array(5)].map((star, index) => {
@@ -16,14 +17,13 @@ export const StarsRatingForModal:React.FC<StarsRatingForModalPropsType> = ({rati
 
                 const onClickHandler = () => {
                     setRating(value)
-                    console.log(value)
                 }
 
                 return (
                     <div key={value}>
                         <img
                             alt='star'
-                            src={(rating && rating >= value )? fullStar : emptyStar }
+                            src={(rating && rating >= value) ? fullStar : emptyStar}
                             onClick={onClickHandler}
                         />
                     </div>

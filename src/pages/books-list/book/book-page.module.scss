@@ -225,8 +225,6 @@
                 }
             }
 
-
-
             &::after {
                 content: '';
                 display: block;
@@ -249,7 +247,6 @@
             @media (max-width: 320px) {
                 display: flex;
                 flex-direction: column;
-
             }
 
             .bookPage__review_rating_count {
@@ -312,14 +309,10 @@
         }
         .bookPage__review_button_unActive {
             @include text(16px, 18px, 600, $main-text-color);
-            //letter-spacing: 0.2px;
             box-sizing: border-box;
             border: 1px solid #BFC4C9;
-           // border-radius: 20px;
             background: #FFFFFF;
         }
-
     }
-
 }
 

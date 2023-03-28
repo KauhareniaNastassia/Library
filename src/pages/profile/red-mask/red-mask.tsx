@@ -8,14 +8,13 @@ type ListItemWrapperPropsType = {
 
 
 export const RedMask: React.FC<ListItemWrapperPropsType> = ({
-                                                                title, description
+                                                                title,
+                                                                description
                                                             }) => {
     return (
         <div className={css.red_mask}>
             <p className={css.red_mask_title}>{title}</p>
             <p className={css.red_mask_description}>{description}</p>
         </div>
-
-
     );
 };

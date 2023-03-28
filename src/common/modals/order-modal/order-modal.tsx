@@ -12,8 +12,14 @@ type CreateCommentModalPropsType = {
     dateOrder?: string | null | undefined
 }
 
-
-const OrderModal: React.FC<CreateCommentModalPropsType> = ({onCloseHandler, onClickCreateHandler, customerId, onClickUpdateHandler, onClickDeleteHandler, dateOrder}) => {
+export const OrderModal: React.FC<CreateCommentModalPropsType> = ({
+                                                               onCloseHandler,
+                                                               onClickCreateHandler,
+                                                               customerId,
+                                                               onClickUpdateHandler,
+                                                               onClickDeleteHandler,
+                                                               dateOrder
+                                                           }) => {
 
     const [selectedDay, setSelectedDay] = useState(new Date())
     const [disableOrderButton, setDisableOrderButton] = useState(true)
@@ -31,10 +37,6 @@ const OrderModal: React.FC<CreateCommentModalPropsType> = ({onCloseHandler, onCl
         onClickDeleteHandler()
         onCloseHandler()
     }
-
-/*    console.log(dateOrder && dateOrder)
-    console.log(dateOrder && new Date(dateOrder).getDate()-1)
-    console.log(selectedDay.getDate())*/
 
     return (
         <div className={css.modal_content_wrapper}>
@@ -69,9 +71,7 @@ const OrderModal: React.FC<CreateCommentModalPropsType> = ({onCloseHandler, onCl
                     />
                 )
             }
-
         </div>
     );
 };
 
-export default OrderModal;

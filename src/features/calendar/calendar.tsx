@@ -1,7 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import css from './calendar.module.scss'
 import {useCalendar} from "../../hooks/useCalendar";
-import {FormateDate} from "../../utils/helpers/date/formate-date";
 import dropDown from '../../assets/img/drop-down.svg'
 import arrowUp from '../../assets/img/arrow-up-calendar.svg'
 import arrowDown from '../../assets/img/arrow-down-calendar.svg'
@@ -28,8 +27,6 @@ export const Calendar: React.FC<CalendarPropsType> = ({
                                                       }) => {
 
     const {state, functions} = useCalendar({firstWeekDay, locale, selectedDate})
-
-    //console.log(state.selectedDay.dayNumberInWeek, state.selectedDay.monthIndex)
 
     return (
         <div className={css.calendar}>
@@ -58,27 +55,6 @@ export const Calendar: React.FC<CalendarPropsType> = ({
 
             </div>
 
-            {/*<div>
-                {state.mode === 'days' && (
-                    <div aria-hidden onClick={() => functions.setMode('months')}>
-                        {state.monthsNames[state.selectedMonths.monthIndex].month} {state.selectedYear}
-                    </div>
-                )}
-
-                {state.mode === 'months' && (
-                    <div aria-hidden onClick={() => functions.setMode('years')}>
-                        {state.selectedYear}
-                    </div>
-                )}
-
-                {state.mode === 'years' && (
-                    <div aria-hidden onClick={() => functions.setMode('days')}>
-                        {state.selectedYearsInterval[0]} -{' '}
-                        {state.selectedYearsInterval[state.selectedYearsInterval.length - 1]}
-                    </div>
-                )}
-            </div>*/}
-
             <div className={css.calendar__body}>
                 {state.mode === 'days' && (
                     <>
@@ -100,8 +76,6 @@ export const Calendar: React.FC<CalendarPropsType> = ({
                                 const isWeekEndInThisMonth = isWeekEnd && day.monthIndex === state.selectedMonth.monthIndex
                                 const currentDay = new Date().getDate()
                                 const isDayForOrder = checkIsDayForOrder(currentDay, day.monthIndex)
-
-                                console.log(day.dayNumber === (dateOrder && new Date(dateOrder).getDate() - 1))
 
                                 return (<button
                                     key={`${day.dayNumber}-${day.monthIndex}`}
@@ -128,16 +102,11 @@ export const Calendar: React.FC<CalendarPropsType> = ({
                                 >
                                     {day.dayNumber}
                                 </button>)
-
                             })}
                         </div>
-
-
                     </>
-
                 )}
             </div>
-
         </div>
     );
 };

@@ -1,5 +1,4 @@
 
-
 .loader_wrapper {
   left: 0;
   width: 100%;
@@ -9,7 +8,6 @@
   backdrop-filter: blur(5px);
   z-index: 100;
 
-
   @media (max-width: 768px) {
     left: 0px;
   }
@@ -18,7 +16,7 @@
     display: inline-block;
     position: fixed;
     top: 45%;
-    left:48%;
+    left: 48%;
     width: 80px;
     height: 80px;
     z-index: 101;
@@ -53,8 +51,5 @@
       }
     }
   }
-
-
-
 }
 

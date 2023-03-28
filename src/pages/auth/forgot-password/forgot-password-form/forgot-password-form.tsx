@@ -8,8 +8,6 @@ import css from "./forgot-password-form.module.scss";
 import {schemaForForgotPassword} from "../../../../utils/validate/forgot-password-validation/shema-for-forgot-password";
 import {NavLink} from "react-router-dom";
 import arrowToRegistration from "../../../../assets/img/arrow-for-registration.svg";
-import {BasicModal} from "../../../../common/modals/basic-modal";
-import {EmailSendModal} from "../../../../common/modals/modal-info";
 
 
 export const ForgotPasswordForm: React.FC = () => {
@@ -17,7 +15,6 @@ export const ForgotPasswordForm: React.FC = () => {
     const [focusEmail, setFocusEmail] = useState(false)
     const [isChangeInputEmail, setIsChangeInputEmail] = useState(false);
     const forgotPasswordError = useAppSelector(state => state.auth.forgotPasswordError)
-
 
     const {register, handleSubmit, getValues, getFieldState, formState: {errors}} = useForm<ForgotPasswordRequestType>({
         defaultValues: {
@@ -74,7 +71,6 @@ export const ForgotPasswordForm: React.FC = () => {
                                     {!errors.email &&
                                         <span className={css.forgotPassword__input_hint}>На это email  будет отправлено письмо с инструкциями по восстановлению пароля</span>
                                     }
-
                                 </div>
 
                             </div>

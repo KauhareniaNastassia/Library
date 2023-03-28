@@ -6,10 +6,8 @@ import {Button} from "../../../../features/button";
 import {AuthorsType, BookingType, DeliveryType, ImageType} from "../../../../api/books-list-api";
 import {useAppDispatch, useAppSelector} from "../../../../hooks/hooks";
 import {BaseModal} from "../../../../common/modals/base-modal/base-modal";
-import CreateCommentModal from "../../../../common/modals/create-comment-modal/create-comment-modal";
 import {Highlighter} from "../../../../utils/helpers/highlighter/highlighter";
-import {UserCommentType} from "../../../../api/user-api";
-import OrderModal from "../../../../common/modals/order-modal/order-modal";
+import {OrderModal} from "../../../../common/modals/order-modal/order-modal";
 import {CreateBookingRequestDataType} from "../../../../api/book-api";
 import {
     createOrderTC,
@@ -34,11 +32,9 @@ type TileItemPropsType = {
     delivery?: DeliveryType | null
     onClickHandler?: () => void
     searchValue?: string
-
-
 }
 
-const TileItem: React.FC<TileItemPropsType> = ({
+export const TileItem: React.FC<TileItemPropsType> = ({
                                                    image,
                                                    rating,
                                                    authors,
@@ -46,11 +42,8 @@ const TileItem: React.FC<TileItemPropsType> = ({
                                                    issueYear,
                                                    delivery,
                                                    booking,
-
                                                    onClickHandler,
-
                                                    searchValue,
-
                                                    id
                                                }) => {
 
@@ -76,7 +69,6 @@ const TileItem: React.FC<TileItemPropsType> = ({
     }, [searchValue])
 
     const onClickCreateNewOrderHandler = (date: string) => {
-
         if (id && userId) {
             const data: CreateBookingRequestDataType = {
                 data: {
@@ -90,8 +82,8 @@ const TileItem: React.FC<TileItemPropsType> = ({
             dispatch(getBooksTC())
         }
     }
-    const onClickUpdateOrderHandler = (date: string) => {
 
+    const onClickUpdateOrderHandler = (date: string) => {
         if (id && userId && booking?.id) {
             const data: CreateBookingRequestDataType = {
                 data: {
@@ -105,12 +97,14 @@ const TileItem: React.FC<TileItemPropsType> = ({
             dispatch(getBooksTC())
         }
     }
+
     const onClickDeleteOrderHandler = () => {
         if (booking?.id) {
             dispatch(deleteOrderTC(booking?.id))
             dispatch(getBooksTC())
         }
     }
+
     const onClickOpenModalHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         e.stopPropagation();
@@ -120,13 +114,14 @@ const TileItem: React.FC<TileItemPropsType> = ({
     const onClickClearNotificationHandler = () => {
         if (createOrderSuccess) {
             dispatch(setCreateOrderSuccessAC(null))
-        } if (updateOrderSuccess) {
+        }
+        if (updateOrderSuccess) {
             dispatch(setUpdateOrderSuccessAC(null))
-        } if (deleteOrderSuccess) {
+        }
+        if (deleteOrderSuccess) {
             dispatch(setDeleteOrderSuccessAC(null))
         }
     }
-
 
     return (
         <>
@@ -135,29 +130,29 @@ const TileItem: React.FC<TileItemPropsType> = ({
                     status='succeeded'
                     message='Книга забронирована. Подробности можно посмотреть на странице Профиль'
                     onClickHandler={onClickClearNotificationHandler}/>}
-            {!createOrderSuccess  && status === 'failed' &&
+            {!createOrderSuccess && status === 'failed' &&
                 <Notification
                     status='failed'
                     message='Что-то пошло не так, книга не забронирована. Попробуйте позже!'
                     onClickHandler={onClickClearNotificationHandler}/>}
 
-            {updateOrderSuccess  && status === 'succeeded' &&
+            {updateOrderSuccess && status === 'succeeded' &&
                 <Notification
                     status='succeeded'
                     message='Бронирование новой даты успешно изменено. Подробности можно посмотреть на странице Профиль'
                     onClickHandler={onClickClearNotificationHandler}/>}
-            {!updateOrderSuccess  && status === 'failed' &&
+            {!updateOrderSuccess && status === 'failed' &&
                 <Notification
                     status='failed'
                     message='Что-то пошло не так, дату бронирования не удалось изменить. Попробуйте позже!'
                     onClickHandler={onClickClearNotificationHandler}/>}
 
-            {deleteOrderSuccess  && status === 'succeeded' &&
+            {deleteOrderSuccess && status === 'succeeded' &&
                 <Notification
                     status='succeeded'
                     message='Бронирование книги успешно отменено!'
                     onClickHandler={onClickClearNotificationHandler}/>}
-            {!deleteOrderSuccess  && status === 'failed' &&
+            {!deleteOrderSuccess && status === 'failed' &&
                 <Notification
                     status='failed'
                     message='Не удалось отменить бронирование книги. Попробуйте позже!'
@@ -165,58 +160,52 @@ const TileItem: React.FC<TileItemPropsType> = ({
 
             <div className={css.bookList__item}>
 
-            <div className={css.bookList__item_coveWrapper}>
-                <img src={image?.url.length
-                    ? `https://strapi.cleverland.by${image.url}`
-                    : defaultBookCover}
-                     alt="Book cover"
-                     className={css.bookList__item_cover}/>
-            </div>
-
-            <div className={css.bookList__item_rating}>
-                <Rating rating={rating}/>
-            </div>
-
-            <div className={css.bookList__item_info}>
-                <div className={css.bookList__item_info_title}>
-                    {highLight(titleForTile)}
-                    {/*{titleForTile}*/}
-
+                <div className={css.bookList__item_coveWrapper}>
+                    <img src={image?.url.length
+                        ? `https://strapi.cleverland.by${image.url}`
+                        : defaultBookCover}
+                         alt="Book cover"
+                         className={css.bookList__item_cover}/>
                 </div>
 
-                <div className={css.bookList__item_info_author}>
-                    {authors}, {issueYear}
+                <div className={css.bookList__item_rating}>
+                    <Rating rating={rating}/>
                 </div>
-            </div>
 
-            <div className={css.bookList__item_button}>
-                <Button
-                    isBooked={booking?.order}//забронирована
-                    dateHanded={delivery?.dateHandedFrom?.toString()}
-                    handed={delivery?.handed}
-                    orderByAuthUser={booking?.customerId === userId}
-                    onClickOpenModalHandler={onClickOpenModalHandler}//for open order modal
-                    onClickHandler={onClickHandler}
-                />
-            </div>
+                <div className={css.bookList__item_info}>
+                    <div className={css.bookList__item_info_title}>
+                        {highLight(titleForTile)}
+                    </div>
 
-            {orderModalIsOpen &&
-                <BaseModal
-                    onCloseHandler={() => setOrderModalIsOpen(false)}>
-                    <OrderModal
-                        customerId={booking?.customerId === userId}
-                        dateOrder={booking?.dateOrder}
-                        onCloseHandler={() => setOrderModalIsOpen(false)}
-                        onClickCreateHandler={onClickCreateNewOrderHandler}
-                        onClickUpdateHandler={onClickUpdateOrderHandler}
-                        onClickDeleteHandler={onClickDeleteOrderHandler}
+                    <div className={css.bookList__item_info_author}>
+                        {authors}, {issueYear}
+                    </div>
+                </div>
+
+                <div className={css.bookList__item_button}>
+                    <Button
+                        isBooked={booking?.order}//забронирована
+                        dateHanded={delivery?.dateHandedFrom?.toString()}
+                        handed={delivery?.handed}
+                        orderByAuthUser={booking?.customerId === userId}
+                        onClickOpenModalHandler={onClickOpenModalHandler}//for open order modal
+                        onClickHandler={onClickHandler}
                     />
-                </BaseModal>}
+                </div>
 
-        </div>
+                {orderModalIsOpen &&
+                    <BaseModal
+                        onCloseHandler={() => setOrderModalIsOpen(false)}>
+                        <OrderModal
+                            customerId={booking?.customerId === userId}
+                            dateOrder={booking?.dateOrder}
+                            onCloseHandler={() => setOrderModalIsOpen(false)}
+                            onClickCreateHandler={onClickCreateNewOrderHandler}
+                            onClickUpdateHandler={onClickUpdateOrderHandler}
+                            onClickDeleteHandler={onClickDeleteOrderHandler}
+                        />
+                    </BaseModal>}
+            </div>
         </>
-
     );
 };
-
-export default TileItem;

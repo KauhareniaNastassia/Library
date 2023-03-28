@@ -4,7 +4,7 @@ import error from '../../assets/img/error-icon.svg'
 import success from '../../assets/img/success-icon.svg'
 import close from '../../assets/img/close-error-icon.svg'
 import {useAppDispatch} from "../../hooks/hooks";
-import {setAppErrorAC, setAppStatusAC} from "../../redux/app-reducer";
+import {setAppStatusAC} from "../../redux/app-reducer";
 
 type NotificationPropsType = {
     status: string
@@ -12,8 +12,10 @@ type NotificationPropsType = {
     onClickHandler?: () => void
 }
 
-
-export const Notification: React.FC<NotificationPropsType> = ({status, message, onClickHandler}) => {
+export const Notification: React.FC<NotificationPropsType> = ({
+                                                                  status,
+                                                                  message, onClickHandler
+                                                              }) => {
     const dispatch = useAppDispatch()
     const [isOpen, setIsOpen] = useState(true)
 
@@ -29,7 +31,6 @@ export const Notification: React.FC<NotificationPropsType> = ({status, message, 
         setTimeout(() => {
             onClickCloseHandler()
         }, 5000)
-
     }, [])
 
     return (
@@ -38,9 +39,7 @@ export const Notification: React.FC<NotificationPropsType> = ({status, message, 
                 <div>
                     {status === 'failed' &&
                         <div className={`${css.wrapper} ${css.error}`}>
-
                             <img src={error} alt='error-icon' className={css.error_icon}/>
-
                             <div className={css.message}>
                                 {message}
                             </div>
@@ -53,9 +52,7 @@ export const Notification: React.FC<NotificationPropsType> = ({status, message, 
 
                     {status === 'succeeded' &&
                         <div className={`${css.wrapper} ${css.success}`}>
-
                             <img src={success} alt='success-icon' className={css.error_icon}/>
-
                             <div className={css.message}>
                                 {message}
                             </div>
@@ -65,13 +62,8 @@ export const Notification: React.FC<NotificationPropsType> = ({status, message, 
                             </button>
                         </div>
                     }
-
-
                 </div>}
-
         </div>
-
-
     );
 };
 
