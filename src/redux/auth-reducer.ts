@@ -11,8 +11,11 @@ import {setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
 import {AxiosError} from "axios/index";
 
 const initialState: InitialAuthStateType = {
+    isRegistrationSuccess: null,
+
+
     isLoggedIn: false,
-    isRegistrationSuccess: false,
+
     registrationStatus: null,
     profile: null,
     authError: null,
@@ -210,7 +213,7 @@ export type AuthActionsType =
 
 type InitialAuthStateType = {
     isLoggedIn: boolean
-    isRegistrationSuccess: boolean
+    isRegistrationSuccess: null | boolean
     registrationStatus: null | number | undefined
     profile: null | AuthUserResponseType
     authError: null | string
