@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import {useAppDispatch, useAppSelector} from "../../../hooks/hooks";
 import {loginTC} from "../../../redux/auth-reducer";
@@ -34,9 +34,23 @@ export const LoginForm: React.FC = () => {
         resolver: yupResolver(schemaForAuth)
     });
 
+
+    let userData = new Object()
+    let user = localStorage.getItem('user')
+
+    if (user) {
+        console.log( JSON.parse(user))
+      userData = JSON.parse(user)
+    }
+
+    console.log(userData)
+
     const onSubmit = (data: LoginRequestDataType) => {
+
+       /* if (data.identifier === userData)*/
+
         localStorage.setItem('password', JSON.stringify(getValues('password')))
-        dispatch(loginTC(data))
+        //dispatch(loginTC(data))
     }
 
     const conditionEmptyIdentifier = changeInputIdentifier && !focusIdentifier && getValues('identifier') === '';
@@ -125,7 +139,7 @@ export const LoginForm: React.FC = () => {
                             </div>
 
                             <NavLink className={css.loginForm__forgotPassword} to={'/forgot-pass'}>
-                                {registrationStatus === 400 ? 'Восстановить?' : 'Забыли логин или пароль?'}
+                                {/*{registrationStatus === 400 ? 'Восстановить?' : 'Забыли логин или пароль?'}*/}
                             </NavLink>
 
                         </div>

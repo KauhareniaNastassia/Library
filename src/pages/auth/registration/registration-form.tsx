@@ -6,9 +6,9 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
 import {ShemaForRegistration} from "../../../utils/validate/registration-validate/shema-for-registration";
 import css from "./registration-form.module.scss";
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../../hooks/hooks";
-import {registrationTC} from "../../../redux/auth-reducer";
+import {isRegistrationSuccessAC, registrationTC} from "../../../redux/auth-reducer";
 
 import {Error400Modal, ErrorRegistrationModal, SuccessModal} from "../../../common/modals/modal-info";
 import arrowToRegistration from "../../../assets/img/arrow-for-registration.svg";
@@ -26,6 +26,8 @@ export interface InputTypesRegistration {
 
 export const RegistrationForm: React.FC = () => {
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
+    const isRegistrationSuccess = useAppSelector(state => state.auth.isRegistrationSuccess)
     const registrationStatus = useAppSelector(state => state.auth.registrationStatus)
     const registrationError = useAppSelector(state => state.auth.registrationError)
     const [stepOfRegistration, setStepOfRegistration] = useState<number>(1)
@@ -54,14 +56,16 @@ export const RegistrationForm: React.FC = () => {
         setStepOfRegistration(stepOfRegistration + 1)
 
         if (stepOfRegistration === 3) {
-            dispatch(registrationTC(data))
+            localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiI');
+            localStorage.setItem('user', JSON.stringify(data));
+            dispatch(isRegistrationSuccessAC(true))
         }
     }
 
     return (
         <div>
             {
-                !registrationStatus &&
+                isRegistrationSuccess === null &&
 
                 <form onSubmit={handleSubmit(onSubmit)} className={css.wrapper_registrationForm}>
                     <div className={css.registrationForm__titleBlock}>
@@ -106,9 +110,9 @@ export const RegistrationForm: React.FC = () => {
                     </div>
                 </form>
             }
-            {registrationStatus && registrationStatus === 200 && <BasicModal modalInfo={SuccessModal}/>}
-            {registrationError && registrationStatus === 400 && <BasicModal modalInfo={Error400Modal}/>}
-            {registrationError && registrationStatus !== 200 && registrationStatus !== 400 &&
+            {isRegistrationSuccess && <BasicModal modalInfo={SuccessModal}/>}
+            {/* {registrationError && registrationStatus === 400 && <BasicModal modalInfo={Error400Modal}/>}*/}
+            {isRegistrationSuccess === false &&
                 <BasicModal modalInfo={ErrorRegistrationModal}/>}
         </div>
     );
