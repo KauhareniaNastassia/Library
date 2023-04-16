@@ -4,12 +4,13 @@ import userAvatar from "../../../assets/img/avatar.svg";
 import cameraIcon from '../../../assets/img/camera-icon.svg'
 import {useAppDispatch} from "../../../hooks/hooks";
 import {UpdateUserAvatarTC} from "../../../redux/user-reducer";
+import {convertToBase64} from "../../../utils/convertToBase64";
 
 
 type AvatarBlockPropsType = {
-    firstName: string
-    lastName: string
-    avatar: string | null
+    firstName?: string
+    lastName?: string
+    avatar?: string | null
     userId: number
 }
 
@@ -21,21 +22,26 @@ export const AvatarBlock: React.FC<AvatarBlockPropsType> = ({
                                                             }) => {
     const dispatch = useAppDispatch()
 
-    const onClickAvatarChange = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            const files = new FormData()
-            files.append('files', e.target.files[0])
 
-            dispatch(UpdateUserAvatarTC(userId, files))
+
+    const onClickAvatarChange = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length) {
+            const file = e.target.files[0]
+            if (file.size < 4000000) {
+                convertToBase64(file, (img64: string) => {
+                    dispatch(UpdateUserAvatarTC(img64))
+                })
+            }
         }
     }
+
 
     return (
         <div className={css.profile__avatar_block}>
             <div className={css.profile__avatar_img}>
 
                 <img
-                    src={avatar !== null ? `https://strapi.cleverland.by${avatar}` : userAvatar}
+                    src={avatar !== null ? avatar : userAvatar}
                     alt='User avatar'
                     className={css.profile__avatar_img}
                 />

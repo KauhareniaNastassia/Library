@@ -15,6 +15,8 @@ import {ListItemForProfile} from "./list-item-for-profile/list-item-for-profile"
 export const ProfilePage: React.FC = () => {
     const dispatch = useAppDispatch()
     const user = useAppSelector(state => state.user.user)
+    const userProfile = useAppSelector(state => state.user.userProfile)
+    const userAvatar = useAppSelector(state => state.user.avatar)
     const status = useAppSelector(state => state.app.status)
     const deleteOrderSuccess = useAppSelector(state => state.book.deleteOrderSuccess)
     const userDataChangeSuccess = useAppSelector(state => state.user.userDataChangeSuccess)
@@ -76,9 +78,9 @@ export const ProfilePage: React.FC = () => {
                     onClickHandler={onClickClearNotificationHandler}/>}
 
             <AvatarBlock
-                firstName={user.firstName}
-                lastName={user.lastName}
-                avatar={user.avatar}
+                firstName={userProfile?.firstName}
+                lastName={userProfile?.lastName}
+                avatar={userAvatar}
                 userId={user.id}
             />
 

@@ -12,7 +12,8 @@ import {useOnClickOutside} from "../../hooks/use-on-click-outside";
 export const Header: React.FC = () => {
     const status = useAppSelector(state => state.app.status)
     const appError = useAppSelector(state => state.app.appError)
-    const user = useAppSelector(state => state.user.user)
+    const user = useAppSelector(state => state.user.userProfile)
+    const avatar = useAppSelector(state => state.user.avatar)
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const [popUpClose, setPopUpClose] = useState(false)
@@ -23,8 +24,10 @@ export const Header: React.FC = () => {
     }
 
     const onClickLogoutHandler = () => {
-        localStorage.removeItem('token');
-        dispatch(isLoggedInAC(false))
+
+        dispatch(logoutTC())
+        /*localStorage.removeItem('token');
+        dispatch(isLoggedInAC(false))*/
         navigate('/auth')
 
        // navigate('/auth')
@@ -54,9 +57,12 @@ export const Header: React.FC = () => {
             </div>
 
             <div className={css.header__user} onClick={() => setPopUpClose(!popUpClose)}>
-                <span>Привет, {user.firstName}!</span>
-                <img
+                <span>Привет, {user && user.firstName}!</span>
+               {/* <img
                     src={user.avatar !== null ? `https://strapi.cleverland.by${user.avatar}` : userAvatar}
+                    alt='User avatar'/>*/}
+                <img
+                    src={avatar !== null ? avatar :  userAvatar}
                     alt='User avatar'/>
             </div>
 

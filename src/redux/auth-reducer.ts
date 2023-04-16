@@ -4,16 +4,18 @@ import {
     AuthUserResponseType,
     ForgotPasswordRequestType,
     LoginRequestDataType,
-    RegistrationDataType,
-    ResetPasswordRequestData
+
+    ResetPasswordRequestData, UserDataType
 } from "../api/auth-api";
 import {setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
 import {AxiosError} from "axios/index";
+import {setAvatarChangeAC, setUserProfileAC} from "./user-reducer";
 
 const initialState: InitialAuthStateType = {
     isRegistrationSuccess: null,
     isLoggedIn: false,
     isAuthError: false,
+    //userProfile: null,
 
 
     authError: null,
@@ -39,6 +41,11 @@ export const authReducer = (state: InitialAuthStateType = initialState, action: 
             return {
                 ...state, isAuthError: action.isAuthError
             }
+        /*case "auth/SET-USER-PROFILE-DATA":
+            return {
+                ...state, userProfile: action.userProfile
+            }*/
+
 
 
 
@@ -90,6 +97,12 @@ export const isAuthErrorAC = (isAuthError: boolean) => ({
     type: 'auth/IS-AUTH-ERROR',
     isAuthError
 } as const)
+/*export const setUserProfileAC = (userProfile: RegistrationDataType | null) => ({
+    type: 'auth/SET-USER-PROFILE-DATA',
+    userProfile
+} as const)*/
+
+
 
 
 
@@ -126,7 +139,7 @@ export const setRegistrationErrorAC = (registrationError: string | null) => ({
 
 //  thunk
 
-export const loginTC = (data: RegistrationDataType): AppThunkType =>
+export const loginTC = (data: UserDataType): AppThunkType =>
     async (dispatch) => {
         dispatch(setAppStatusAC('loading'))
         try {
@@ -134,6 +147,8 @@ export const loginTC = (data: RegistrationDataType): AppThunkType =>
             dispatch(isAuthErrorAC(false))
             localStorage.removeItem('token');
             localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiI')
+            dispatch(setUserProfileAC(data))
+            dispatch(setAvatarChangeAC(localStorage.getItem('avatarIsChanged')))
 
             /*localStorage.setItem('user', JSON.stringify(user))
             localStorage.getItem('user')
@@ -156,7 +171,7 @@ export const logoutTC = (): AppThunkType =>
             localStorage.removeItem('token');
             dispatch(isLoggedInAC(false))
 
-
+            dispatch(setUserProfileAC(null))
             dispatch(setLoginDataAC(null))
             dispatch(setAppStatusAC('succeeded'))
 
@@ -202,7 +217,7 @@ export const logoutTC = (): AppThunkType =>
         }
     }*/
 
-export const registrationTC = (data: RegistrationDataType): AppThunkType =>
+export const registrationTC = (data: UserDataType): AppThunkType =>
     async (dispatch) => {
         dispatch(setAppStatusAC('loading'))
 
@@ -258,9 +273,11 @@ export type AuthActionsType =
     | ReturnType<typeof isLoggedInAC>
     | ReturnType<typeof isRegistrationSuccessAC>
     | ReturnType<typeof isAuthErrorAC>
+    //| ReturnType<typeof setUserProfileAC>
+
+
 
     | ReturnType<typeof setLoginDataAC>
-
     | ReturnType<typeof setRegistrationStatusAC>
     | ReturnType<typeof setAuthErrorAC>
     | ReturnType<typeof setForgetPasswordOkAC>
@@ -273,6 +290,7 @@ type InitialAuthStateType = {
     isLoggedIn: boolean
     isRegistrationSuccess: null | boolean
     isAuthError: boolean
+   // userProfile: null | RegistrationDataType
 
 
     registrationStatus: null | number | undefined

@@ -20,7 +20,7 @@ export interface InputTypesUserDataBlock {
 }
 
 export const UserDataBlock: React.FC = () => {
-    const user = useAppSelector(state => state.user.user)
+    const userProfile = useAppSelector(state => state.user.userProfile)
     const [editMode, setEditMode] = useState(false)
     const dispatch = useAppDispatch()
     const [isShowPassword, setIsShowPassword] = useState(false)
@@ -33,12 +33,6 @@ export const UserDataBlock: React.FC = () => {
     const [isChangeInputPhone, setIsChangeInputPhone] = useState(false);
     const [isChangeInputEmail, setIsChangeInputEmail] = useState(false);
 
-    let passwordItem
-    const item = localStorage.getItem('password')
-    if (item) {
-        passwordItem = JSON.parse(item)
-    }
-
     const {
         register,
         handleSubmit,
@@ -47,12 +41,12 @@ export const UserDataBlock: React.FC = () => {
         getValues
     } = useForm<InputTypesUserDataBlock>({
         defaultValues: {
-            username: user.username,
-            password: passwordItem,
-            email: user.email,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            phone: user.phone,
+            username: userProfile?.username,
+            password: userProfile?.password,
+            email: userProfile?.email,
+            firstName: userProfile?.firstName,
+            lastName: userProfile?.lastName,
+            phone: userProfile?.phone,
         },
         mode: 'onBlur',
         resolver: yupResolver(SchemaForUserDataProfile)
@@ -62,12 +56,12 @@ export const UserDataBlock: React.FC = () => {
         const userData = {
             username: data.username,
             password: data.password,
-            firstName: user.firstName === data.firstName ? undefined : data.firstName,
-            lastName: user.lastName === data.lastName ? undefined : data.lastName,
+            firstName: userProfile?.firstName === data.firstName ? undefined : data.firstName,
+            lastName: userProfile?.lastName === data.lastName ? undefined : data.lastName,
             email: data.email,
-            phone: user.phone === data.phone ? undefined : data.phone,
+            phone: userProfile?.phone === data.phone ? undefined : data.phone,
         }
-        dispatch(UpdateUserDataTC(user.id, userData))
+        dispatch(UpdateUserDataTC(userData))
         setEditMode(false)
     }
 
