@@ -12,13 +12,13 @@ import {AxiosError} from "axios/index";
 
 const initialState: InitialAuthStateType = {
     isRegistrationSuccess: null,
-
-
     isLoggedIn: false,
+    isAuthError: false,
 
+
+    authError: null,
     registrationStatus: null,
     profile: null,
-    authError: null,
     forgotPasswordOk: false,
     resetPasswordOk: false,
     forgotPasswordError: null,
@@ -31,13 +31,20 @@ export const authReducer = (state: InitialAuthStateType = initialState, action: 
             return {
                 ...state, isLoggedIn: action.isLoggedIn
             }
-        case "auth/SET-LOGIN-DATA":
-            return {
-                ...state, profile: action.profile
-            }
         case 'auth/IS-REGISTRATION-SUCCESS':
             return {
                 ...state, isRegistrationSuccess: action.value
+            }
+        case "auth/IS-AUTH-ERROR":
+            return {
+                ...state, isAuthError: action.isAuthError
+            }
+
+
+
+        case "auth/SET-LOGIN-DATA":
+            return {
+                ...state, profile: action.profile
             }
         case 'auth/SET-REGISTRATION-STATUS':
             return {
@@ -75,14 +82,22 @@ export const isLoggedInAC = (isLoggedIn: boolean) => ({
     type: 'auth/IS-LOGGED-IN',
     isLoggedIn
 } as const)
-export const setLoginDataAC = (profile: AuthUserResponseType | null) => ({
-    type: 'auth/SET-LOGIN-DATA',
-    profile
-} as const)
 export const isRegistrationSuccessAC = (value: boolean) => ({
     type: 'auth/IS-REGISTRATION-SUCCESS',
     value
 } as const)
+export const isAuthErrorAC = (isAuthError: boolean) => ({
+    type: 'auth/IS-AUTH-ERROR',
+    isAuthError
+} as const)
+
+
+
+export const setLoginDataAC = (profile: AuthUserResponseType | null) => ({
+    type: 'auth/SET-LOGIN-DATA',
+    profile
+} as const)
+
 export const setRegistrationStatusAC = (registrationStatus: number | null | undefined) => ({
     type: 'auth/SET-REGISTRATION-STATUS',
     registrationStatus
@@ -111,7 +126,47 @@ export const setRegistrationErrorAC = (registrationError: string | null) => ({
 
 //  thunk
 
-export const loginTC = (data: LoginRequestDataType): AppThunkType =>
+export const loginTC = (data: RegistrationDataType): AppThunkType =>
+    async (dispatch) => {
+        dispatch(setAppStatusAC('loading'))
+        try {
+            dispatch(isLoggedInAC(true))
+            dispatch(isAuthErrorAC(false))
+            localStorage.removeItem('token');
+            localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiI')
+
+            /*localStorage.setItem('user', JSON.stringify(user))
+            localStorage.getItem('user')
+            dispatch(setLoginDataAC(data.))*/
+
+            //localStorage.setItem('user', JSON.stringify(res.data.user));
+            dispatch(setAppStatusAC('succeeded'))
+
+        } catch (err) {
+            dispatch(isAuthErrorAC(true))
+            dispatch(setAppStatusAC('failed'))
+        }
+    }
+
+export const logoutTC = (): AppThunkType =>
+    async (dispatch) => {
+        dispatch(setAppStatusAC('loading'))
+        try {
+
+            localStorage.removeItem('token');
+            dispatch(isLoggedInAC(false))
+
+
+            dispatch(setLoginDataAC(null))
+            dispatch(setAppStatusAC('succeeded'))
+
+        } catch (err) {
+            dispatch(setAppStatusAC('failed'))
+        }
+    }
+
+
+/*export const loginTC = (data: LoginRequestDataType): AppThunkType =>
     async (dispatch) => {
         dispatch(setAppStatusAC('loading'))
         try {
@@ -128,9 +183,9 @@ export const loginTC = (data: LoginRequestDataType): AppThunkType =>
             dispatch(setAuthErrorAC(error.message))
             dispatch(setRegistrationStatusAC(error.response?.status))
         }
-    }
+    }*/
 
-export const logoutTC = (): AppThunkType =>
+/*export const logoutTC = (): AppThunkType =>
     async (dispatch) => {
         dispatch(setAppStatusAC('loading'))
         try {
@@ -145,7 +200,7 @@ export const logoutTC = (): AppThunkType =>
             dispatch(setAppStatusAC('failed'))
             dispatch(setAuthErrorAC(error.message))
         }
-    }
+    }*/
 
 export const registrationTC = (data: RegistrationDataType): AppThunkType =>
     async (dispatch) => {
@@ -201,8 +256,11 @@ export const resetPasswordTC = (data: ResetPasswordRequestData): AppThunkType =>
 
 export type AuthActionsType =
     | ReturnType<typeof isLoggedInAC>
-    | ReturnType<typeof setLoginDataAC>
     | ReturnType<typeof isRegistrationSuccessAC>
+    | ReturnType<typeof isAuthErrorAC>
+
+    | ReturnType<typeof setLoginDataAC>
+
     | ReturnType<typeof setRegistrationStatusAC>
     | ReturnType<typeof setAuthErrorAC>
     | ReturnType<typeof setForgetPasswordOkAC>
@@ -214,6 +272,9 @@ export type AuthActionsType =
 type InitialAuthStateType = {
     isLoggedIn: boolean
     isRegistrationSuccess: null | boolean
+    isAuthError: boolean
+
+
     registrationStatus: null | number | undefined
     profile: null | AuthUserResponseType
     authError: null | string
