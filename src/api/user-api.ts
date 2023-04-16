@@ -5,7 +5,7 @@ export const userApi = {
     me() {
         return customInstance.get<MeResponseType>('/api/users/me')
     },
-    updateUserData(id: number, data: UpdateUserDataRequestType) {
+    updateUserData(id: number, data: UpdateUserDataType) {
         return customInstance.put<MeResponseType>(`/api/users/${id}`, data)
     },
     addUserAvatar(files: FormData) {
@@ -72,7 +72,7 @@ export type UserHistoryType = {
     id: number,
     books: UserOrderedBookType[]
 }
-export type UpdateUserDataRequestType = {
+export type UpdateUserDataType = {
     username: string,
     password: string,
     firstName?: string,

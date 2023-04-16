@@ -1,10 +1,21 @@
-import {MeResponseType, UpdateUserDataRequestType, userApi} from "../api/user-api";
+import {MeResponseType, UpdateUserDataType, userApi} from "../api/user-api";
 import {AppThunkType} from "./store";
 import {setAppErrorAC, setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
 import {AxiosError} from "axios/index";
+import {UserDataType} from "../api/auth-api";
 
 
 const initialState: InitialUserStateType = {
+    userProfile: {
+        email: '',
+        username: '',
+        password: '',
+        firstName: '',
+        lastName: '',
+        phone: ''
+    },
+    avatar: null,
+
     user: {
         id: 0, //this user id
         username: '',
@@ -35,6 +46,14 @@ const initialState: InitialUserStateType = {
 
 export const userReducer = (state: InitialUserStateType = initialState, action: UserActionsType): InitialUserStateType => {
     switch (action.type) {
+        case "user/SET-USER-PROFILE-DATA":
+            return {
+                ...state, userProfile: action.userProfile
+            }
+        case "user/SET-AVATAR-CHANGE":
+            return {...state, avatar: action.avatar}
+
+
         case "user/SET-USER":
             return {...state, user: action.user}
         case "user/SET-AVATAR-CHANGE-SUCCESS":
@@ -48,6 +67,17 @@ export const userReducer = (state: InitialUserStateType = initialState, action: 
 
 
 //  actions
+export const setUserProfileAC = (userProfile: UserDataType | UpdateUserDataType | null) => ({
+    type: 'user/SET-USER-PROFILE-DATA',
+    userProfile
+} as const)
+export const setAvatarChangeAC = (avatar: null | string) => ({
+    type: 'user/SET-AVATAR-CHANGE',
+    avatar
+} as const)
+
+
+
 export const setUserAC = (user: MeResponseType) => ({
     type: 'user/SET-USER',
     user
@@ -64,11 +94,50 @@ export const setUserDataChangeSuccessAC = (userDataChangeSuccess: null | boolean
 
 //  thunk
 
+export const UpdateUserDataTC = (data: UpdateUserDataType): AppThunkType =>
+    async (dispatch) => {
+        dispatch(setAppStatusAC('loading'))
+        try {
+
+            dispatch(setUserDataChangeSuccessAC(true))
+            localStorage.setItem('user', JSON.stringify(data))
+            dispatch(setUserProfileAC(data))
+           // dispatch(setUserAC(res.data))
+            dispatch(setAppStatusAC('succeeded'))
+            dispatch(setAppSuccessMessageAC('success'))
+        } catch (err) {
+            const error = err as AxiosError
+            dispatch(setAppStatusAC('failed'))
+            dispatch(setUserDataChangeSuccessAC(false))
+        }
+    }
+
+export const UpdateUserAvatarTC = (files: string): AppThunkType =>
+    async (dispatch) => {
+        dispatch(setAppStatusAC('loading'))
+        try {
+            localStorage.setItem('avatarIsChanged', files)
+            dispatch(setAvatarChangeAC(files))
+
+            dispatch(setAvatarChangeSuccessAC(true))
+            //dispatch(setUserAC(res.data))
+            dispatch(setAppStatusAC('succeeded'))
+            dispatch(setAppSuccessMessageAC('success'))
+        } catch (err) {
+            const error = err as AxiosError
+            dispatch(setAppStatusAC('failed'))
+            dispatch(setAvatarChangeSuccessAC(false))
+        }
+    }
+
+
+
 export const getUserDataTC = (): AppThunkType =>
     async (dispatch) => {
         dispatch(setAppStatusAC('loading'))
         try {
             const res = await userApi.me()
+            //dispatch(setUserProfileAC(res.data))
             dispatch(setUserAC(res.data))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
@@ -79,12 +148,11 @@ export const getUserDataTC = (): AppThunkType =>
         }
     }
 
-export const UpdateUserAvatarTC = (userId: number, files: FormData): AppThunkType =>
+/*export const UpdateUserAvatarTC = (files: FormData): AppThunkType =>
     async (dispatch) => {
         dispatch(setAppStatusAC('loading'))
         try {
-            const {data} = await userApi.addUserAvatar(files)
-            const res = await userApi.updateUserAvatar(userId, data[0].id)
+
             dispatch(setAvatarChangeSuccessAC(true))
             dispatch(setUserAC(res.data))
             dispatch(setAppStatusAC('succeeded'))
@@ -94,9 +162,9 @@ export const UpdateUserAvatarTC = (userId: number, files: FormData): AppThunkTyp
             dispatch(setAppStatusAC('failed'))
             dispatch(setAvatarChangeSuccessAC(false))
         }
-    }
+    }*/
 
-export const UpdateUserDataTC = (id: number, data: UpdateUserDataRequestType): AppThunkType =>
+/*export const UpdateUserDataTC = (id: number, data: UpdateUserDataRequestType): AppThunkType =>
     async (dispatch) => {
         dispatch(setAppStatusAC('loading'))
         try {
@@ -111,17 +179,26 @@ export const UpdateUserDataTC = (id: number, data: UpdateUserDataRequestType): A
             dispatch(setAppStatusAC('failed'))
             dispatch(setUserDataChangeSuccessAC(false))
         }
-    }
+    }*/
 
 
 //  types
 
 export type UserActionsType =
+    | ReturnType<typeof setUserProfileAC>
+    | ReturnType<typeof setAvatarChangeAC>
+
+
+
     | ReturnType<typeof setUserAC>
     | ReturnType<typeof setAvatarChangeSuccessAC>
     | ReturnType<typeof setUserDataChangeSuccessAC>
 
 type InitialUserStateType = {
+    userProfile: UserDataType | UpdateUserDataType | null
+    avatar: null | string,
+
+
     user: MeResponseType
     avatarChangeSuccess: boolean | null
     userDataChangeSuccess: boolean | null

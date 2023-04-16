@@ -2,7 +2,7 @@ import {instance} from "./instance";
 import {AxiosResponse} from "axios";
 
 export const authApi = {
-    registration(data: RegistrationDataType) {
+    registration(data: UserDataType) {
         return instance.post<AuthResponseType>(`/api/auth/local/register`, data)
     },
     login(data: LoginRequestDataType) {
@@ -18,7 +18,7 @@ export const authApi = {
 
 //===========TYPES=========
 
-export type RegistrationDataType = {
+export type UserDataType = {
     email: string,
     username: string,
     password: string,
