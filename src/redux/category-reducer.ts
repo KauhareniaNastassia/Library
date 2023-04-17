@@ -54,6 +54,14 @@ type InitialCategoryStateType = {
 
 
 
+//====new====
+
+export type categoriesListType = {
+    categories: CategoryItemType[]
+}
+
+
+
 
 
 

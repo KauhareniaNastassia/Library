@@ -3,15 +3,15 @@ import css from './book-info.module.scss'
 import {CategoriesType} from "../../../../api/books-list-api";
 
 type BookInfoPropsType = {
-    publish: string | null
-    year: string | null
-    pages: string | null
-    cover: string | null
-    format: string | null
-    category: CategoriesType | null
-    weight: string | null
-    isbn: string | null
-    producer: string | null
+    publish: string | null | undefined
+    year: string | null| undefined
+    pages: string | null| undefined
+    cover: string | null| undefined
+    format: string | null| undefined
+    category: CategoriesType | null| undefined
+    weight: string | null| undefined
+    isbn: string | null| undefined
+    producer: string | null| undefined
 }
 
 export const BookInfo:React.FC<BookInfoPropsType> = ({

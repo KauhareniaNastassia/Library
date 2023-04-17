@@ -4,7 +4,7 @@ import star from "../../assets/img/star.svg";
 import defaultStar from "../../assets/img/default-star.svg";
 
 type RatingPropsType = {
-    rating: number | null
+    rating: number | null | undefined
 }
 
 export const Rating: React.FC<RatingPropsType> = ({
