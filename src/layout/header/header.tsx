@@ -58,9 +58,6 @@ export const Header: React.FC = () => {
 
             <div className={css.header__user} onClick={() => setPopUpClose(!popUpClose)}>
                 <span>Привет, {user && user.firstName}!</span>
-               {/* <img
-                    src={user.avatar !== null ? `https://strapi.cleverland.by${user.avatar}` : userAvatar}
-                    alt='User avatar'/>*/}
                 <img
                     src={avatar !== null ? avatar :  userAvatar}
                     alt='User avatar'/>

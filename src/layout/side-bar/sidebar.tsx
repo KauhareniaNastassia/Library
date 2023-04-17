@@ -6,6 +6,7 @@ import {SidebarMainItem} from "./sidebar-main-item";
 import {SidebarShowcaseItem} from "./sidebar-showcase-item";
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 import {logoutTC} from "../../redux/auth-reducer";
+import {categoriesList} from "../../mock-data/categories";
 
 type SidebarPropsType = {
     closeSideBar?: () => void
@@ -68,7 +69,7 @@ export const Sidebar: React.FC<SidebarPropsType> = ({closeSideBar, showMenuBtn})
                             </div>
 
                             <ul>
-                                {categories.map((category) =>
+                                {categoriesList.categories.map((category) =>
                                     <SidebarShowcaseItem
                                         key={category.id}
                                         categoryId={category.id}

@@ -12,6 +12,8 @@ import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 import {BookListResponseType} from "../../api/books-list-api";
 import {getBooksTC} from "../../redux/books-reducer";
 import {NotFoundMessage} from "../../common/not-found-message/not-found-message";
+import {booksArray} from "../../mock-data/books";
+import {categoriesList} from "../../mock-data/categories";
 
 
 export const MainContent:React.FC = () => {
@@ -26,8 +28,8 @@ export const MainContent:React.FC = () => {
     const [sortByRating, setSortByRating] = useState(true)
     const [searchValue, setSearchValue] = useState<string>('');
 
-    const books = useAppSelector((state) => state.books.books)
-    const currentCategory = useAppSelector(state => state.categories.items.find(el => el.path === category))
+    const books = booksArray.books
+    const currentCategory = categoriesList.categories.find(el => el.path === category)
     const booksInThisCategory = books.filter((book) => book.categories?.find((ctgrs) => ctgrs === currentCategory?.name))
 
 

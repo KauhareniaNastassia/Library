@@ -1,6 +1,7 @@
 import React, {useCallback, useState} from 'react';
 import css from "./tile-item.module.scss";
 import defaultBookCover from "../../../../assets/img/default-book-cover.svg";
+
 import {Rating} from "../../../../features/rating";
 import {Button} from "../../../../features/button";
 import {AuthorsType, BookingType, DeliveryType, ImageType} from "../../../../api/books-list-api";
@@ -35,17 +36,17 @@ type TileItemPropsType = {
 }
 
 export const TileItem: React.FC<TileItemPropsType> = ({
-                                                   image,
-                                                   rating,
-                                                   authors,
-                                                   title,
-                                                   issueYear,
-                                                   delivery,
-                                                   booking,
-                                                   onClickHandler,
-                                                   searchValue,
-                                                   id
-                                               }) => {
+                                                          image,
+                                                          rating,
+                                                          authors,
+                                                          title,
+                                                          issueYear,
+                                                          delivery,
+                                                          booking,
+                                                          onClickHandler,
+                                                          searchValue,
+                                                          id
+                                                      }) => {
 
     const [orderModalIsOpen, setOrderModalIsOpen] = useState(false)
     const dispatch = useAppDispatch()
@@ -54,6 +55,7 @@ export const TileItem: React.FC<TileItemPropsType> = ({
     const createOrderSuccess = useAppSelector(state => state.book.createOrderSuccess)
     const updateOrderSuccess = useAppSelector(state => state.book.updateOrderSuccess)
     const deleteOrderSuccess = useAppSelector(state => state.book.deleteOrderSuccess)
+
 
     let titleForTile
     if (title.length > 50) {
@@ -122,6 +124,7 @@ export const TileItem: React.FC<TileItemPropsType> = ({
             dispatch(setDeleteOrderSuccessAC(null))
         }
     }
+    console.log(`/covers/${id}.webp`)
 
     return (
         <>
@@ -161,11 +164,11 @@ export const TileItem: React.FC<TileItemPropsType> = ({
             <div className={css.bookList__item}>
 
                 <div className={css.bookList__item_coveWrapper}>
-                    <img src={image?.url.length
-                        ? `https://strapi.cleverland.by${image.url}`
-                        : defaultBookCover}
+
+                    <img src={image?.url.length ? process.env.PUBLIC_URL + `/covers/${id}.webp` : defaultBookCover}
                          alt="Book cover"
                          className={css.bookList__item_cover}/>
+
                 </div>
 
                 <div className={css.bookList__item_rating}>

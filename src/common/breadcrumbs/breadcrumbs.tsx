@@ -5,8 +5,8 @@ import {CategoriesType} from "../../api/books-list-api";
 import {useAppSelector} from "../../hooks/hooks";
 
 type BreadcrumbsPropsType = {
-    categories: CategoriesType | null
-    title: string
+    categories: CategoriesType | null | undefined
+    title: string | undefined
 }
 
 export const Breadcrumbs: React.FC<BreadcrumbsPropsType> = ({categories, title}) => {

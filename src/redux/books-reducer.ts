@@ -1,4 +1,11 @@
-import {BookListResponseType, booksListApi} from "../api/books-list-api";
+import {
+    AuthorsType,
+    BookingType,
+    BookListResponseType,
+    booksListApi,
+    CategoriesType, DeliveryType, HistoriesType,
+    ImageType
+} from "../api/books-list-api";
 import {AppThunkType} from "./store";
 import {setAppErrorAC, setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
 import {AxiosError} from "axios/index";
@@ -54,5 +61,25 @@ type InitialBooksStateType = {
 export type BookImage = {
     imageId: string;
     image: string;
+}
+
+
+
+
+//=======new=====
+export type BooksArrayType = {
+    books: Book[];
+}
+export type Book = {
+    issueYear: string | null,
+    rating: number | null,
+    title: string,
+    authors: AuthorsType | null,
+    image: ImageType | null,
+    categories: CategoriesType | null,
+    id: number,
+    booking: BookingType | null,
+    delivery: DeliveryType | null,
+    histories: HistoriesType | null
 }
 

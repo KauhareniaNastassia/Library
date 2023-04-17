@@ -2,6 +2,7 @@ import {NavLink} from 'react-router-dom';
 import css from './sidebar-showcase-item.module.scss'
 import React from "react";
 import {useAppSelector} from "../../../hooks/hooks";
+import {booksArray} from "../../../mock-data/books";
 
 
 type SidebarShowcaseItemPropsType = {
@@ -17,8 +18,7 @@ export const SidebarShowcaseItem: React.FC<SidebarShowcaseItemPropsType> = ({
                                                                                 category,
                                                                                 name, closeSideBar
                                                                             }) => {
-    const books = useAppSelector(state => state.books.books)
-    let categoryCount = books.filter((book) => book.categories?.find((categories) => categories === name)).length
+    let categoryCount = booksArray.books.filter((book) => book.categories?.find((categories) => categories === name)).length
 
     return (
         <li key={categoryId} className={css.item}>

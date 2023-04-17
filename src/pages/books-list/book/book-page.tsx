@@ -27,10 +27,14 @@ import {CommentRequestData, CreateBookingRequestDataType} from "../../../api/boo
 import {BaseModal} from "../../../common/modals/base-modal/base-modal";
 import {OrderModal} from "../../../common/modals/order-modal/order-modal";
 import {Breadcrumbs} from "../../../common/breadcrumbs/breadcrumbs";
+import {bookInfo} from "../../../mock-data/books-info";
+
 
 export const BookPage = () => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
-    const book = useAppSelector((state) => state.book.book)
+    const {bookId} = useParams()
+    const book = bookInfo.find(el => el.id === Number(bookId))
+
     const bookingId = useAppSelector((state) => state.book.book.booking?.id)
     const userId = useAppSelector(state => state.auth.profile?.id)
     const status = useAppSelector(state => state.app.status)
@@ -41,14 +45,13 @@ export const BookPage = () => {
     const deleteOrderSuccess = useAppSelector(state => state.book.deleteOrderSuccess)
 
     const dispatch = useAppDispatch()
-    const {bookId} = useParams()
     const navigate = useNavigate()
 
     const [showReviews, setShowReviews] = useState(false)
     const [createCommentModalIsOpen, setCreateCommentModalIsOpen] = useState(false)
     const [orderModalIsOpen, setOrderModalIsOpen] = useState(false)
 
-    const commentByUser = book.comments?.find(comment => comment.user.commentUserId === userId)
+    const commentByUser = book?.comments?.find(comment => comment.user.commentUserId === userId)
 
     const onClickClearNotificationHandler = () => {
         if (createCommentSuccess) {
@@ -190,23 +193,23 @@ export const BookPage = () => {
                 message='Не удалось отменить бронирование книги. Попробуйте позже!'
                 onClickHandler={onClickClearNotificationHandler}/>}
 
-        <Breadcrumbs categories={book.categories} title={book.title}/>
+        <Breadcrumbs categories={book?.categories} title={book?.title}/>
 
         <div className={css.bookPage__info}>
             <div className={css.bookPage__info_cover}>
 
-                {book.images?.length && <BookCoverImage image={book.images}/>}
+                {book?.images?.length && <BookCoverImage image={book?.images}/>}
 
             </div>
 
             <div className={css.bookPage__info_about}>
 
                 <div className={css.bookPage__info_title}>
-                    {book.title}
+                    {book?.title}
                 </div>
 
                 <div className={css.bookPage__info_author}>
-                    {book.authors}, {book.issueYear}
+                    {book?.authors}, {book?.issueYear}
                 </div>
 
                 <div className={css.bookPage__info_button}>
@@ -215,10 +218,10 @@ export const BookPage = () => {
                             fontSize: '16px',
                             lineHeight: '24px'
                         }}
-                        orderByAuthUser={book.booking?.customerId === userId}
-                        isBooked={book.booking?.order}//забронирована
-                        dateHanded={book.delivery?.dateHandedFrom?.toString()}
-                        handed={book.delivery?.handed}
+                        orderByAuthUser={book?.booking?.customerId === userId}
+                        isBooked={book?.booking?.order}//забронирована
+                        dateHanded={book?.delivery?.dateHandedFrom?.toString()}
+                        handed={book?.delivery?.handed}
                         onClickHandler={() => setOrderModalIsOpen(true)}/>
                 </div>
 
@@ -230,7 +233,7 @@ export const BookPage = () => {
                 </div>
                 <div className={css.bookPage__info_summary_content}>
                     <p>
-                        {book.description}
+                        {book?.description}
                     </p>
                 </div>
             </div>
@@ -244,9 +247,9 @@ export const BookPage = () => {
 
                 <div className={css.bookPage__review_rating_count}>
                     <div>
-                        <Rating rating={book.rating}/>
+                        <Rating rating={book?.rating}/>
                     </div>
-                    <div>{book.rating}</div>
+                    <div>{book?.rating}</div>
                 </div>
             </div>
 
@@ -256,15 +259,15 @@ export const BookPage = () => {
                 </div>
                 <div>
                     <BookInfo
-                        publish={book.publish}
-                        year={book.issueYear}
-                        pages={book.pages}
-                        cover={book.cover}
-                        format={book.format}
-                        category={book.categories}
-                        weight={book.weight}
-                        isbn={book.ISBN}
-                        producer={book.producer}/>
+                        publish={book?.publish}
+                        year={book?.issueYear}
+                        pages={book?.pages}
+                        cover={book?.cover}
+                        format={book?.format}
+                        category={book?.categories}
+                        weight={book?.weight}
+                        isbn={book?.ISBN}
+                        producer={book?.producer}/>
                 </div>
             </div>
 
@@ -276,7 +279,7 @@ export const BookPage = () => {
                         <div>
                             <span>Отзывы</span>
                             <span
-                                className={css.bookPage__review_blockTitle_count}>{book.comments?.length}</span>
+                                className={css.bookPage__review_blockTitle_count}>{book?.comments?.length}</span>
                         </div>
 
                         <button
@@ -295,7 +298,7 @@ export const BookPage = () => {
 
                 {showReviews && <div className={css.bookPage__review_items}>
 
-                    {book.comments && [...book.comments].reverse().map((r) => <Review key={r.id}
+                    {book?.comments && [...book?.comments].reverse().map((r) => <Review key={r.id}
                                                                                       userPhoto={r.user.avatarUrl}
                                                                                       firstName={r.user.firstName}
                                                                                       lastName={r.user.lastName}
@@ -318,8 +321,8 @@ export const BookPage = () => {
             <BaseModal
                 onCloseHandler={() => setOrderModalIsOpen(false)}>
                 <OrderModal
-                    customerId={book.booking?.customerId === userId}
-                    dateOrder={book.booking?.dateOrder}
+                    customerId={book?.booking?.customerId === userId}
+                    dateOrder={book?.booking?.dateOrder}
                     onCloseHandler={() => setOrderModalIsOpen(false)}
                     onClickCreateHandler={onClickCreateNewOrderHandler}
                     onClickUpdateHandler={onClickUpdateOrderHandler}
