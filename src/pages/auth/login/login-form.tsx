@@ -28,6 +28,8 @@ export const LoginForm: React.FC = () => {
     const [isShowPassword, setIsShowPassword] = useState(false)
 
 
+    const [copyLogin, setCopyLogin] = useState('Copy')
+
     const {register, handleSubmit, getValues, formState: {errors}} = useForm<LoginRequestDataType>({
         defaultValues: {
             identifier: '',
@@ -56,9 +58,20 @@ export const LoginForm: React.FC = () => {
         email = userInfo.email
     }
 
+    const onClickLoginAsGuest = () => {
+        const loginData = {
+            username:  'Guest1234',
+            password: 'Guest1234',
+            firstName: 'Гость',
+            lastName: 'Гость',
+            phone: '+375 (29) 123-45-67',
+            email: "email@gmail.com",
+        }
+        dispatch(loginTC(loginData))
+        navigate('/')
+    }
+
     const onSubmit = (data: LoginRequestDataType) => {
-
-
         if (data.identifier === username && data.password === password) {
 
             const loginData = {
@@ -69,7 +82,6 @@ export const LoginForm: React.FC = () => {
                 phone: phone,
                 email: email,
             }
-
             dispatch(loginTC(loginData))
             navigate('/')
         } else {
@@ -162,11 +174,21 @@ export const LoginForm: React.FC = () => {
                                     </div>
                                 </div>
 
-                                <NavLink className={css.loginForm__forgotPassword} to={'/forgot-pass'}>
-                                    {/*{registrationStatus === 400 ? 'Восстановить?' : 'Забыли логин или пароль?'}*/}
-                                </NavLink>
+                                <div className={css.loginForm__forgotPassword} onClick={onClickLoginAsGuest}>
+                                    Войти как гость
+                                    <img src={arrowToRegistration} alt='arrow to enter as guest'/>
+                                </div>
 
                             </div>
+                            <button
+                                className={css.wrapper__login_test_block_button}
+                                onClick={() => {
+                                    navigator.clipboard.writeText('Nastassia1234')
+                                    setCopyLogin('Copied')
+                                }}
+                            >
+                                {copyLogin}
+                            </button>
 
                             <div className={css.loginForm_buttonBlock}>
                                 <input

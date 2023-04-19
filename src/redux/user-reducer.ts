@@ -143,9 +143,10 @@ export const getUserDataTC = (): AppThunkType =>
     async (dispatch) => {
         dispatch(setAppStatusAC('loading'))
         try {
-            const res = await userApi.me()
-            //dispatch(setUserProfileAC(res.data))
-            dispatch(setUserAC(res.data))
+          /*  dispatch(setUserProfileAC(data))
+            dispatch(setUserIdAC(123456))
+            dispatch(setAvatarChangeAC(localStorage.getItem('avatarIsChanged')))*/
+            // dispatch(setUserAC(res.data))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
         } catch (err) {

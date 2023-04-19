@@ -9,33 +9,27 @@ import reviewArrowUpIcon from '../../../assets/img/review-arrow-up.svg';
 import {useAppDispatch, useAppSelector} from "../../../hooks/hooks";
 import {BookCoverImage} from "./book-image/book-cover-image";
 import {
-    CreateBookingDataType,
     createCommentTC,
-    createOrderTC,
-    deleteOrderTC,
     getBookTC,
     setCreateCommentSuccessAC,
     setCreateOrderSuccessAC,
     setDeleteOrderSuccessAC,
     setUpdateCommentAC,
     setUpdateOrderSuccessAC,
-    updateCommentTC,
-    updateOrderTC
+    updateCommentTC
 } from "../../../redux/book-reducer";
 import {CreateCommentModal} from "../../../common/modals/create-comment-modal/create-comment-modal";
-import {Notification} from "../../../common/notification/notification";
-import {CommentRequestData, CreateBookingRequestDataType} from "../../../api/book-api";
+import {CommentRequestData} from "../../../api/book-api";
 import {BaseModal} from "../../../common/modals/base-modal/base-modal";
 import {OrderModal} from "../../../common/modals/order-modal/order-modal";
 import {Breadcrumbs} from "../../../common/breadcrumbs/breadcrumbs";
-import {bookInfo} from "../../../mock-data/books-info";
+import {onClickCreateNewOrderHandler, onClickDeleteOrderHandler} from "../../../utils/forModals";
 
 
 export const BookPage = () => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const {bookId} = useParams()
-    const book = bookInfo.find(el => el.id === Number(bookId))
-
+    const book = useAppSelector(state => state.book.book)
     const bookingId = useAppSelector((state) => state.book.book.booking?.id)
     const userId = useAppSelector(state => state.auth.profile?.id)
     const status = useAppSelector(state => state.app.status)
@@ -51,8 +45,7 @@ export const BookPage = () => {
     const [showReviews, setShowReviews] = useState(false)
     const [createCommentModalIsOpen, setCreateCommentModalIsOpen] = useState(false)
     const [orderModalIsOpen, setOrderModalIsOpen] = useState(false)
-
-    console.log(book?.booking)
+    let bookingByMe = localStorage.getItem('booking');
 
     const commentByUser = book?.comments?.find(comment => comment.user.commentUserId === userId)
 
@@ -92,44 +85,13 @@ export const BookPage = () => {
         }
     }
 
-    const onClickCreateNewOrderHandler = (date: string) => {
-
-        if (bookId && userId) {
-            const data: CreateBookingDataType = {
-                data: {
-                    order: true,
-                    dateOrder: date,
-                    book: bookId,
-                    customer: userId
-                }
-            }
-            dispatch(createOrderTC(data))
-            dispatch(getBookTC(Number(bookId)))
-        }
-    }
-
-    const onClickUpdateOrderHandler = (date: string) => {
-
-        if (bookId && userId && bookingId) {
-            const data: CreateBookingRequestDataType = {
-                data: {
-                    order: true,
-                    dateOrder: date,
-                    book: bookId,
-                    customer: userId.toString()
-                }
-            }
-            dispatch(updateOrderTC(bookingId, data))
-            dispatch(getBookTC(Number(bookId)))
-        }
-    }
-
+/*
     const onClickDeleteOrderHandler = () => {
         if (bookingId) {
             dispatch(deleteOrderTC(bookingId))
             dispatch(getBookTC(Number(bookId)))
         }
-    }
+    }*/
 
     useEffect(() => {
         if (isLoggedIn) {
@@ -141,7 +103,7 @@ export const BookPage = () => {
 
     return <section className={css.wrapper}>
 
-        {createCommentSuccess && status === 'succeeded' &&
+        {/* {createCommentSuccess && status === 'succeeded' &&
             <Notification
                 status='succeeded'
                 message='Спасибо,что нашли время оценить книгу!'
@@ -194,14 +156,14 @@ export const BookPage = () => {
             <Notification
                 status='failed'
                 message='Не удалось отменить бронирование книги. Попробуйте позже!'
-                onClickHandler={onClickClearNotificationHandler}/>}
+                onClickHandler={onClickClearNotificationHandler}/>}*/}
 
         <Breadcrumbs categories={book?.categories} title={book?.title}/>
 
         <div className={css.bookPage__info}>
             <div className={css.bookPage__info_cover}>
 
-                {book?.images?.length && <BookCoverImage image={book?.images}/>}
+                {book?.images?.length && <BookCoverImage id={book?.id} image={book?.images}/>}
 
             </div>
 
@@ -221,7 +183,7 @@ export const BookPage = () => {
                             fontSize: '16px',
                             lineHeight: '24px'
                         }}
-                        orderByAuthUser={book?.booking?.customerId === userId}
+                        orderByAuthUser={bookingByMe !== null && +JSON.parse(bookingByMe) === book?.id}
                         isBooked={book?.booking?.order}//забронирована
                         dateHanded={book?.delivery?.dateHandedFrom?.toString()}
                         handed={book?.delivery?.handed}
@@ -302,12 +264,12 @@ export const BookPage = () => {
                 {showReviews && <div className={css.bookPage__review_items}>
 
                     {book?.comments && [...book?.comments].reverse().map((r) => <Review key={r.id}
-                                                                                      userPhoto={r.user.avatarUrl}
-                                                                                      firstName={r.user.firstName}
-                                                                                      lastName={r.user.lastName}
-                                                                                      date={r.createdAt}
-                                                                                      rating={r.rating}
-                                                                                      message={r.text}/>
+                                                                                        userPhoto={r.user.avatarUrl}
+                                                                                        firstName={r.user.firstName}
+                                                                                        lastName={r.user.lastName}
+                                                                                        date={r.createdAt}
+                                                                                        rating={r.rating}
+                                                                                        message={r.text}/>
                     )}
                 </div>}
             </div>
@@ -324,12 +286,12 @@ export const BookPage = () => {
             <BaseModal
                 onCloseHandler={() => setOrderModalIsOpen(false)}>
                 <OrderModal
-                    customerId={book?.booking?.customerId === userId}
+                    customerId={bookingByMe !== null && +JSON.parse(bookingByMe) === book.id}
                     dateOrder={book?.booking?.dateOrder}
                     onCloseHandler={() => setOrderModalIsOpen(false)}
-                    onClickCreateHandler={onClickCreateNewOrderHandler}
-                    onClickUpdateHandler={onClickUpdateOrderHandler}
-                    onClickDeleteHandler={onClickDeleteOrderHandler}
+                    onClickCreateHandler={() => onClickCreateNewOrderHandler(book.id, bookingByMe)}
+                    //onClickUpdateHandler={onClickUpdateOrderHandler}
+                    onClickDeleteHandler={() => onClickDeleteOrderHandler(book.id, bookingByMe)}
                 />
             </BaseModal>}
 
