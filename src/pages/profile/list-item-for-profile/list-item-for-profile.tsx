@@ -1,14 +1,14 @@
 import React from 'react';
 import css from "./list-item-for-profile.module.scss";
 import defaultBookCover from "../../../assets/img/default-book-cover.svg";
-import {AuthorsType} from "../../../api/books-list-api";
+import {AuthorsType, ImageType} from "../../../api/books-list-api";
 import {UserDeliveryType} from "../../../api/user-api";
 import {Rating} from "../../../features/rating";
 import {formatDateForButton} from "../../../utils/helpers/format-date-for-button/format-date-for-button";
 
 
 type ListItemPropsType = {
-    bookingImage?: string | null
+    bookingImage?:  ImageType[] | null
     title: string
     authors: AuthorsType | null | undefined
     issueYear: string | null

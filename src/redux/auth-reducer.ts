@@ -9,7 +9,7 @@ import {
 } from "../api/auth-api";
 import {setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
 import {AxiosError} from "axios/index";
-import {setAvatarChangeAC, setUserProfileAC} from "./user-reducer";
+import {setAvatarChangeAC, setUserIdAC, setUserProfileAC} from "./user-reducer";
 
 const initialState: InitialAuthStateType = {
     isRegistrationSuccess: null,
@@ -148,6 +148,7 @@ export const loginTC = (data: UserDataType): AppThunkType =>
             localStorage.removeItem('token');
             localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiI')
             dispatch(setUserProfileAC(data))
+            dispatch(setUserIdAC(123456))
             dispatch(setAvatarChangeAC(localStorage.getItem('avatarIsChanged')))
 
             /*localStorage.setItem('user', JSON.stringify(user))

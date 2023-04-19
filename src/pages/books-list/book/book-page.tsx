@@ -9,6 +9,7 @@ import reviewArrowUpIcon from '../../../assets/img/review-arrow-up.svg';
 import {useAppDispatch, useAppSelector} from "../../../hooks/hooks";
 import {BookCoverImage} from "./book-image/book-cover-image";
 import {
+    CreateBookingDataType,
     createCommentTC,
     createOrderTC,
     deleteOrderTC,
@@ -51,6 +52,8 @@ export const BookPage = () => {
     const [createCommentModalIsOpen, setCreateCommentModalIsOpen] = useState(false)
     const [orderModalIsOpen, setOrderModalIsOpen] = useState(false)
 
+    console.log(book?.booking)
+
     const commentByUser = book?.comments?.find(comment => comment.user.commentUserId === userId)
 
     const onClickClearNotificationHandler = () => {
@@ -92,12 +95,12 @@ export const BookPage = () => {
     const onClickCreateNewOrderHandler = (date: string) => {
 
         if (bookId && userId) {
-            const data: CreateBookingRequestDataType = {
+            const data: CreateBookingDataType = {
                 data: {
                     order: true,
                     dateOrder: date,
                     book: bookId,
-                    customer: userId.toString()
+                    customer: userId
                 }
             }
             dispatch(createOrderTC(data))

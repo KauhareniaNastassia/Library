@@ -15,6 +15,7 @@ const initialState: InitialUserStateType = {
         phone: ''
     },
     avatar: null,
+    userId: 0,
 
     user: {
         id: 0, //this user id
@@ -52,6 +53,8 @@ export const userReducer = (state: InitialUserStateType = initialState, action: 
             }
         case "user/SET-AVATAR-CHANGE":
             return {...state, avatar: action.avatar}
+        case "user/SET-USER-ID":
+            return {...state, userId: action.userId}
 
 
         case "user/SET-USER":
@@ -74,6 +77,10 @@ export const setUserProfileAC = (userProfile: UserDataType | UpdateUserDataType 
 export const setAvatarChangeAC = (avatar: null | string) => ({
     type: 'user/SET-AVATAR-CHANGE',
     avatar
+} as const)
+export const setUserIdAC = (userId: number) => ({
+    type: 'user/SET-USER-ID',
+    userId
 } as const)
 
 
@@ -187,6 +194,7 @@ export const getUserDataTC = (): AppThunkType =>
 export type UserActionsType =
     | ReturnType<typeof setUserProfileAC>
     | ReturnType<typeof setAvatarChangeAC>
+    | ReturnType<typeof setUserIdAC>
 
 
 
@@ -197,6 +205,7 @@ export type UserActionsType =
 type InitialUserStateType = {
     userProfile: UserDataType | UpdateUserDataType | null
     avatar: null | string,
+    userId: number
 
 
     user: MeResponseType

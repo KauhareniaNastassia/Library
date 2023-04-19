@@ -3,9 +3,10 @@ import {NavLink} from 'react-router-dom';
 import css from './tile.module.scss'
 import {BookListResponseType} from "../../../api/books-list-api";
 import {TileItem} from "./tile-item/tile-item";
+import {BookResponseType} from "../../../api/book-api";
 
 type TilePropsType = {
-    selectCategoryBooks: BookListResponseType[]
+    selectCategoryBooks: BookResponseType[]
     searchValue?: string
 }
 
@@ -21,7 +22,7 @@ export const Tile: React.FC<TilePropsType> = ({
                     <TileItem
                         id={item.id}
                         searchValue={searchValue}
-                        image={item.image}
+                        image={item.images}
                         title={item.title}
                         authors={item.authors}
                         issueYear={item.issueYear}

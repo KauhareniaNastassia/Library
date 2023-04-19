@@ -9,9 +9,12 @@ import {
 import {AppThunkType} from "./store";
 import {setAppErrorAC, setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
 import {AxiosError} from "axios/index";
+import {booksArray} from "../mock-data/books";
+import {bookInfo} from "../mock-data/books-info";
+import {BookResponseType} from "../api/book-api";
 
 const initialState: InitialBooksStateType = {
-    books: [] as BookListResponseType[]
+    books: [] as BookResponseType[]
 }
 
 export const booksReducer = (state: InitialBooksStateType = initialState, action: BookListActionTypes): InitialBooksStateType => {
@@ -26,7 +29,7 @@ export const booksReducer = (state: InitialBooksStateType = initialState, action
 
 //  actions
 
-export const setBooksAC = (books: BookListResponseType[]) => ({
+export const setBooksAC = (books:  BookResponseType[]) => ({
         type: 'bookList/SET-BOOKLIST',
         books
     } as const)
@@ -38,8 +41,7 @@ export const getBooksTC = (): AppThunkType =>
     async (dispatch) => {
         dispatch(setAppStatusAC('loading'))
         try {
-            const res = await booksListApi.getBookList()
-            dispatch(setBooksAC(res.data))
+            dispatch(setBooksAC(bookInfo))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
         } catch (err) {
@@ -55,7 +57,7 @@ export type BookListActionTypes =
     | ReturnType<typeof setBooksAC>
 
 type InitialBooksStateType = {
-    books: BookListResponseType[]
+    books: BookResponseType[]
 }
 
 export type BookImage = {
@@ -68,7 +70,7 @@ export type BookImage = {
 
 //=======new=====
 export type BooksArrayType = {
-    books: Book[];
+    books: BookResponseType[];
 }
 export type Book = {
     issueYear: string | null,

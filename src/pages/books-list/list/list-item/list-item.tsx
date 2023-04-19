@@ -11,6 +11,7 @@ import {useAppDispatch, useAppSelector} from "../../../../hooks/hooks";
 import {Highlighter} from "../../../../utils/helpers/highlighter/highlighter";
 import {CreateBookingRequestDataType} from "../../../../api/book-api";
 import {
+    CreateBookingDataType,
     createOrderTC,
     deleteOrderTC,
     getBookTC,
@@ -23,7 +24,7 @@ import {getBooksTC} from "../../../../redux/books-reducer";
 import {Notification} from "../../../../common/notification/notification";
 
 type ListItemPropsType = {
-    image?: ImageType | null
+    image?: ImageType[] | null,
     title: string
     id?: number
     authors: AuthorsType | null | undefined
@@ -63,12 +64,12 @@ export const ListItem: React.FC<ListItemPropsType> = ({
 
     const onClickCreateNewOrderHandler = (date: string) => {
         if (id && userId) {
-            const data: CreateBookingRequestDataType = {
+            const data: CreateBookingDataType = {
                 data: {
                     order: true,
                     dateOrder: date,
                     book: id.toString(),
-                    customer: userId.toString()
+                    customer: userId
                 }
             }
             dispatch(createOrderTC(data))
@@ -151,8 +152,8 @@ export const ListItem: React.FC<ListItemPropsType> = ({
             <div className={css.bookList__item}>
 
                 <div className={css.bookList__item_coverWrapper}>
-                    <img src={image?.url.length
-                        ? `https://strapi.cleverland.by${image.url}`
+                    <img src={image?.length
+                        ? `https://strapi.cleverland.by${image}`
                             : defaultBookCover}
                          alt="Book cover"
                          className={css.bookList__item_cover}/>

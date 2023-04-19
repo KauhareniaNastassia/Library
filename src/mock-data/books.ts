@@ -1,6 +1,11 @@
-import {BooksArrayType} from "../redux/books-reducer";
+import {Book} from "../redux/books-reducer";
+import {BookResponseType} from "../api/book-api";
 
-export const booksArray: BooksArrayType = {
+export type BooksArrayType = {
+  books: Book[] ;
+}
+
+export const booksArray: BooksArrayType= {
   books: [
     {
       issueYear: '2019',
@@ -2079,5 +2084,5 @@ export const booksArray: BooksArrayType = {
       delivery: null,
       histories: null,
     },
-  ],
+  ] as Book[]
 };
