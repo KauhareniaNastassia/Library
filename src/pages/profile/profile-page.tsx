@@ -11,6 +11,7 @@ import {RedMask} from "./red-mask/red-mask";
 import {Notification} from "../../common/notification/notification";
 import {HistoryBooks} from "./history-books/history-books";
 import {ListItemForProfile} from "./list-item-for-profile/list-item-for-profile";
+import {BookResponseType} from "../../api/book-api";
 
 export const ProfilePage: React.FC = () => {
     const dispatch = useAppDispatch()
@@ -21,24 +22,35 @@ export const ProfilePage: React.FC = () => {
     const deleteOrderSuccess = useAppSelector(state => state.book.deleteOrderSuccess)
     const userDataChangeSuccess = useAppSelector(state => state.user.userDataChangeSuccess)
     const avatarChangeSuccess = useAppSelector(state => state.user.avatarChangeSuccess)
+    const books = useAppSelector(state => state.books.books)
+
 
     const onClickClearNotificationHandler = () => {
         if (userDataChangeSuccess) {
             dispatch(setUserDataChangeSuccessAC(null))
-        } if (avatarChangeSuccess) {
+        }
+        if (avatarChangeSuccess) {
             dispatch(setAvatarChangeSuccessAC(null))
-        } if (deleteOrderSuccess) {
+        }
+        if (deleteOrderSuccess) {
             dispatch(setDeleteOrderSuccessAC(null))
-        } if (deleteOrderSuccess) {
+        }
+        if (deleteOrderSuccess) {
             dispatch(setDeleteOrderSuccessAC(null))
         }
     }
 
     const onClickDeleteOrderHandler = () => {
         if (user.booking?.id) {
-            dispatch(deleteOrderTC(user.booking?.id, () => dispatch(getUserDataTC()) ))
+            dispatch(deleteOrderTC(user.booking?.id, () => dispatch(getUserDataTC())))
         }
     }
+    let book: BookResponseType | undefined
+        const booking = localStorage.getItem('booked');
+        if (booking) {
+            book =  books.find(el => el.id === +booking)
+        }
+
 
     useEffect(() => {
         dispatch(getUserDataTC())
@@ -96,20 +108,20 @@ export const ProfilePage: React.FC = () => {
                 description='Здесь вы можете просмотреть забронированную книгу, а так же отменить бронь'>
 
                 <div className={css.book__block__wrapper}>
-                    {user.booking?.book && <ListItemForProfile
-                        bookingImage={user.booking?.book.image}
-                        title={user.booking?.book.title}
-                        authors={user.booking?.book.authors}
-                        issueYear={user.booking?.book.issueYear}
-                        rating={user.booking?.book.rating}
+                    {book && <ListItemForProfile
+                        bookingImage={book.images}
+                        title={book.title}
+                        authors={book.authors}
+                        issueYear={book.issueYear}
+                        rating={book.rating}
                         onClickHandler={onClickDeleteOrderHandler}
                     />}
 
-                    {user.booking?.dateOrder && (user.booking?.dateOrder < new Date().toJSON()) && <RedMask
+                    {book?.booking?.dateOrder && (book?.booking?.dateOrder < new Date().toJSON()) && <RedMask
                         title='Дата бронирования книги истекла '
                         description='Через 24 часа книга будет  доступна всем'/>}
 
-                    {!user.booking?.book && <EmptyBlockForWrapper title='Забронируйте книгу и она отобразится '/>}
+                    {!book && <EmptyBlockForWrapper title='Забронируйте книгу и она отобразится '/>}
                 </div>
             </BlockWrapper>
 
@@ -118,12 +130,12 @@ export const ProfilePage: React.FC = () => {
                 description='Здесь можете просмотреть информацию о книге и узнать сроки возврата'>
 
                 <div className={css.book__block__wrapper}>
-                    {user.delivery?.book && <ListItemForProfile
-                        bookingImage={user.delivery?.book.image}
-                        title={user.delivery?.book.title}
-                        authors={user.delivery?.book.authors}
-                        issueYear={user.delivery?.book.issueYear}
-                        rating={user.delivery?.book.rating}
+                    {book?.delivery && <ListItemForProfile
+                        bookingImage={book.images}
+                        title={book.title}
+                        authors={book.authors}
+                        issueYear={book.issueYear}
+                        rating={book.rating}
                         deliveryForProfile={user.delivery}
                     />}
 

@@ -16,7 +16,7 @@ export const LayoutMainPage: React.FC = () => {
     useEffect(() => {
         if (isLoggedIn) {
             dispatch(getCategoriesListTC())
-            dispatch(getUserDataTC())
+            //dispatch(getUserDataTC())
             dispatch(getBooksTC())
         } else {
             navigate('/auth')

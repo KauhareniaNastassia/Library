@@ -1,4 +1,7 @@
-export const bookInfo = [
+import {Book} from "../redux/books-reducer";
+import {BookResponseType} from "../api/book-api";
+
+export const bookInfo: BookResponseType[] = [
     {
         id: 2,
         title: 'Построение бизнес-моделей: Настольная книга стратега и новатора',

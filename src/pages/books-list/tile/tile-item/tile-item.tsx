@@ -11,6 +11,7 @@ import {Highlighter} from "../../../../utils/helpers/highlighter/highlighter";
 import {OrderModal} from "../../../../common/modals/order-modal/order-modal";
 import {CreateBookingRequestDataType} from "../../../../api/book-api";
 import {
+    CreateBookingDataType,
     createOrderTC,
     deleteOrderTC,
     setCreateOrderSuccessAC,
@@ -23,7 +24,7 @@ import {Notification} from "../../../../common/notification/notification";
 
 
 type TileItemPropsType = {
-    image?: ImageType | null
+    image?: ImageType[] | null,
     title: string
     id?: number
     authors: AuthorsType | null | undefined
@@ -50,11 +51,12 @@ export const TileItem: React.FC<TileItemPropsType> = ({
 
     const [orderModalIsOpen, setOrderModalIsOpen] = useState(false)
     const dispatch = useAppDispatch()
-    const userId = useAppSelector(state => state.auth.profile?.id)
+    const userId = useAppSelector(state => state.user.userId)
     const status = useAppSelector(state => state.app.status)
     const createOrderSuccess = useAppSelector(state => state.book.createOrderSuccess)
     const updateOrderSuccess = useAppSelector(state => state.book.updateOrderSuccess)
     const deleteOrderSuccess = useAppSelector(state => state.book.deleteOrderSuccess)
+
 
 
     let titleForTile
@@ -70,20 +72,33 @@ export const TileItem: React.FC<TileItemPropsType> = ({
         } else return string
     }, [searchValue])
 
-    const onClickCreateNewOrderHandler = (date: string) => {
+    /*const onClickCreateNewOrderHandler = (date: string) => {
         if (id && userId) {
-            const data: CreateBookingRequestDataType = {
+            const data: CreateBookingDataType = {
                 data: {
                     order: true,
                     dateOrder: date,
                     book: id.toString(),
-                    customer: userId.toString()
+                    customer: userId
                 }
             }
+
             dispatch(createOrderTC(data))
             dispatch(getBooksTC())
         }
-    }
+    }*/
+
+    const onClickCreateNewOrderHandler = (date: string) => {
+        let booking = localStorage.getItem('booking');
+        if (id) {
+            if (!booking) {
+                localStorage.setItem('booked', JSON.stringify(+id));
+            } else {
+                const bookingParced = JSON.parse(booking);
+                if (!bookingParced.find((elId: number) => elId === +id)) bookingParced.push(+id);
+                localStorage.setItem('booked', JSON.stringify(bookingParced));
+            }
+        } }
 
     const onClickUpdateOrderHandler = (date: string) => {
         if (id && userId && booking?.id) {
@@ -124,7 +139,6 @@ export const TileItem: React.FC<TileItemPropsType> = ({
             dispatch(setDeleteOrderSuccessAC(null))
         }
     }
-    console.log(`/covers/${id}.webp`)
 
     return (
         <>
@@ -165,7 +179,7 @@ export const TileItem: React.FC<TileItemPropsType> = ({
 
                 <div className={css.bookList__item_coveWrapper}>
 
-                    <img src={image?.url.length ? process.env.PUBLIC_URL + `/covers/${id}.webp` : defaultBookCover}
+                    <img src={image?.length ? process.env.PUBLIC_URL + `/covers/${id}.webp` : defaultBookCover}
                          alt="Book cover"
                          className={css.bookList__item_cover}/>
 
@@ -191,6 +205,7 @@ export const TileItem: React.FC<TileItemPropsType> = ({
                         dateHanded={delivery?.dateHandedFrom?.toString()}
                         handed={delivery?.handed}
                         orderByAuthUser={booking?.customerId === userId}
+                        //orderByAuthUser={booking?.customerId === userId}
                         onClickOpenModalHandler={onClickOpenModalHandler}//for open order modal
                         onClickHandler={onClickHandler}
                     />
