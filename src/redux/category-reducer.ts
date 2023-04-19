@@ -2,6 +2,7 @@ import {categoriesApi, CategoryItemType} from "../api/categories-api";
 import {AppThunkType} from "./store";
 import {setAppErrorAC, setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
 import {AxiosError} from "axios/index";
+import {categoriesList} from "../mock-data/categories";
 
 const initialState: InitialCategoryStateType = {
     items: [] as CategoryItemType[]
@@ -31,8 +32,7 @@ export const getCategoriesListTC = (): AppThunkType =>
     async (dispatch) => {
         dispatch(setAppStatusAC('loading'))
         try {
-            const res = await categoriesApi.getCategoriesList()
-            dispatch(setCategoriesListAC(res.data))
+            dispatch(setCategoriesListAC(categoriesList.categories))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
         } catch (err) {

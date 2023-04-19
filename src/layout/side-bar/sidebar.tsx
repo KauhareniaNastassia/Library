@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {NavLink, useLocation} from 'react-router-dom';
+import {NavLink, useLocation, useNavigate} from 'react-router-dom';
 import css from './sidebar.module.scss'
 import sidebarArrowIcon from '../../assets/img/sidebar-arrow-icon.svg';
 import {SidebarMainItem} from "./sidebar-main-item";
@@ -17,11 +17,13 @@ export const Sidebar: React.FC<SidebarPropsType> = ({closeSideBar, showMenuBtn})
     const categories = useAppSelector(state => state.categories.items)
     const dispatch = useAppDispatch()
     const location = useLocation()
+    const navigate = useNavigate()
     const [showMenu, setShowMenu] = useState(true)
     const [activeShowcase, setActiveShowcase] = useState<boolean>(true)
 
     const onClickLogoutHandler = () => {
         dispatch(logoutTC())
+        navigate('/auth')
     }
 
     useEffect(() => {
@@ -69,7 +71,7 @@ export const Sidebar: React.FC<SidebarPropsType> = ({closeSideBar, showMenuBtn})
                             </div>
 
                             <ul>
-                                {categoriesList.categories.map((category) =>
+                                {categories.map((category) =>
                                     <SidebarShowcaseItem
                                         key={category.id}
                                         categoryId={category.id}

@@ -1,12 +1,9 @@
 import React, {useCallback, useState} from 'react';
-import {NavLink} from "react-router-dom";
 import css from "./list-item.module.scss";
 import defaultBookCover from "../../../../assets/img/default-book-cover.svg";
 import {Rating} from "../../../../features/rating";
 import {Button} from "../../../../features/button";
-import {AuthorsType, BookingType, BookListResponseType, DeliveryType, ImageType} from "../../../../api/books-list-api";
-import {UserBookingType, UserDeliveryType} from "../../../../api/user-api";
-import {RedMask} from "../../../profile/red-mask/red-mask";
+import {AuthorsType, BookingType, DeliveryType, ImageType} from "../../../../api/books-list-api";
 import {useAppDispatch, useAppSelector} from "../../../../hooks/hooks";
 import {Highlighter} from "../../../../utils/helpers/highlighter/highlighter";
 import {CreateBookingRequestDataType} from "../../../../api/book-api";
@@ -15,13 +12,14 @@ import {
     createOrderTC,
     deleteOrderTC,
     getBookTC,
-    setCreateOrderSuccessAC, setDeleteOrderSuccessAC, setUpdateOrderSuccessAC,
+    setCreateOrderSuccessAC,
+    setDeleteOrderSuccessAC,
+    setUpdateOrderSuccessAC,
     updateOrderTC
 } from "../../../../redux/book-reducer";
 import {BaseModal} from "../../../../common/modals/base-modal/base-modal";
 import {OrderModal} from "../../../../common/modals/order-modal/order-modal";
 import {getBooksTC} from "../../../../redux/books-reducer";
-import {Notification} from "../../../../common/notification/notification";
 
 type ListItemPropsType = {
     image?: ImageType[] | null,
@@ -116,7 +114,7 @@ export const ListItem: React.FC<ListItemPropsType> = ({
     return (
         <>
 
-            {createOrderSuccess && status === 'succeeded' &&
+           {/* {createOrderSuccess && status === 'succeeded' &&
                 <Notification
                     status='succeeded'
                     message='Книга забронирована. Подробности можно посмотреть на странице Профиль'
@@ -147,7 +145,7 @@ export const ListItem: React.FC<ListItemPropsType> = ({
                 <Notification
                     status='failed'
                     message='Не удалось отменить бронирование книги. Попробуйте позже!'
-                    onClickHandler={onClickClearNotificationHandler}/>}
+                    onClickHandler={onClickClearNotificationHandler}/>}*/}
 
             <div className={css.bookList__item}>
 
@@ -196,7 +194,7 @@ export const ListItem: React.FC<ListItemPropsType> = ({
                         dateOrder={booking?.dateOrder}
                         onCloseHandler={() => setOrderModalIsOpen(false)}
                         onClickCreateHandler={onClickCreateNewOrderHandler}
-                        onClickUpdateHandler={onClickUpdateOrderHandler}
+                        //onClickUpdateHandler={onClickUpdateOrderHandler}
                         onClickDeleteHandler={onClickDeleteOrderHandler}
                     />
                 </BaseModal>}

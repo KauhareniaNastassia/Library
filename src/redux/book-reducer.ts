@@ -33,6 +33,7 @@ const initialState: InitialBookStateType = {
     } as BookResponseType,
     createCommentSuccess: null,
     updateCommentSuccess: null,
+    createOrder: false,
     createOrderSuccess: null,
     updateOrderSuccess: null,
     deleteOrderSuccess: null,
@@ -44,7 +45,7 @@ export const bookReducer = (state: InitialBookStateType = initialState, action: 
         case "book/SET-BOOK":
             return {...state, book: action.book}
         case "book/SET-CREATE-ORDER":
-            return {...state, book: {...state.book, booking: action.booking}}
+            return {...state, createOrder: action.createOrder}
 
 
         case "book/SET-UPDATE-COMMENT-SUCCESS":
@@ -68,9 +69,9 @@ export const setBookAC = (book: BookResponseType) => ({
     type: 'book/SET-BOOK',
     book
 } as const)
-export const setCreateOrderAC = (booking: BookingType) => ({
+export const setCreateOrderAC = (createOrder: boolean) => ({
     type: 'book/SET-CREATE-ORDER',
-    booking
+    createOrder
 } as const)
 
 
@@ -157,7 +158,7 @@ export const createOrderTC = (data: CreateBookingDataType): AppThunkType =>
                 customerFirstName: null,
                 customerLastName:  null
             }
-            dispatch(setCreateOrderAC(bookingData))
+            //dispatch(setCreateOrderAC(bookingData))
             dispatch(setCreateOrderSuccessAC(true))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
@@ -218,6 +219,7 @@ type InitialBookStateType = {
     book: BookResponseType
     updateCommentSuccess: null | boolean
     createCommentSuccess: null | boolean
+    createOrder: boolean
     createOrderSuccess: null | boolean
     updateOrderSuccess: null | boolean
     deleteOrderSuccess: null | boolean

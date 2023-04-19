@@ -24,13 +24,10 @@ export const Header: React.FC = () => {
     }
 
     const onClickLogoutHandler = () => {
-
         dispatch(logoutTC())
         /*localStorage.removeItem('token');
         dispatch(isLoggedInAC(false))*/
         navigate('/auth')
-
-       // navigate('/auth')
     }
 
     useOnClickOutside(node, onClickOutsideClose);

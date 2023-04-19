@@ -7,19 +7,19 @@ type CreateCommentModalPropsType = {
     onCloseHandler: () => void
     onClickCreateHandler: (date: string) => void
     customerId?: boolean
-    onClickUpdateHandler: (date: string) => void
+    //onClickUpdateHandler: (date: string) => void
     onClickDeleteHandler: () => void
     dateOrder?: string | null | undefined
 }
 
 export const OrderModal: React.FC<CreateCommentModalPropsType> = ({
-                                                               onCloseHandler,
-                                                               onClickCreateHandler,
-                                                               customerId,
-                                                               onClickUpdateHandler,
-                                                               onClickDeleteHandler,
-                                                               dateOrder
-                                                           }) => {
+                                                                      onCloseHandler,
+                                                                      onClickCreateHandler,
+                                                                      customerId,
+                                                                      //onClickUpdateHandler,
+                                                                      onClickDeleteHandler,
+                                                                      dateOrder
+                                                                  }) => {
 
     const [selectedDay, setSelectedDay] = useState(new Date())
     const [disableOrderButton, setDisableOrderButton] = useState(true)
@@ -29,10 +29,10 @@ export const OrderModal: React.FC<CreateCommentModalPropsType> = ({
         onCloseHandler()
     }
 
-    const onClickUpdateOrderHandler = () => {
-        onClickUpdateHandler(selectedDay.toJSON())
-        onCloseHandler()
-    }
+    /*   const onClickUpdateOrderHandler = () => {
+           onClickUpdateHandler(selectedDay.toJSON())
+           onCloseHandler()
+       }*/
     const onClickDeleteOrderHandler = () => {
         onClickDeleteHandler()
         onCloseHandler()
@@ -48,29 +48,19 @@ export const OrderModal: React.FC<CreateCommentModalPropsType> = ({
                 setDisableOrderButton={() => setDisableOrderButton(false)}
                 dateOrder={dateOrder}/>
 
-            {customerId
-                ? (<div className={css.modal_buttons_block}>
-                    <ButtonForModal
-                        onClickHandler={onClickUpdateOrderHandler}
-                        title='забронировать'
-                        disabled={disableOrderButton}
-                    />
 
-                    <ButtonForModal
-                        onClickHandler={onClickDeleteOrderHandler}
-                        title='отменить бронь'
-                        disabled={false}
-                    />
-                </div>)
-
-                : (
-                    <ButtonForModal
-                        onClickHandler={onClickCreateOrderHandler}
-                        title='забронировать'
-                        disabled={disableOrderButton}
-                    />
-                )
-            }
+            <div className={css.modal_buttons_block}>
+                <ButtonForModal
+                    onClickHandler={onClickCreateOrderHandler}
+                    title='забронировать'
+                    disabled={disableOrderButton}
+                />
+                {customerId && <ButtonForModal
+                    onClickHandler={onClickDeleteOrderHandler}
+                    title='отменить бронь'
+                    disabled={false}
+                />}
+            </div>
         </div>
     );
 };

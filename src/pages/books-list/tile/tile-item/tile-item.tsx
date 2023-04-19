@@ -9,17 +9,11 @@ import {useAppDispatch, useAppSelector} from "../../../../hooks/hooks";
 import {BaseModal} from "../../../../common/modals/base-modal/base-modal";
 import {Highlighter} from "../../../../utils/helpers/highlighter/highlighter";
 import {OrderModal} from "../../../../common/modals/order-modal/order-modal";
-import {CreateBookingRequestDataType} from "../../../../api/book-api";
 import {
-    CreateBookingDataType,
-    createOrderTC,
-    deleteOrderTC,
     setCreateOrderSuccessAC,
     setDeleteOrderSuccessAC,
-    setUpdateOrderSuccessAC,
-    updateOrderTC
+    setUpdateOrderSuccessAC
 } from "../../../../redux/book-reducer";
-import {getBooksTC} from "../../../../redux/books-reducer";
 import {Notification} from "../../../../common/notification/notification";
 
 
@@ -34,6 +28,7 @@ type TileItemPropsType = {
     delivery?: DeliveryType | null
     onClickHandler?: () => void
     searchValue?: string
+    show: boolean
 }
 
 export const TileItem: React.FC<TileItemPropsType> = ({
@@ -46,7 +41,8 @@ export const TileItem: React.FC<TileItemPropsType> = ({
                                                           booking,
                                                           onClickHandler,
                                                           searchValue,
-                                                          id
+                                                          id,
+                                                          show
                                                       }) => {
 
     const [orderModalIsOpen, setOrderModalIsOpen] = useState(false)
@@ -58,10 +54,9 @@ export const TileItem: React.FC<TileItemPropsType> = ({
     const deleteOrderSuccess = useAppSelector(state => state.book.deleteOrderSuccess)
 
 
-
     let titleForTile
     if (title.length > 50) {
-        titleForTile = `${title.substring(0, 50).trim()}...`
+        titleForTile = `${title.substring(0, 47).trim()}...`
     } else {
         titleForTile = title
     }
@@ -87,20 +82,25 @@ export const TileItem: React.FC<TileItemPropsType> = ({
             dispatch(getBooksTC())
         }
     }*/
+    let bookingByMe = localStorage.getItem('booking');
 
-    const onClickCreateNewOrderHandler = (date: string) => {
-        let booking = localStorage.getItem('booking');
+    const onClickCreateNewOrderHandler = () => {
         if (id) {
-            if (!booking) {
-                localStorage.setItem('booked', JSON.stringify(+id));
+            if (!bookingByMe) {
+                localStorage.setItem('booking', JSON.stringify(+id));
             } else {
-                const bookingParced = JSON.parse(booking);
-                if (!bookingParced.find((elId: number) => elId === +id)) bookingParced.push(+id);
-                localStorage.setItem('booked', JSON.stringify(bookingParced));
+                const bookingParced = JSON.parse(bookingByMe);
+                if (+bookingParced !== id) {
+                    localStorage.removeItem('booking');
+                    localStorage.setItem('booking', JSON.stringify(+id));
+                } else {
+                    localStorage.setItem('booking', JSON.stringify(bookingParced))
+                }
             }
-        } }
+        }
+    }
 
-    const onClickUpdateOrderHandler = (date: string) => {
+    /*const onClickUpdateOrderHandler = (date: string) => {
         if (id && userId && booking?.id) {
             const data: CreateBookingRequestDataType = {
                 data: {
@@ -113,12 +113,11 @@ export const TileItem: React.FC<TileItemPropsType> = ({
             dispatch(updateOrderTC(booking?.id, data))
             dispatch(getBooksTC())
         }
-    }
+    }*/
 
     const onClickDeleteOrderHandler = () => {
-        if (booking?.id) {
-            dispatch(deleteOrderTC(booking?.id))
-            dispatch(getBooksTC())
+        if (id && bookingByMe) {
+            localStorage.removeItem('booking');
         }
     }
 
@@ -142,7 +141,7 @@ export const TileItem: React.FC<TileItemPropsType> = ({
 
     return (
         <>
-            {createOrderSuccess && status === 'succeeded' &&
+            {/* {createOrderSuccess && status === 'succeeded' &&
                 <Notification
                     status='succeeded'
                     message='Книга забронирована. Подробности можно посмотреть на странице Профиль'
@@ -173,53 +172,56 @@ export const TileItem: React.FC<TileItemPropsType> = ({
                 <Notification
                     status='failed'
                     message='Не удалось отменить бронирование книги. Попробуйте позже!'
-                    onClickHandler={onClickClearNotificationHandler}/>}
+                    onClickHandler={onClickClearNotificationHandler}/>}*/}
 
-            <div className={css.bookList__item}>
+            <div className={show ? css.bookTile__item : css.bookList__item}>
 
-                <div className={css.bookList__item_coveWrapper}>
+                <div className={css.bookList__item_coverWrapper}>
 
                     <img src={image?.length ? process.env.PUBLIC_URL + `/covers/${id}.webp` : defaultBookCover}
                          alt="Book cover"
                          className={css.bookList__item_cover}/>
-
                 </div>
 
-                <div className={css.bookList__item_rating}>
-                    <Rating rating={rating}/>
-                </div>
+                <div className={css.bookList__item_infoWrapper}>
 
-                <div className={css.bookList__item_info}>
-                    <div className={css.bookList__item_info_title}>
-                        {highLight(titleForTile)}
+                    <div className={css.bookList__item_info}>
+                        <div className={css.bookList__item_info_title}>
+                            {highLight(titleForTile)}
+                        </div>
+
+                        <div className={css.bookList__item_info_author}>
+                            {authors}, {issueYear}
+                        </div>
                     </div>
 
-                    <div className={css.bookList__item_info_author}>
-                        {authors}, {issueYear}
+                    <div className={css.bookList__item_rating}>
+                        <Rating rating={rating}/>
+                    </div>
+
+                    <div className={css.bookList__item_button}>
+                        <Button
+                            isBooked={booking?.order}//забронирована
+                            dateHanded={delivery?.dateHandedFrom?.toString()}
+                            handed={delivery?.handed}
+                            orderByAuthUser={bookingByMe !== null && +JSON.parse(bookingByMe) === id}
+                            //orderByAuthUser={booking?.customerId === userId}
+                            onClickOpenModalHandler={onClickOpenModalHandler}//for open order modal
+                            onClickHandler={onClickHandler}
+                        />
                     </div>
                 </div>
 
-                <div className={css.bookList__item_button}>
-                    <Button
-                        isBooked={booking?.order}//забронирована
-                        dateHanded={delivery?.dateHandedFrom?.toString()}
-                        handed={delivery?.handed}
-                        orderByAuthUser={booking?.customerId === userId}
-                        //orderByAuthUser={booking?.customerId === userId}
-                        onClickOpenModalHandler={onClickOpenModalHandler}//for open order modal
-                        onClickHandler={onClickHandler}
-                    />
-                </div>
 
                 {orderModalIsOpen &&
                     <BaseModal
                         onCloseHandler={() => setOrderModalIsOpen(false)}>
                         <OrderModal
-                            customerId={booking?.customerId === userId}
+                            customerId={bookingByMe !== null && +JSON.parse(bookingByMe) === id}
                             dateOrder={booking?.dateOrder}
                             onCloseHandler={() => setOrderModalIsOpen(false)}
                             onClickCreateHandler={onClickCreateNewOrderHandler}
-                            onClickUpdateHandler={onClickUpdateOrderHandler}
+                            //onClickUpdateHandler={onClickUpdateOrderHandler}
                             onClickDeleteHandler={onClickDeleteOrderHandler}
                         />
                     </BaseModal>}

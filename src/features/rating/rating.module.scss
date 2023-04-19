@@ -11,7 +11,9 @@
     .rating__stars {
         display: flex;
         flex-direction: row;
-        gap: 12px;
+        align-self: center;
+
+        gap: 17px;
 
         @media (max-width: 320px) {
             gap: 8px;
