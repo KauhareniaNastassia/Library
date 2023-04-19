@@ -5,7 +5,7 @@
   color: #FF5253;
 }
 
-.bookList__item {
+.bookTile__item {
   width: 190px;
   height: 470px;
   display: flex;
@@ -27,7 +27,7 @@
     align-items: center;
   }
 
-  .bookList__item_coveWrapper {
+  .bookList__item_coverWrapper {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -47,103 +47,236 @@
     }
   }
 
-  .bookList__item_rating {
-
-    @media (max-width: 768px) {
-      margin-bottom: 25px;
-    }
-
-    @media (max-width: 320px) {
-      margin-bottom: 16px;
-    }
-  }
-
-  .bookList__item_info {
-    width: 174px;
-    height: 90px;
+  .bookList__item_infoWrapper {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    gap: 8px;
+    align-items: flex-start;
+    gap: 16px;
 
-    @media (max-width: 768px) {
-      gap: 17px;
-      margin-bottom: 28px;
-      height: 70px;
-      justify-content: flex-start;
-    }
-
-    @media (max-width: 320px) {
-      width: 256px;
-      gap: 8px;
-      height: 98px;
-      margin-bottom: 10px;
-      justify-content: flex-start;
-    }
-
-    .bookList__item_info_title {
-      letter-spacing: 0.1px;
-      height: 54px;
-      @include text(14px, 18px, 600, $main-text-color);
-
+    .bookList__item_rating {
       @media (max-width: 768px) {
-        @include text(14px, 18px, 700, $main-text-color);
-
-        align-items: flex-start;
-        overflow: hidden;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        line-height: 1.3em;
-        max-height: 3.9em;
+        margin-bottom: 25px;
       }
 
       @media (max-width: 320px) {
-        @include text(14px, 18px, 600, $main-text-color);
-        align-items: flex-start;
-        max-height: 36px;
-        justify-content: flex-start;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        line-height: 1.3em;
-        height: 3.9em;
+        margin-bottom: 16px;
       }
     }
 
-    .bookList__item_info_author {
-      height: 36px;
+    .bookList__item_info {
       width: 174px;
-      letter-spacing: 0.1px;
-      @include text(14px, 18px, 400, $unActive-color);
+      height: 90px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 8px;
 
       @media (max-width: 768px) {
-        @include text(12px, 18px, 700, #727272);
-        text-transform: uppercase;
+        gap: 17px;
+        margin-bottom: 28px;
+        height: 70px;
+        justify-content: flex-start;
       }
 
       @media (max-width: 320px) {
-        @include text(12px, 18px, 400, #727272);
-        text-transform: capitalize;
+        width: 256px;
+        gap: 8px;
+        height: 98px;
+        margin-bottom: 10px;
+        justify-content: flex-start;
+      }
+
+      .bookList__item_info_title {
+        letter-spacing: 0.1px;
+        height: 54px;
+        @include text(14px, 18px, 600, $main-text-color);
+
+        @media (max-width: 768px) {
+          @include text(14px, 18px, 700, $main-text-color);
+
+          align-items: flex-start;
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          line-height: 1.3em;
+          max-height: 3.9em;
+        }
+
+        @media (max-width: 320px) {
+          @include text(14px, 18px, 600, $main-text-color);
+          align-items: flex-start;
+          max-height: 36px;
+          justify-content: flex-start;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          line-height: 1.3em;
+          height: 3.9em;
+        }
+      }
+
+      .bookList__item_info_author {
+        height: 36px;
+        width: 174px;
+        letter-spacing: 0.1px;
+        @include text(14px, 18px, 400, $unActive-color);
+
+        @media (max-width: 768px) {
+          @include text(12px, 18px, 700, #727272);
+          text-transform: uppercase;
+        }
+
+        @media (max-width: 320px) {
+          @include text(12px, 18px, 400, #727272);
+          text-transform: capitalize;
+        }
       }
     }
-  }
 
-  .bookList__item_button {
-    width: 166px;
-    height: 40px;
-    align-self: center;
-
-    @media (max-width: 768px) {
+    .bookList__item_button {
       width: 166px;
       height: 40px;
       align-self: center;
+
+      @media (max-width: 768px) {
+        width: 166px;
+        height: 40px;
+        align-self: center;
+      }
+
+      @media (max-width: 320px) {
+        width: 256px;
+        height: 40px;
+        align-self: center;
+      }
+    }
+  }
+
+
+}
+
+.bookList__item {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 218px;
+  padding: 24px 24px 24px 16px;
+  gap: 16px;
+  box-shadow: 0px 2px 4px rgba(191, 196, 201, 0.2), 0px 3px 4px rgba(191, 196, 201, 0.18), 0px 1px 5px rgba(191, 196, 201, 0.24);
+  border-radius: 12px;
+
+  @media (max-width: 768px) {
+    max-width: 640px;
+    padding: 16px 24px 16px 16px;
+  }
+
+  @media (max-width: 320px) {
+    max-width: 288px;
+    min-height: 132px;
+    padding: 16px 16px 16px 8px;
+    gap: 8px;
+  }
+
+  .bookList__item_coverWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media (max-width: 768px) {
+      align-items: flex-start;
+    }
+
+    .bookList__item_cover {
+      border-radius: 3px;
+      border: 1px solid $unActive-color;
+      width: 160px;
+      height: 170px;
+      background: #F9F9FA;
+      box-sizing: border-box;
+      object-fit: cover;
+
+      @media (max-width: 320px) {
+        width: 70px;
+        height: 100px;
+      }
+    }
+  }
+
+  .bookList__item_infoWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 24px;
+    position: relative;
+
+    @media (max-width: 768px) {
+      max-width: 464px;
+      gap: 16px;
     }
 
     @media (max-width: 320px) {
-      width: 256px;
+      max-width: 186px;
+      gap: 3px;
+    }
+
+    .bookList__item_info {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 78px;
+      gap: 8px;
+
+      @media (max-width: 320px) {
+        gap: 3px;
+        min-height: 35px;
+        justify-content: flex-start;
+      }
+
+      .bookList__item_info_title {
+        min-height: 30px;
+        letter-spacing: 0;
+        @include text(24px, 30px, 700, $main-text-color);
+
+        @media (max-width: 320px) {
+          @include text(14px, 18px, 600, $main-text-color);
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          line-height: 1.3em;
+          min-height: 18px;
+          max-height: 54px;
+        }
+      }
+
+      .bookList__item_info_author {
+        width: 50%;
+        @include text(16px, 24px, 400, $unActive-color);
+
+        @media (max-width: 320px) {
+          @include text(12px, 18px, 400, $main-text-color);
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          line-height: 1.3em;
+          min-height: 18px;
+          max-height: 54px;
+        }
+      }
+    }
+
+    .bookList__item_button {
+      width: 174px;
       height: 40px;
-      align-self: center;
+      right: 0;
+      bottom: 10px;
+      position: absolute;
+
+      @media (max-width: 320px) {
+        width: 186px;
+      }
     }
   }
 }

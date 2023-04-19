@@ -3848,7 +3848,7 @@ export const bookInfo: BookResponseType[] = [
         format: '60x90/8',
         ISBN: '978-5-9614-7223-3',
         producer: 'ООО "Альпина Паблишер"',
-        authors: ['Алекс Остервальдер', 'Ив Пинье', 'Фред Этьембль', 'Алан Смит'],
+        authors: ['Алекс Остервальдер'],
         images: [
             {
                 url: '/uploads/6061593167_01f052bf69.webp',

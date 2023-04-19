@@ -8,13 +8,14 @@ import {BookResponseType} from "../../../api/book-api";
 type TilePropsType = {
     selectCategoryBooks: BookResponseType[]
     searchValue?: string
+    show: boolean
 }
 
 export const Tile: React.FC<TilePropsType> = ({
-                                                  selectCategoryBooks, searchValue
+                                                  selectCategoryBooks, searchValue, show
                                               }) => {
 
-    return <div className={css.wrapper_tile}>
+    return <div className={show ? css.wrapper_tile : css.wrapper_list}>
 
         {selectCategoryBooks.map((item) =>
             <div key={item.id}>
@@ -29,6 +30,7 @@ export const Tile: React.FC<TilePropsType> = ({
                         rating={item.rating}
                         booking={item.booking}
                         delivery={item.delivery}
+                        show={show}
                     />
                 </NavLink>
             </div>

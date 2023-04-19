@@ -40,17 +40,17 @@ export const ProfilePage: React.FC = () => {
         }
     }
 
+
+    let book: BookResponseType | undefined
+    const bookingByMe = localStorage.getItem('booking');
+    if (bookingByMe) {
+        book = books.find(el => el.id === +bookingByMe)
+    }
     const onClickDeleteOrderHandler = () => {
-        if (user.booking?.id) {
-            dispatch(deleteOrderTC(user.booking?.id, () => dispatch(getUserDataTC())))
+        if (book && bookingByMe) {
+            localStorage.removeItem('booking');
         }
     }
-    let book: BookResponseType | undefined
-        const booking = localStorage.getItem('booked');
-        if (booking) {
-            book =  books.find(el => el.id === +booking)
-        }
-
 
     useEffect(() => {
         dispatch(getUserDataTC())
@@ -58,7 +58,7 @@ export const ProfilePage: React.FC = () => {
 
     return (
         <section className={css.profile__wrapper}>
-            {userDataChangeSuccess && status === 'succeeded' &&
+            {/*{userDataChangeSuccess && status === 'succeeded' &&
                 <Notification
                     status='succeeded'
                     message='Изменения успешно сохранены!'
@@ -87,7 +87,7 @@ export const ProfilePage: React.FC = () => {
                 <Notification
                     status='failed'
                     message='Не удалось снять бронирование книги. Попробуйте позже!'
-                    onClickHandler={onClickClearNotificationHandler}/>}
+                    onClickHandler={onClickClearNotificationHandler}/>}*/}
 
             <AvatarBlock
                 firstName={userProfile?.firstName}

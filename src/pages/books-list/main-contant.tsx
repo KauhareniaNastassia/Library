@@ -5,14 +5,11 @@ import ratingIcon from '../../assets/img/rating-icon.svg';
 import tileIcon from '../../assets/img/tile-icon.svg';
 import listIcon from '../../assets/img/list-icon.svg';
 import {Tile} from './tile';
-import {List} from './list';
 import {useOnClickOutside} from "../../hooks/use-on-click-outside";
 import {InputSearch} from "../../features/search-input";
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
-import {BookListResponseType} from "../../api/books-list-api";
 import {getBooksTC} from "../../redux/books-reducer";
 import {NotFoundMessage} from "../../common/not-found-message/not-found-message";
-import {booksArray} from "../../mock-data/books";
 import {categoriesList} from "../../mock-data/categories";
 import {BookResponseType} from "../../api/book-api";
 
@@ -119,9 +116,8 @@ export const MainContent:React.FC = () => {
         {sortedBooks.length === 0 && <NotFoundMessage message='В этой категории книг еще нет'/>}
         {searchAndSortedBooks.length === 0 && sortedBooks.length !== 0 && <NotFoundMessage message='По запросу ничего не найдено'/>}
 
-        {show
-            ? <Tile searchValue={searchValue} selectCategoryBooks={searchAndSortedBooks}/>
-            : <List searchValue={searchValue} selectCategoryBooks={searchAndSortedBooks}/>}
+        <Tile show={show} searchValue={searchValue} selectCategoryBooks={searchAndSortedBooks}/>
+
 
     </section>
 }
