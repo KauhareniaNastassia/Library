@@ -15,6 +15,7 @@ import {
     setUpdateOrderSuccessAC
 } from "../../../../redux/book-reducer";
 import {Notification} from "../../../../common/notification/notification";
+import {onClickCreateNewOrderHandler, onClickDeleteOrderHandler} from "../../../../utils/forModals";
 
 
 type TileItemPropsType = {
@@ -84,7 +85,7 @@ export const TileItem: React.FC<TileItemPropsType> = ({
     }*/
     let bookingByMe = localStorage.getItem('booking');
 
-    const onClickCreateNewOrderHandler = () => {
+   /* const onClickCreateNewOrderHandler = () => {
         if (id) {
             if (!bookingByMe) {
                 localStorage.setItem('booking', JSON.stringify(+id));
@@ -98,7 +99,7 @@ export const TileItem: React.FC<TileItemPropsType> = ({
                 }
             }
         }
-    }
+    }*/
 
     /*const onClickUpdateOrderHandler = (date: string) => {
         if (id && userId && booking?.id) {
@@ -115,11 +116,11 @@ export const TileItem: React.FC<TileItemPropsType> = ({
         }
     }*/
 
-    const onClickDeleteOrderHandler = () => {
+    /*const onClickDeleteOrderHandler = () => {
         if (id && bookingByMe) {
             localStorage.removeItem('booking');
         }
-    }
+    }*/
 
     const onClickOpenModalHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -220,9 +221,8 @@ export const TileItem: React.FC<TileItemPropsType> = ({
                             customerId={bookingByMe !== null && +JSON.parse(bookingByMe) === id}
                             dateOrder={booking?.dateOrder}
                             onCloseHandler={() => setOrderModalIsOpen(false)}
-                            onClickCreateHandler={onClickCreateNewOrderHandler}
-                            //onClickUpdateHandler={onClickUpdateOrderHandler}
-                            onClickDeleteHandler={onClickDeleteOrderHandler}
+                            onClickCreateHandler={() => onClickCreateNewOrderHandler(id, bookingByMe)}
+                            onClickDeleteHandler={() => onClickDeleteOrderHandler(id, bookingByMe)}
                         />
                     </BaseModal>}
             </div>

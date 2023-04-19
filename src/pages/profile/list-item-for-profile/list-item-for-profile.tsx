@@ -8,6 +8,7 @@ import {formatDateForButton} from "../../../utils/helpers/format-date-for-button
 
 
 type ListItemPropsType = {
+    id: number
     bookingImage?:  ImageType[] | null
     title: string
     authors: AuthorsType | null | undefined
@@ -18,6 +19,7 @@ type ListItemPropsType = {
 }
 
 export const ListItemForProfile: React.FC<ListItemPropsType> = ({
+    id,
                                                                     rating,
                                                                     authors,
                                                                     title,
@@ -31,9 +33,7 @@ export const ListItemForProfile: React.FC<ListItemPropsType> = ({
         <div className={css.bookList__item}>
 
             <div className={css.bookList__item_coverWrapper}>
-                <img src={bookingImage
-                    ? `https://strapi.cleverland.by${bookingImage}`
-                    : defaultBookCover}
+                <img src={bookingImage ? process.env.PUBLIC_URL + `/covers/${id}.webp` : defaultBookCover}
                      alt="Book cover"
                      className={css.bookList__item_cover}/>
             </div>

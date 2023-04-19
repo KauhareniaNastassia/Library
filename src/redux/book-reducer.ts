@@ -3,6 +3,7 @@ import {AppThunkType} from "./store";
 import {setAppErrorAC, setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
 import {AxiosError} from "axios";
 import {BookingType} from "../api/books-list-api";
+import {bookInfo} from "../mock-data/books-info";
 
 
 const initialState: InitialBookStateType = {
@@ -99,12 +100,12 @@ export const setDeleteOrderSuccessAC = (deleteOrderSuccess: boolean | null) => (
 
 //  thunk
 
-export const getBookTC = (id: number): AppThunkType =>
+export const getBookTC = (bookId: number): AppThunkType =>
     async (dispatch) => {
         dispatch(setAppStatusAC('loading'))
         try {
-            const res = await bookApi.getBook(id)
-            dispatch(setBookAC(res.data))
+            const book = bookInfo.find(el => el.id === Number(bookId))
+            book && dispatch(setBookAC(book))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
         } catch (err) {
