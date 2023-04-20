@@ -6,7 +6,7 @@ import {StarsRatingForModal} from "../../stars-rating-for-modal/stars-rating-for
 type CreateCommentModalPropsType = {
     onCloseHandler: () => void
     onClickHandler: (rating: null | number, comment: string) => void
-    commentRating?: number
+    commentRating?: number | null
     commentText?: string | null
 }
 
@@ -18,7 +18,7 @@ export const CreateCommentModal: React.FC<CreateCommentModalPropsType> = ({
                                                                    }) => {
 
     const [rating, setRating] = useState<null | number>(commentRating ? commentRating : null)
-    const [comment, setComment] = useState<string>(commentText ? commentText : '')
+    const [comment, setComment] = useState<string>(commentText ? commentText.substring(1, commentText.length-1) : '')
 
     const onClickCreateCommentHandler = () => {
         onClickHandler(rating, comment)
@@ -46,7 +46,7 @@ export const CreateCommentModal: React.FC<CreateCommentModalPropsType> = ({
             </div>
             <ButtonForModal
                 onClickHandler={onClickCreateCommentHandler}
-                title='оценить'
+                title={commentRating ? 'изменить оценку' :  'оценить'}
             />
         </div>
     );

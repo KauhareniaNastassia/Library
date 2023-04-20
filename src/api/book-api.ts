@@ -49,9 +49,9 @@ export type BookResponseType = {
 }
 export type CommentsType = {
     id: number | null,
-    rating: number,
+    rating: number ,
     text: string | null,
-    createdAt: string,
+    createdAt: string ,
     user: UserCommentType
 }
 export type UserCommentType = {
@@ -83,7 +83,6 @@ export type CommentRequestData = {
         rating: number,
         text: string,
         book: string,
-        user: string
     }
 }
 export type CommentResponseType = {

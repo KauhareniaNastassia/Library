@@ -8,11 +8,9 @@ import {BlockWrapper} from "./block-wrapper/block-wrapper";
 import {EmptyBlockForWrapper} from "./empty-block-for-wrapper/empty-block-for-wrapper";
 import {deleteOrderTC, setDeleteOrderSuccessAC} from "../../redux/book-reducer";
 import {RedMask} from "./red-mask/red-mask";
-import {Notification} from "../../common/notification/notification";
 import {HistoryBooks} from "./history-books/history-books";
 import {ListItemForProfile} from "./list-item-for-profile/list-item-for-profile";
 import {BookResponseType} from "../../api/book-api";
-import {onClickDeleteOrderHandler} from "../../utils/forModals";
 
 export const ProfilePage: React.FC = () => {
     const dispatch = useAppDispatch()
@@ -116,7 +114,7 @@ export const ProfilePage: React.FC = () => {
                         authors={book.authors}
                         issueYear={book.issueYear}
                         rating={book.rating}
-                        onClickHandler={() => onClickDeleteOrderHandler(book?.id, bookingByMe)}
+                        onClickHandler={() => dispatch(deleteOrderTC(book?.id, bookingByMe))}
                     />}
 
                     {book?.booking?.dateOrder && (book?.booking?.dateOrder < new Date().toJSON()) && <RedMask
