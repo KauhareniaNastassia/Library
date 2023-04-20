@@ -53,6 +53,10 @@
     align-items: flex-start;
     gap: 16px;
 
+    @media (max-width: 768px) {
+      gap: 0;
+    }
+
     .bookList__item_rating {
       @media (max-width: 768px) {
         margin-bottom: 25px;

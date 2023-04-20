@@ -21,6 +21,7 @@ import {Notification} from "../../../../common/notification/notification";
 
 
 type TileItemPropsType = {
+    key: number
     image?: ImageType[] | null,
     title: string
     id?: number
@@ -45,7 +46,8 @@ export const TileItem: React.FC<TileItemPropsType> = ({
                                                           onClickHandler,
                                                           searchValue,
                                                           id,
-                                                          show
+                                                          show,
+    key
                                                       }) => {
 
     const [orderModalIsOpen, setOrderModalIsOpen] = useState(false)
@@ -177,7 +179,7 @@ export const TileItem: React.FC<TileItemPropsType> = ({
                     message='Не удалось отменить бронирование книги. Попробуйте позже!'
                     onClickHandler={onClickClearNotificationHandler}/>}
 
-            <div className={show ? css.bookTile__item : css.bookList__item}>
+            <div key={key} className={show ? css.bookTile__item : css.bookList__item}>
 
                 <div className={css.bookList__item_coverWrapper}>
 
