@@ -21,6 +21,7 @@ export const Tile: React.FC<TilePropsType> = ({
             <div key={item.id}>
                 <NavLink to={`/books/${item.categories}/${item.id}`}>
                     <TileItem
+                        key={item.id}
                         id={item.id}
                         searchValue={searchValue}
                         image={item.images}
