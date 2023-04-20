@@ -15,6 +15,7 @@ type CalendarPropsType = {
     firstWeekDay?: number
     setDisableOrderButton: () => void
     dateOrder?: string | null | undefined
+    customerId?: boolean
 }
 
 
@@ -23,10 +24,14 @@ export const Calendar: React.FC<CalendarPropsType> = ({
                                                           selectDate,
                                                           locale = 'default',
                                                           firstWeekDay = 2, setDisableOrderButton,
-                                                          dateOrder
+                                                          dateOrder,
+                                                          customerId
                                                       }) => {
 
     const {state, functions} = useCalendar({firstWeekDay, locale, selectedDate})
+
+    dateOrder && console.log(new Date(JSON.parse(dateOrder)).getDate())
+    console.log(dateOrder)
 
     return (
         <div className={css.calendar}>
@@ -88,9 +93,9 @@ export const Calendar: React.FC<CalendarPropsType> = ({
                                         day.dayNumber === isDayForOrder ? css.calendar__day_for_order : ''
                                     ].join(' ')}
                                     disabled={
-                                        (dateOrder && new Date(dateOrder).getDate()) === isDayForOrder
+                                        (dateOrder && customerId && new Date(JSON.parse(dateOrder)).getDate()) === isDayForOrder
                                             ? day.dayNumber !== currentDay
-                                            : (dateOrder && new Date(dateOrder).getDate()) === currentDay
+                                            : (dateOrder && customerId && new Date(JSON.parse(dateOrder)).getDate()) === currentDay
                                                 ? day.dayNumber !== isDayForOrder
                                                 : (day.dayNumber !== isDayForOrder && day.dayNumber !== currentDay)
                                     }

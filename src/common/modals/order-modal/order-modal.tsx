@@ -24,6 +24,7 @@ export const OrderModal: React.FC<CreateCommentModalPropsType> = ({
     const [selectedDay, setSelectedDay] = useState(new Date())
     const [disableOrderButton, setDisableOrderButton] = useState(true)
 
+
     const onClickCreateOrderHandler = () => {
         onClickCreateHandler(selectedDay.toJSON())
         onCloseHandler()
@@ -46,7 +47,8 @@ export const OrderModal: React.FC<CreateCommentModalPropsType> = ({
                 selectedDate={selectedDay}
                 selectDate={(date: Date) => setSelectedDay(date)}
                 setDisableOrderButton={() => setDisableOrderButton(false)}
-                dateOrder={dateOrder}/>
+                dateOrder={dateOrder}
+                customerId={customerId}/>
 
 
             {customerId ?
