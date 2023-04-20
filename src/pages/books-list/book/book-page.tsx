@@ -26,6 +26,7 @@ import {CommentRequestData, CommentsType} from "../../../api/book-api";
 import {BaseModal} from "../../../common/modals/base-modal/base-modal";
 import {OrderModal} from "../../../common/modals/order-modal/order-modal";
 import {Breadcrumbs} from "../../../common/breadcrumbs/breadcrumbs";
+import {Notification} from "../../../common/notification/notification";
 
 
 export const BookPage = () => {
@@ -94,11 +95,6 @@ export const BookPage = () => {
         }
     }
 
-    console.log(commentByMe === bookId)
-    console.log(commentByMe)
-    console.log(bookId)
-
-
     let myComment = {
         id: 999,
         rating: Number(commentRating),
@@ -112,7 +108,6 @@ export const BookPage = () => {
         }}
 
     let commentsForBook = book?.comments?.slice()
-
     if (commentByMe === bookId && myComment) {
         // @ts-ignore
         commentsForBook?.push(myComment)
@@ -129,7 +124,7 @@ export const BookPage = () => {
 
     return <section className={css.wrapper}>
 
-        {/* {createCommentSuccess && status === 'succeeded' &&
+         {createCommentSuccess && status === 'succeeded' &&
             <Notification
                 status='succeeded'
                 message='Спасибо,что нашли время оценить книгу!'
@@ -182,7 +177,8 @@ export const BookPage = () => {
             <Notification
                 status='failed'
                 message='Не удалось отменить бронирование книги. Попробуйте позже!'
-                onClickHandler={onClickClearNotificationHandler}/>}*/}
+                onClickHandler={onClickClearNotificationHandler}/>
+        }
 
         <Breadcrumbs categories={book?.categories} title={book?.title}/>
 
@@ -315,8 +311,8 @@ export const BookPage = () => {
                     customerId={bookingByMe !== null && +JSON.parse(bookingByMe) === book.id}
                     dateOrder={book?.booking?.dateOrder}
                     onCloseHandler={() => setOrderModalIsOpen(false)}
-                    onClickCreateHandler={() => dispatch(createOrderTC(book.id, bookingByMe))}
-                    onClickUpdateHandler={() => dispatch(updateOrderTC(book.id, bookingByMe))}
+                    onClickCreateHandler={(selectedDay) => dispatch(createOrderTC(book.id, bookingByMe, selectedDay))}
+                    onClickUpdateHandler={(selectedDay) => dispatch(updateOrderTC(book.id, bookingByMe, selectedDay))}
                     onClickDeleteHandler={() => dispatch(deleteOrderTC(book.id, bookingByMe))}
                 />
             </BaseModal>}

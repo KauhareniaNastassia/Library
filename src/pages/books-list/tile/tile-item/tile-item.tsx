@@ -17,6 +17,7 @@ import {
     setUpdateOrderSuccessAC,
     updateOrderTC
 } from "../../../../redux/book-reducer";
+import {Notification} from "../../../../common/notification/notification";
 
 
 type TileItemPropsType = {
@@ -54,7 +55,7 @@ export const TileItem: React.FC<TileItemPropsType> = ({
     const createOrderSuccess = useAppSelector(state => state.book.createOrderSuccess)
     const updateOrderSuccess = useAppSelector(state => state.book.updateOrderSuccess)
     const deleteOrderSuccess = useAppSelector(state => state.book.deleteOrderSuccess)
-
+    let bookingDate = localStorage.getItem('bookingDate');
 
     let titleForTile
     if (title.length > 50) {
@@ -143,7 +144,7 @@ export const TileItem: React.FC<TileItemPropsType> = ({
 
     return (
         <>
-            {/* {createOrderSuccess && status === 'succeeded' &&
+             {createOrderSuccess && status === 'succeeded' &&
                 <Notification
                     status='succeeded'
                     message='Книга забронирована. Подробности можно посмотреть на странице Профиль'
@@ -174,7 +175,7 @@ export const TileItem: React.FC<TileItemPropsType> = ({
                 <Notification
                     status='failed'
                     message='Не удалось отменить бронирование книги. Попробуйте позже!'
-                    onClickHandler={onClickClearNotificationHandler}/>}*/}
+                    onClickHandler={onClickClearNotificationHandler}/>}
 
             <div className={show ? css.bookTile__item : css.bookList__item}>
 
@@ -220,10 +221,10 @@ export const TileItem: React.FC<TileItemPropsType> = ({
                         onCloseHandler={() => setOrderModalIsOpen(false)}>
                         <OrderModal
                             customerId={bookingByMe !== null && +JSON.parse(bookingByMe) === id}
-                            dateOrder={booking?.dateOrder}
+                            dateOrder={bookingDate}
                             onCloseHandler={() => setOrderModalIsOpen(false)}
-                            onClickCreateHandler={() => dispatch(createOrderTC(id, bookingByMe))}
-                            onClickUpdateHandler={() => dispatch(updateOrderTC(id, bookingByMe))}
+                            onClickCreateHandler={(selectedDay) => dispatch(createOrderTC(id, bookingByMe, selectedDay))}
+                            onClickUpdateHandler={(selectedDay) => dispatch(updateOrderTC(id, bookingByMe, selectedDay))}
                             onClickDeleteHandler={() => dispatch(deleteOrderTC(id, bookingByMe))}
                         />
                     </BaseModal>}

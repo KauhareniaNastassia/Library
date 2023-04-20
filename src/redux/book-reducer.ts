@@ -158,17 +158,20 @@ export const updateCommentTC = (commentData: CommentRequestData): AppThunkType =
         }
     }
 
-export const createOrderTC = (id: number | undefined, bookingByMe: string | null): AppThunkType =>
+export const createOrderTC = (id: number | undefined, bookingByMe: string | null, selectedDay: string): AppThunkType =>
     async (dispatch) => {
         dispatch(setAppStatusAC('loading'))
         try {
             if (id ) {
                 if (!bookingByMe) {
                     localStorage.setItem('booking', JSON.stringify(+id))
+                    localStorage.setItem('bookingDate', JSON.stringify(selectedDay))
                 }
                 if (bookingByMe) {
                     localStorage.removeItem('booking');
+                    localStorage.removeItem('bookingDate');
                     localStorage.setItem('booking', JSON.stringify(+id))
+                    localStorage.setItem('bookingDate', JSON.stringify(selectedDay))
                 }
             }
             dispatch(setCreateOrderSuccessAC(true))
@@ -181,15 +184,18 @@ export const createOrderTC = (id: number | undefined, bookingByMe: string | null
     }
 
 
-export const updateOrderTC = (id: number | undefined, bookingByMe: string | null): AppThunkType =>
+export const updateOrderTC = (id: number | undefined, bookingByMe: string | null, selectedDay: string): AppThunkType =>
     async (dispatch) => {
         dispatch(setAppStatusAC('loading'))
         try {
             if (id && bookingByMe) {
                 const bookingParced = JSON.parse(bookingByMe);
+
                 if (+bookingParced === id) {
                     localStorage.removeItem('booking');
+                    localStorage.removeItem('bookingDate');
                     localStorage.setItem('booking', JSON.stringify(+id));
+                    localStorage.setItem('bookingDate', JSON.stringify(selectedDay))
                 } else {
                     localStorage.setItem('booking', JSON.stringify(bookingParced))
                 }

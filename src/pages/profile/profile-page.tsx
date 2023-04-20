@@ -11,6 +11,7 @@ import {RedMask} from "./red-mask/red-mask";
 import {HistoryBooks} from "./history-books/history-books";
 import {ListItemForProfile} from "./list-item-for-profile/list-item-for-profile";
 import {BookResponseType} from "../../api/book-api";
+import {Notification} from "../../common/notification/notification";
 
 export const ProfilePage: React.FC = () => {
     const dispatch = useAppDispatch()
@@ -23,6 +24,7 @@ export const ProfilePage: React.FC = () => {
     const avatarChangeSuccess = useAppSelector(state => state.user.avatarChangeSuccess)
     const books = useAppSelector(state => state.books.books)
 
+    let commentDate = localStorage.getItem('commentDate')
 
     const onClickClearNotificationHandler = () => {
         if (userDataChangeSuccess) {
@@ -57,7 +59,7 @@ export const ProfilePage: React.FC = () => {
 
     return (
         <section className={css.profile__wrapper}>
-            {/*{userDataChangeSuccess && status === 'succeeded' &&
+            {userDataChangeSuccess && status === 'succeeded' &&
                 <Notification
                     status='succeeded'
                     message='Изменения успешно сохранены!'
@@ -86,7 +88,7 @@ export const ProfilePage: React.FC = () => {
                 <Notification
                     status='failed'
                     message='Не удалось снять бронирование книги. Попробуйте позже!'
-                    onClickHandler={onClickClearNotificationHandler}/>}*/}
+                    onClickHandler={onClickClearNotificationHandler}/>}
 
             <AvatarBlock
                 firstName={userProfile?.firstName}

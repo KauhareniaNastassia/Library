@@ -10,6 +10,11 @@ import {TileItemForProfile} from "../tile-item-for-profile/tile-item-for-profile
 export const HistoryBooks: React.FC = () => {
     const dispatch = useAppDispatch()
     const user = useAppSelector(state => state.user.user)
+    let commentByMe = localStorage.getItem('commentByMe');
+    if(commentByMe) {
+        commentByMe = JSON.parse(commentByMe)
+    }
+
 
     return (
         <div className={css.history_books_wrapper}>
@@ -18,19 +23,18 @@ export const HistoryBooks: React.FC = () => {
                     const searchComment = user?.comments && user?.comments.find((elem) => elem.bookId === item.id);
 
                     const onClickCreateCommentHandler = (rating: null | number, comment: string) => {
-                        if (item.id && user.id) {
+                        if (item.id) {
                             const commentData: CommentRequestData = {
                                 data: {
                                     rating: rating ? rating : 0,
                                     text: comment,
                                     book: item.id.toString(),
-                                    user: user.id.toString(),
                                 }
                             }
-                            if (searchComment) {
-                                dispatch(updateCommentTC(searchComment.id, commentData, () => dispatch(getUserDataTC())))
+                            if (commentByMe === item.id.toString()) {
+                                dispatch(updateCommentTC(commentData))
                             } else {
-                                dispatch(createCommentTC(commentData, () => dispatch(getUserDataTC())))
+                                dispatch(createCommentTC(commentData))
                             }
                         }
                     }
