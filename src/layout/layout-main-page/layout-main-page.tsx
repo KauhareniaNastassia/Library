@@ -4,7 +4,6 @@ import css from './layout-main-page.module.scss'
 import {Sidebar} from '../side-bar';
 import {getCategoriesListTC} from "../../redux/category-reducer";
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
-import {getUserDataTC} from "../../redux/user-reducer";
 import {getBooksTC} from "../../redux/books-reducer";
 
 
@@ -16,7 +15,6 @@ export const LayoutMainPage: React.FC = () => {
     useEffect(() => {
         if (isLoggedIn) {
             dispatch(getCategoriesListTC())
-            //dispatch(getUserDataTC())
             dispatch(getBooksTC())
         } else {
             navigate('/auth')
@@ -32,7 +30,6 @@ export const LayoutMainPage: React.FC = () => {
             <div className={css.content}>
                 <Outlet/>
             </div>
-
         </section>
     )
 }

@@ -16,7 +16,6 @@ import {BookResponseType} from "../../api/book-api";
 
 export const MainContent:React.FC = () => {
     const node = useRef<HTMLDivElement>(null);
-    const dispatch = useAppDispatch()
     const {category} = useParams()
 
     const [show, setShow] = useState(true)
@@ -32,7 +31,6 @@ export const MainContent:React.FC = () => {
 
 
     let selectCategoryBooks: BookResponseType[] = []
-
     if (category === 'all') {
         selectCategoryBooks = books
     } else {
@@ -68,10 +66,6 @@ export const MainContent:React.FC = () => {
     }
 
     useOnClickOutside(node, closeSearch);
-
-    useEffect(() => {
-            dispatch(getBooksTC())
-    }, [dispatch])
 
     return <section className={css.wrapper}>
         <section className={!searchOpen ? css.filterBar : css.filterBar__search_open}>
@@ -117,7 +111,6 @@ export const MainContent:React.FC = () => {
         {searchAndSortedBooks.length === 0 && sortedBooks.length !== 0 && <NotFoundMessage message='По запросу ничего не найдено'/>}
 
         <Tile show={show} searchValue={searchValue} selectCategoryBooks={searchAndSortedBooks}/>
-
 
     </section>
 }

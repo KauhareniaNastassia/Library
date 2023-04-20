@@ -19,7 +19,8 @@ export const Button: React.FC<ButtonPropsType> = ({
                                                       handed,
                                                       buttonStyle,
                                                       onClickHandler,
-                                                      orderByAuthUser, onClickOpenModalHandler
+                                                      orderByAuthUser,
+                                                      onClickOpenModalHandler
                                                   }) => {
 
     const onClickButtonHandler = () => {
@@ -35,7 +36,7 @@ export const Button: React.FC<ButtonPropsType> = ({
 
     if (orderByAuthUser) {
         return <button
-            onClick={onClickOpenModalHandler ?  onClickButtonOpenModalHandler : onClickButtonHandler}
+            onClick={onClickOpenModalHandler ? onClickButtonOpenModalHandler : onClickButtonHandler}
             type="button"
             style={buttonStyle}
             className={css.button_reserved_by_user}>забронирована</button>

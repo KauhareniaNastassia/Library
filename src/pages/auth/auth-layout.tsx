@@ -9,9 +9,6 @@ export const AuthLayout: React.FC = () => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const status = useAppSelector(state => state.app.status)
 
-    const [copyLogin, setCopyLogin] = useState('Copy')
-    const [copyPassword, setCopyPassword] = useState('Copy')
-
     useEffect(() => {
         if (isLoggedIn) {
             navigate('/books/all')

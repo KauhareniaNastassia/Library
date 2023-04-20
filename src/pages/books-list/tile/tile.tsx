@@ -1,7 +1,6 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 import css from './tile.module.scss'
-import {BookListResponseType} from "../../../api/books-list-api";
 import {TileItem} from "./tile-item/tile-item";
 import {BookResponseType} from "../../../api/book-api";
 

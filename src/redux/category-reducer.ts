@@ -1,4 +1,4 @@
-import {categoriesApi, CategoryItemType} from "../api/categories-api";
+import {CategoryItemType} from "../api/categories-api";
 import {AppThunkType} from "./store";
 import {setAppErrorAC, setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
 import {AxiosError} from "axios/index";
@@ -46,19 +46,17 @@ export const getCategoriesListTC = (): AppThunkType =>
 export type CategoriesListActionTypes =
     | ReturnType<typeof setCategoriesListAC>
 
-//  types
 
+//  types
 type InitialCategoryStateType = {
     items: CategoryItemType[]
 }
-
-
-
-//====new====
-
 export type categoriesListType = {
     categories: CategoryItemType[]
 }
+
+
+
 
 
 

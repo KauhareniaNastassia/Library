@@ -13,27 +13,22 @@ import {
     createOrderTC,
     deleteOrderTC,
     getBookTC,
-    setCreateCommentSuccessAC,
-    setCreateOrderSuccessAC,
-    setDeleteOrderSuccessAC,
-    setUpdateCommentAC,
-    setUpdateOrderSuccessAC,
     updateCommentTC,
     updateOrderTC
 } from "../../../redux/book-reducer";
 import {CreateCommentModal} from "../../../common/modals/create-comment-modal/create-comment-modal";
-import {CommentRequestData, CommentsType} from "../../../api/book-api";
+import {CommentRequestData} from "../../../api/book-api";
 import {BaseModal} from "../../../common/modals/base-modal/base-modal";
 import {OrderModal} from "../../../common/modals/order-modal/order-modal";
 import {Breadcrumbs} from "../../../common/breadcrumbs/breadcrumbs";
 import {Notification} from "../../../common/notification/notification";
+import {onClickClearNotificationHandler} from "../../../utils/onClickClearNotificationHandler";
 
 
 export const BookPage = () => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const {bookId} = useParams()
     const book = useAppSelector(state => state.book.book)
-    const bookingId = useAppSelector((state) => state.book.book.booking?.id)
     const user = useAppSelector(state => state.user.userProfile)
     const userId = useAppSelector(state => state.user.userId)
     const avatar = useAppSelector(state => state.user.avatar)
@@ -58,25 +53,7 @@ export const BookPage = () => {
     let commentMessage = localStorage.getItem('commentMessage');
     let commentRating = localStorage.getItem('commentRating');
     let commentDate = localStorage.getItem('commentDate');
-
-
-    const onClickClearNotificationHandler = () => {
-        if (createCommentSuccess) {
-            dispatch(setCreateCommentSuccessAC(null))
-        }
-        if (updateCommentSuccess) {
-            dispatch(setUpdateCommentAC(null))
-        }
-        if (createOrderSuccess) {
-            dispatch(setCreateOrderSuccessAC(null))
-        }
-        if (updateOrderSuccess) {
-            dispatch(setUpdateOrderSuccessAC(null))
-        }
-        if (deleteOrderSuccess) {
-            dispatch(setDeleteOrderSuccessAC(null))
-        }
-    }
+    let bookingDate = localStorage.getItem('bookingDate');
 
     const onClickCreateCommentHandler = (rating: null | number, comment: string) => {
         if (bookId) {
@@ -113,7 +90,6 @@ export const BookPage = () => {
         commentsForBook?.push(myComment)
     }
 
-
     useEffect(() => {
         if (isLoggedIn) {
             dispatch(getBookTC(Number(bookId)))
@@ -128,65 +104,64 @@ export const BookPage = () => {
             <Notification
                 status='succeeded'
                 message='Спасибо,что нашли время оценить книгу!'
-                onClickHandler={onClickClearNotificationHandler}/>}
+                onClickHandler={() => onClickClearNotificationHandler(dispatch, "createCommentSuccess")}/>}
         {!createCommentSuccess && status === 'failed' &&
             <Notification
                 status='failed'
                 message='Оценка не была отправлена. Попробуйте позже!'
-                onClickHandler={onClickClearNotificationHandler}/>}
+                onClickHandler={() => onClickClearNotificationHandler(dispatch, "createCommentSuccess")}/>}
 
         {updateCommentSuccess && status === 'succeeded' &&
             <Notification
                 status='succeeded'
                 message='Спасибо, что нашли время изменить оценку!'
-                onClickHandler={onClickClearNotificationHandler}/>}
+                onClickHandler={() => onClickClearNotificationHandler(dispatch, "updateCommentSuccess")}/>}
         {!updateCommentSuccess && status === 'failed' &&
             <Notification
                 status='failed'
                 message='Изменения не были сохранены. Попробуйте позже!'
-                onClickHandler={onClickClearNotificationHandler}/>}
+                onClickHandler={() => onClickClearNotificationHandler(dispatch, "updateCommentSuccess")}/>}
 
         {createOrderSuccess && status === 'succeeded' &&
             <Notification
                 status='succeeded'
                 message='Книга забронирована. Подробности можно посмотреть на странице Профиль'
-                onClickHandler={onClickClearNotificationHandler}/>}
+                onClickHandler={
+                    () => onClickClearNotificationHandler(dispatch, 'createOrderSuccess')}
+            />}
         {!createOrderSuccess && status === 'failed' &&
             <Notification
                 status='failed'
                 message='Что-то пошло не так, книга не забронирована. Попробуйте позже!'
-                onClickHandler={onClickClearNotificationHandler}/>}
+                onClickHandler={() => onClickClearNotificationHandler(dispatch, "createOrderSuccess")}/>}
 
         {updateOrderSuccess && status === 'succeeded' &&
             <Notification
                 status='succeeded'
                 message='Бронирование новой даты успешно изменено. Подробности можно посмотреть на странице Профиль'
-                onClickHandler={onClickClearNotificationHandler}/>}
+                onClickHandler={() => onClickClearNotificationHandler(dispatch, "updateOrderSuccess")}/>}
         {!updateOrderSuccess && status === 'failed' &&
             <Notification
                 status='failed'
                 message='Что-то пошло не так, дату бронирования не удалось изменить. Попробуйте позже!'
-                onClickHandler={onClickClearNotificationHandler}/>}
+                onClickHandler={() => onClickClearNotificationHandler(dispatch, "updateOrderSuccess")}/>}
 
         {deleteOrderSuccess && status === 'succeeded' &&
             <Notification
                 status='succeeded'
                 message='Бронирование книги успешно отменено!'
-                onClickHandler={onClickClearNotificationHandler}/>}
+                onClickHandler={() => onClickClearNotificationHandler(dispatch, "deleteOrderSuccess")}/>}
         {!deleteOrderSuccess && status === 'failed' &&
             <Notification
                 status='failed'
                 message='Не удалось отменить бронирование книги. Попробуйте позже!'
-                onClickHandler={onClickClearNotificationHandler}/>
-        }
+                onClickHandler={() => onClickClearNotificationHandler(dispatch, "deleteOrderSuccess")}/>}
 
         <Breadcrumbs categories={book?.categories} title={book?.title}/>
 
         <div className={css.bookPage__info}>
             <div className={css.bookPage__info_cover}>
-
                 {book?.images?.length && <BookCoverImage id={book?.id} image={book?.images}/>}
-
             </div>
 
             <div className={css.bookPage__info_about}>
@@ -309,7 +284,7 @@ export const BookPage = () => {
                 onCloseHandler={() => setOrderModalIsOpen(false)}>
                 <OrderModal
                     customerId={bookingByMe !== null && +JSON.parse(bookingByMe) === book.id}
-                    dateOrder={book?.booking?.dateOrder}
+                    dateOrder={bookingDate}
                     onCloseHandler={() => setOrderModalIsOpen(false)}
                     onClickCreateHandler={(selectedDay) => dispatch(createOrderTC(book.id, bookingByMe, selectedDay))}
                     onClickUpdateHandler={(selectedDay) => dispatch(updateOrderTC(book.id, bookingByMe, selectedDay))}

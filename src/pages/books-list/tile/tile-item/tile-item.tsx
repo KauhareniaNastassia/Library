@@ -1,7 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import css from "./tile-item.module.scss";
 import defaultBookCover from "../../../../assets/img/default-book-cover.svg";
-
 import {Rating} from "../../../../features/rating";
 import {Button} from "../../../../features/button";
 import {AuthorsType, BookingType, DeliveryType, ImageType} from "../../../../api/books-list-api";
@@ -9,15 +8,9 @@ import {useAppDispatch, useAppSelector} from "../../../../hooks/hooks";
 import {BaseModal} from "../../../../common/modals/base-modal/base-modal";
 import {Highlighter} from "../../../../utils/helpers/highlighter/highlighter";
 import {OrderModal} from "../../../../common/modals/order-modal/order-modal";
-import {
-    createOrderTC,
-    deleteOrderTC,
-    setCreateOrderSuccessAC,
-    setDeleteOrderSuccessAC,
-    setUpdateOrderSuccessAC,
-    updateOrderTC
-} from "../../../../redux/book-reducer";
+import {createOrderTC, deleteOrderTC, updateOrderTC} from "../../../../redux/book-reducer";
 import {Notification} from "../../../../common/notification/notification";
+import {onClickClearNotificationHandler} from "../../../../utils/onClickClearNotificationHandler";
 
 
 type TileItemPropsType = {
@@ -47,12 +40,11 @@ export const TileItem: React.FC<TileItemPropsType> = ({
                                                           searchValue,
                                                           id,
                                                           show,
-    key
+                                                          key
                                                       }) => {
 
     const [orderModalIsOpen, setOrderModalIsOpen] = useState(false)
     const dispatch = useAppDispatch()
-    const userId = useAppSelector(state => state.user.userId)
     const status = useAppSelector(state => state.app.status)
     const createOrderSuccess = useAppSelector(state => state.book.createOrderSuccess)
     const updateOrderSuccess = useAppSelector(state => state.book.updateOrderSuccess)
@@ -72,59 +64,7 @@ export const TileItem: React.FC<TileItemPropsType> = ({
         } else return string
     }, [searchValue])
 
-    /*const onClickCreateNewOrderHandler = (date: string) => {
-        if (id && userId) {
-            const data: CreateBookingDataType = {
-                data: {
-                    order: true,
-                    dateOrder: date,
-                    book: id.toString(),
-                    customer: userId
-                }
-            }
-
-            dispatch(createOrderTC(data))
-            dispatch(getBooksTC())
-        }
-    }*/
     let bookingByMe = localStorage.getItem('booking');
-
-   /* const onClickCreateNewOrderHandler = () => {
-        if (id) {
-            if (!bookingByMe) {
-                localStorage.setItem('booking', JSON.stringify(+id));
-            } else {
-                const bookingParced = JSON.parse(bookingByMe);
-                if (+bookingParced !== id) {
-                    localStorage.removeItem('booking');
-                    localStorage.setItem('booking', JSON.stringify(+id));
-                } else {
-                    localStorage.setItem('booking', JSON.stringify(bookingParced))
-                }
-            }
-        }
-    }*/
-
-    /*const onClickUpdateOrderHandler = (date: string) => {
-        if (id && userId && booking?.id) {
-            const data: CreateBookingRequestDataType = {
-                data: {
-                    order: true,
-                    dateOrder: date,
-                    book: id.toString(),
-                    customer: userId.toString()
-                }
-            }
-            dispatch(updateOrderTC(booking?.id, data))
-            dispatch(getBooksTC())
-        }
-    }*/
-
-    /*const onClickDeleteOrderHandler = () => {
-        if (id && bookingByMe) {
-            localStorage.removeItem('booking');
-        }
-    }*/
 
     const onClickOpenModalHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -132,58 +72,49 @@ export const TileItem: React.FC<TileItemPropsType> = ({
         setOrderModalIsOpen(true)
     }
 
-    const onClickClearNotificationHandler = () => {
-        if (createOrderSuccess) {
-            dispatch(setCreateOrderSuccessAC(null))
-        }
-        if (updateOrderSuccess) {
-            dispatch(setUpdateOrderSuccessAC(null))
-        }
-        if (deleteOrderSuccess) {
-            dispatch(setDeleteOrderSuccessAC(null))
-        }
-    }
-
     return (
         <>
-             {createOrderSuccess && status === 'succeeded' &&
+            {createOrderSuccess && status === 'succeeded' &&
                 <Notification
                     status='succeeded'
                     message='Книга забронирована. Подробности можно посмотреть на странице Профиль'
-                    onClickHandler={onClickClearNotificationHandler}/>}
+                    onClickHandler={
+                        () => onClickClearNotificationHandler(dispatch, 'createOrderSuccess')}
+                />}
             {!createOrderSuccess && status === 'failed' &&
                 <Notification
                     status='failed'
                     message='Что-то пошло не так, книга не забронирована. Попробуйте позже!'
-                    onClickHandler={onClickClearNotificationHandler}/>}
+                    onClickHandler={() => onClickClearNotificationHandler(dispatch, "createOrderSuccess")}/>}
 
             {updateOrderSuccess && status === 'succeeded' &&
                 <Notification
                     status='succeeded'
                     message='Бронирование новой даты успешно изменено. Подробности можно посмотреть на странице Профиль'
-                    onClickHandler={onClickClearNotificationHandler}/>}
+                    onClickHandler={() => onClickClearNotificationHandler(dispatch, "updateOrderSuccess")}/>}
             {!updateOrderSuccess && status === 'failed' &&
                 <Notification
                     status='failed'
                     message='Что-то пошло не так, дату бронирования не удалось изменить. Попробуйте позже!'
-                    onClickHandler={onClickClearNotificationHandler}/>}
+                    onClickHandler={() => onClickClearNotificationHandler(dispatch, "updateOrderSuccess")}/>}
 
             {deleteOrderSuccess && status === 'succeeded' &&
                 <Notification
                     status='succeeded'
                     message='Бронирование книги успешно отменено!'
-                    onClickHandler={onClickClearNotificationHandler}/>}
+                    onClickHandler={() => onClickClearNotificationHandler(dispatch, "deleteOrderSuccess")}/>}
             {!deleteOrderSuccess && status === 'failed' &&
                 <Notification
                     status='failed'
                     message='Не удалось отменить бронирование книги. Попробуйте позже!'
-                    onClickHandler={onClickClearNotificationHandler}/>}
+                    onClickHandler={() => onClickClearNotificationHandler(dispatch, "deleteOrderSuccess")}/>}
 
             <div key={key} className={show ? css.bookTile__item : css.bookList__item}>
 
                 <div className={css.bookList__item_coverWrapper}>
-
-                    <img src={image?.length ? process.env.PUBLIC_URL + `/covers/${id}.webp` : defaultBookCover}
+                    <img src={image?.length
+                        ? process.env.PUBLIC_URL + `/covers/${id}.webp`
+                        : defaultBookCover}
                          alt="Book cover"
                          className={css.bookList__item_cover}/>
                 </div>
@@ -210,13 +141,11 @@ export const TileItem: React.FC<TileItemPropsType> = ({
                             dateHanded={delivery?.dateHandedFrom?.toString()}
                             handed={delivery?.handed}
                             orderByAuthUser={bookingByMe !== null && +JSON.parse(bookingByMe) === id}
-                            //orderByAuthUser={booking?.customerId === userId}
                             onClickOpenModalHandler={onClickOpenModalHandler}//for open order modal
                             onClickHandler={onClickHandler}
                         />
                     </div>
                 </div>
-
 
                 {orderModalIsOpen &&
                     <BaseModal
