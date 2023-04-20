@@ -115,13 +115,18 @@ export const getBookTC = (bookId: number): AppThunkType =>
         }
     }
 
-export const createCommentTC = (data: CommentRequestData, cb?: () => void): AppThunkType =>
+export const createCommentTC = (commentData: CommentRequestData): AppThunkType =>
     async (dispatch) => {
         dispatch(setAppStatusAC('loading'))
         try {
-            const res = await bookApi.createComment(data)
+            if (commentData.data.book) {
+                    localStorage.setItem('commentMessage', JSON.stringify(commentData.data.text))
+                    localStorage.setItem('commentRating', JSON.stringify(commentData.data.rating))
+                    localStorage.setItem('commentByMe', JSON.stringify(commentData.data.book))
+                    localStorage.setItem('commentDate', JSON.stringify(new Date()))
+            }
+
             dispatch(setCreateCommentSuccessAC(true))
-            cb && cb()
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
         } catch (err) {
@@ -131,13 +136,19 @@ export const createCommentTC = (data: CommentRequestData, cb?: () => void): AppT
         }
     }
 
-export const updateCommentTC = (commentId: number, data: CommentRequestData, cb?: () => void): AppThunkType =>
+export const updateCommentTC = (commentData: CommentRequestData): AppThunkType =>
     async (dispatch) => {
         dispatch(setAppStatusAC('loading'))
         try {
-            const res = await bookApi.updateComment(commentId, data)
+            if (commentData.data.book) {
+                localStorage.removeItem('commentMessage');
+                localStorage.removeItem('commentRating');
+                localStorage.removeItem('commentDate');
+                localStorage.setItem('commentMessage', JSON.stringify(commentData.data.text))
+                localStorage.setItem('commentRating', JSON.stringify(commentData.data.rating))
+                localStorage.setItem('commentDate', JSON.stringify(new Date()))
+            }
             dispatch(setUpdateCommentAC(true))
-            cb && cb()
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
         } catch (err) {
@@ -147,35 +158,42 @@ export const updateCommentTC = (commentId: number, data: CommentRequestData, cb?
         }
     }
 
-export const createOrderTC = (data: CreateBookingDataType): AppThunkType =>
+export const createOrderTC = (id: number | undefined, bookingByMe: string | null): AppThunkType =>
     async (dispatch) => {
         dispatch(setAppStatusAC('loading'))
         try {
-            let bookingData = {
-                id: +9876,
-                order: data.data.order,
-                dateOrder: data.data.dateOrder,
-                customerId: data.data.customer,
-                customerFirstName: null,
-                customerLastName:  null
+            if (id ) {
+                if (!bookingByMe) {
+                    localStorage.setItem('booking', JSON.stringify(+id))
+                }
+                if (bookingByMe) {
+                    localStorage.removeItem('booking');
+                    localStorage.setItem('booking', JSON.stringify(+id))
+                }
             }
-            //dispatch(setCreateOrderAC(bookingData))
             dispatch(setCreateOrderSuccessAC(true))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
         } catch (err) {
-            const error = err as AxiosError
             dispatch(setAppStatusAC('failed'))
             dispatch(setCreateOrderSuccessAC(true))
         }
     }
 
 
-export const updateOrderTC = (bookingId: number, data: CreateBookingRequestDataType): AppThunkType =>
+export const updateOrderTC = (id: number | undefined, bookingByMe: string | null): AppThunkType =>
     async (dispatch) => {
         dispatch(setAppStatusAC('loading'))
         try {
-            const res = await bookApi.updateBooking(bookingId, data)
+            if (id && bookingByMe) {
+                const bookingParced = JSON.parse(bookingByMe);
+                if (+bookingParced === id) {
+                    localStorage.removeItem('booking');
+                    localStorage.setItem('booking', JSON.stringify(+id));
+                } else {
+                    localStorage.setItem('booking', JSON.stringify(bookingParced))
+                }
+            }
             dispatch(setUpdateOrderSuccessAC(true))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
@@ -186,13 +204,14 @@ export const updateOrderTC = (bookingId: number, data: CreateBookingRequestDataT
         }
     }
 
-export const deleteOrderTC = (bookingId: number, cb?: () => void): AppThunkType =>
+export const deleteOrderTC = (id: number | undefined, bookingByMe: string | null): AppThunkType =>
     async (dispatch) => {
         dispatch(setAppStatusAC('loading'))
         try {
-            const res = await bookApi.deleteBooking(bookingId)
+            if (id && bookingByMe) {
+                localStorage.removeItem('booking');
+            }
             dispatch(setDeleteOrderSuccessAC(true))
-            cb && cb()
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
         } catch (err) {

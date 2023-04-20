@@ -10,12 +10,13 @@ import {BaseModal} from "../../../../common/modals/base-modal/base-modal";
 import {Highlighter} from "../../../../utils/helpers/highlighter/highlighter";
 import {OrderModal} from "../../../../common/modals/order-modal/order-modal";
 import {
+    createOrderTC,
+    deleteOrderTC,
     setCreateOrderSuccessAC,
     setDeleteOrderSuccessAC,
-    setUpdateOrderSuccessAC
+    setUpdateOrderSuccessAC,
+    updateOrderTC
 } from "../../../../redux/book-reducer";
-import {Notification} from "../../../../common/notification/notification";
-import {onClickCreateNewOrderHandler, onClickDeleteOrderHandler} from "../../../../utils/forModals";
 
 
 type TileItemPropsType = {
@@ -221,8 +222,9 @@ export const TileItem: React.FC<TileItemPropsType> = ({
                             customerId={bookingByMe !== null && +JSON.parse(bookingByMe) === id}
                             dateOrder={booking?.dateOrder}
                             onCloseHandler={() => setOrderModalIsOpen(false)}
-                            onClickCreateHandler={() => onClickCreateNewOrderHandler(id, bookingByMe)}
-                            onClickDeleteHandler={() => onClickDeleteOrderHandler(id, bookingByMe)}
+                            onClickCreateHandler={() => dispatch(createOrderTC(id, bookingByMe))}
+                            onClickUpdateHandler={() => dispatch(updateOrderTC(id, bookingByMe))}
+                            onClickDeleteHandler={() => dispatch(deleteOrderTC(id, bookingByMe))}
                         />
                     </BaseModal>}
             </div>

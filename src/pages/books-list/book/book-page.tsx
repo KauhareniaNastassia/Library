@@ -10,20 +10,22 @@ import {useAppDispatch, useAppSelector} from "../../../hooks/hooks";
 import {BookCoverImage} from "./book-image/book-cover-image";
 import {
     createCommentTC,
+    createOrderTC,
+    deleteOrderTC,
     getBookTC,
     setCreateCommentSuccessAC,
     setCreateOrderSuccessAC,
     setDeleteOrderSuccessAC,
     setUpdateCommentAC,
     setUpdateOrderSuccessAC,
-    updateCommentTC
+    updateCommentTC,
+    updateOrderTC
 } from "../../../redux/book-reducer";
 import {CreateCommentModal} from "../../../common/modals/create-comment-modal/create-comment-modal";
-import {CommentRequestData} from "../../../api/book-api";
+import {CommentRequestData, CommentsType} from "../../../api/book-api";
 import {BaseModal} from "../../../common/modals/base-modal/base-modal";
 import {OrderModal} from "../../../common/modals/order-modal/order-modal";
 import {Breadcrumbs} from "../../../common/breadcrumbs/breadcrumbs";
-import {onClickCreateNewOrderHandler, onClickDeleteOrderHandler} from "../../../utils/forModals";
 
 
 export const BookPage = () => {
@@ -31,7 +33,9 @@ export const BookPage = () => {
     const {bookId} = useParams()
     const book = useAppSelector(state => state.book.book)
     const bookingId = useAppSelector((state) => state.book.book.booking?.id)
-    const userId = useAppSelector(state => state.auth.profile?.id)
+    const user = useAppSelector(state => state.user.userProfile)
+    const userId = useAppSelector(state => state.user.userId)
+    const avatar = useAppSelector(state => state.user.avatar)
     const status = useAppSelector(state => state.app.status)
     const createCommentSuccess = useAppSelector(state => state.book.createCommentSuccess)
     const updateCommentSuccess = useAppSelector(state => state.book.updateCommentSuccess)
@@ -46,8 +50,14 @@ export const BookPage = () => {
     const [createCommentModalIsOpen, setCreateCommentModalIsOpen] = useState(false)
     const [orderModalIsOpen, setOrderModalIsOpen] = useState(false)
     let bookingByMe = localStorage.getItem('booking');
+    let commentByMe = localStorage.getItem('commentByMe');
+    if(commentByMe) {
+        commentByMe = JSON.parse(commentByMe)
+    }
+    let commentMessage = localStorage.getItem('commentMessage');
+    let commentRating = localStorage.getItem('commentRating');
+    let commentDate = localStorage.getItem('commentDate');
 
-    const commentByUser = book?.comments?.find(comment => comment.user.commentUserId === userId)
 
     const onClickClearNotificationHandler = () => {
         if (createCommentSuccess) {
@@ -68,30 +78,46 @@ export const BookPage = () => {
     }
 
     const onClickCreateCommentHandler = (rating: null | number, comment: string) => {
-        if (bookId && userId) {
+        if (bookId) {
             const commentData: CommentRequestData = {
                 data: {
                     rating: rating ? rating : 0,
                     text: comment,
                     book: bookId,
-                    user: userId.toString(),
                 }
             }
-            if (commentByUser?.id) {
-                dispatch(updateCommentTC(commentByUser.id, commentData, () => dispatch(getBookTC(Number(bookId)))))
+            if (commentByMe === bookId) {
+                dispatch(updateCommentTC(commentData))
             } else {
-                dispatch(createCommentTC(commentData, () => dispatch(getBookTC(Number(bookId)))))
+                dispatch(createCommentTC(commentData))
             }
         }
     }
 
-/*
-    const onClickDeleteOrderHandler = () => {
-        if (bookingId) {
-            dispatch(deleteOrderTC(bookingId))
-            dispatch(getBookTC(Number(bookId)))
-        }
-    }*/
+    console.log(commentByMe === bookId)
+    console.log(commentByMe)
+    console.log(bookId)
+
+
+    let myComment = {
+        id: 999,
+        rating: Number(commentRating),
+        text: commentMessage?.substring(1, commentMessage.length-1),
+        createdAt: commentDate && JSON.parse(commentDate),
+        user: {
+            commentUserId: userId,
+            firstName: user?.firstName,
+            lastName: user?.lastName,
+            avatarUrl: avatar,
+        }}
+
+    let commentsForBook = book?.comments?.slice()
+
+    if (commentByMe === bookId && myComment) {
+        // @ts-ignore
+        commentsForBook?.push(myComment)
+    }
+
 
     useEffect(() => {
         if (isLoggedIn) {
@@ -244,7 +270,7 @@ export const BookPage = () => {
                         <div>
                             <span>Отзывы</span>
                             <span
-                                className={css.bookPage__review_blockTitle_count}>{book?.comments?.length}</span>
+                                className={css.bookPage__review_blockTitle_count}>{commentsForBook?.length}</span>
                         </div>
 
                         <button
@@ -263,7 +289,7 @@ export const BookPage = () => {
 
                 {showReviews && <div className={css.bookPage__review_items}>
 
-                    {book?.comments && [...book?.comments].reverse().map((r) => <Review key={r.id}
+                    {commentsForBook?.reverse().map((r) => <Review key={r.id}
                                                                                         userPhoto={r.user.avatarUrl}
                                                                                         firstName={r.user.firstName}
                                                                                         lastName={r.user.lastName}
@@ -276,9 +302,9 @@ export const BookPage = () => {
 
             <button
                 type="button"
-                className={commentByUser ? `${css.bookPage__review_button} ${css.bookPage__review_button_unActive}` : `${css.bookPage__review_button} ${css.bookPage__review_button_active}`}
+                className={commentByMe === bookId ? `${css.bookPage__review_button} ${css.bookPage__review_button_unActive}` : `${css.bookPage__review_button} ${css.bookPage__review_button_active}`}
                 onClick={() => setCreateCommentModalIsOpen(true)}
-            > {commentByUser ? 'изменить оценку' : 'оценить книгу'}
+            > {commentByMe === bookId ? 'изменить оценку' : 'оценить книгу'}
             </button>
 
         </div>
@@ -289,23 +315,23 @@ export const BookPage = () => {
                     customerId={bookingByMe !== null && +JSON.parse(bookingByMe) === book.id}
                     dateOrder={book?.booking?.dateOrder}
                     onCloseHandler={() => setOrderModalIsOpen(false)}
-                    onClickCreateHandler={() => onClickCreateNewOrderHandler(book.id, bookingByMe)}
-                    //onClickUpdateHandler={onClickUpdateOrderHandler}
-                    onClickDeleteHandler={() => onClickDeleteOrderHandler(book.id, bookingByMe)}
+                    onClickCreateHandler={() => dispatch(createOrderTC(book.id, bookingByMe))}
+                    onClickUpdateHandler={() => dispatch(updateOrderTC(book.id, bookingByMe))}
+                    onClickDeleteHandler={() => dispatch(deleteOrderTC(book.id, bookingByMe))}
                 />
             </BaseModal>}
 
-        {createCommentModalIsOpen && commentByUser &&
+        {createCommentModalIsOpen && commentByMe === bookId && commentRating &&
             <BaseModal
                 onCloseHandler={() => setCreateCommentModalIsOpen(false)}>
                 <CreateCommentModal
-                    commentRating={commentByUser.rating}
-                    commentText={commentByUser.text}
+                    commentRating={+commentRating}
+                    commentText={commentMessage}
                     onCloseHandler={() => setCreateCommentModalIsOpen(false)}
                     onClickHandler={onClickCreateCommentHandler}/>
             </BaseModal>}
 
-        {createCommentModalIsOpen && !commentByUser &&
+        {createCommentModalIsOpen && (!commentByMe || commentByMe !== bookId) &&
             <BaseModal
                 onCloseHandler={() => setCreateCommentModalIsOpen(false)}>
                 <CreateCommentModal
@@ -314,6 +340,7 @@ export const BookPage = () => {
             </BaseModal>}
     </section>
 }
+
 
 
 
