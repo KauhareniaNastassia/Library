@@ -1,7 +1,6 @@
 import React from 'react';
 import {CommentRequestData} from "../../../api/book-api";
 import {createCommentTC, updateCommentTC} from "../../../redux/book-reducer";
-import {getUserDataTC} from "../../../redux/user-reducer";
 import css from './history-books.module.scss'
 import {useAppDispatch, useAppSelector} from "../../../hooks/hooks";
 import {TileItemForProfile} from "../tile-item-for-profile/tile-item-for-profile";
@@ -14,7 +13,6 @@ export const HistoryBooks: React.FC = () => {
     if(commentByMe) {
         commentByMe = JSON.parse(commentByMe)
     }
-
 
     return (
         <div className={css.history_books_wrapper}>

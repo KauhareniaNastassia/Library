@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {useForm} from "react-hook-form";
 import {useAppDispatch, useAppSelector} from "../../../hooks/hooks";
-import {isAuthErrorAC, isLoggedInAC, loginTC, setAuthErrorAC} from "../../../redux/auth-reducer";
+import {isAuthErrorAC, loginTC} from "../../../redux/auth-reducer";
 import {NavLink, useNavigate} from "react-router-dom";
 import {LoginRequestDataType} from "../../../api/auth-api";
 import css from './login-form.module.scss'
@@ -11,13 +11,9 @@ import arrowToRegistration from '../../../assets/img/arrow-for-registration.svg'
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
 import {schemaForAuth} from "../../../utils/validate/auth-validate/shema-for-auth";
 
-import {AuthErrorModal} from "../../../common/modals/modal-info";
-import {BasicModal} from "../../../common/modals/basic-modal";
-
 export const LoginForm: React.FC = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    const registrationStatus = useAppSelector(state => state.auth.registrationStatus)
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const isAuthError = useAppSelector(state => state.auth.isAuthError)
 
@@ -26,9 +22,6 @@ export const LoginForm: React.FC = () => {
     const [changeInputIdentifier, setChangeInputIdentifier] = useState(false);
     const [changeInputPassword, setChangeInputPassword] = useState(false)
     const [isShowPassword, setIsShowPassword] = useState(false)
-
-
-    const [copyLogin, setCopyLogin] = useState('Copy')
 
     const {register, handleSubmit, getValues, formState: {errors}} = useForm<LoginRequestDataType>({
         defaultValues: {
@@ -67,6 +60,7 @@ export const LoginForm: React.FC = () => {
             phone: '+375 (29) 123-45-67',
             email: "email@gmail.com",
         }
+        localStorage.clear()
         dispatch(loginTC(loginData))
         navigate('/')
     }
@@ -105,7 +99,7 @@ export const LoginForm: React.FC = () => {
                                 <div className={css.loginForm__input_wrapper}>
                                     <div className={css.loginForm__input_item}>
                                         <input
-                                            className={(conditionEmptyIdentifier || registrationStatus === 400)
+                                            className={(conditionEmptyIdentifier)
                                                 ? `${css.loginForm__input} ${css.input__error}`
                                                 : css.loginForm__input}
                                             type='text'
@@ -165,12 +159,12 @@ export const LoginForm: React.FC = () => {
                                                 <span style={{color: 'red'}}>Неверный логин или пароль!</span>
                                             </div>}
 
-                                        {!registrationStatus &&
+
                                             <div className={css.login_message}>
 
                                                 {(conditionEmptyPassword || errors.password) &&
                                                     <span style={{color: 'red'}}>Поле не должно быть пустым</span>}
-                                            </div>}
+                                            </div>
                                     </div>
                                 </div>
 
@@ -180,15 +174,6 @@ export const LoginForm: React.FC = () => {
                                 </div>
 
                             </div>
-                            <button
-                                className={css.wrapper__login_test_block_button}
-                                onClick={() => {
-                                    navigator.clipboard.writeText('Nastassia1234')
-                                    setCopyLogin('Copied')
-                                }}
-                            >
-                                {copyLogin}
-                            </button>
 
                             <div className={css.loginForm_buttonBlock}>
                                 <input
@@ -208,9 +193,6 @@ export const LoginForm: React.FC = () => {
                         </div>
                     </form>
                 )}
-
-           {/* {isLoggedIn === false &&
-                <BasicModal modalInfo={AuthErrorModal}/>}*/}
         </div>
     )
 };

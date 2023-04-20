@@ -26,10 +26,7 @@ export interface InputTypesRegistration {
 
 export const RegistrationForm: React.FC = () => {
     const dispatch = useAppDispatch()
-    const navigate = useNavigate()
     const isRegistrationSuccess = useAppSelector(state => state.auth.isRegistrationSuccess)
-    const registrationStatus = useAppSelector(state => state.auth.registrationStatus)
-    const registrationError = useAppSelector(state => state.auth.registrationError)
     const [stepOfRegistration, setStepOfRegistration] = useState<number>(1)
 
     const {
@@ -56,9 +53,7 @@ export const RegistrationForm: React.FC = () => {
         setStepOfRegistration(stepOfRegistration + 1)
 
         if (stepOfRegistration === 3) {
-            localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiI');
-            localStorage.setItem('user', JSON.stringify(data));
-            dispatch(isRegistrationSuccessAC(true))
+           dispatch(registrationTC(data))
         }
     }
 

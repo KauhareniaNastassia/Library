@@ -11,18 +11,15 @@ type AvatarBlockPropsType = {
     firstName?: string
     lastName?: string
     avatar?: string | null
-    userId: number
+
 }
 
 export const AvatarBlock: React.FC<AvatarBlockPropsType> = ({
                                                                 firstName,
                                                                 lastName,
                                                                 avatar,
-                                                                userId
                                                             }) => {
     const dispatch = useAppDispatch()
-
-
 
     const onClickAvatarChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length) {
@@ -34,7 +31,6 @@ export const AvatarBlock: React.FC<AvatarBlockPropsType> = ({
             }
         }
     }
-
 
     return (
         <div className={css.profile__avatar_block}>

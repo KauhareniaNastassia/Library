@@ -12,7 +12,6 @@ export const appReducer = (state: InitialAppStateType = initialState, action: Ap
             return {...state, appError: action.appError}
         case "app/SET-APP-SUCCESS":
             return {...state, successMessage: action.successMessage}
-
         default:
             return state
     }

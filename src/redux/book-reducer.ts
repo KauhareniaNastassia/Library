@@ -34,7 +34,6 @@ const initialState: InitialBookStateType = {
     } as BookResponseType,
     createCommentSuccess: null,
     updateCommentSuccess: null,
-    createOrder: false,
     createOrderSuccess: null,
     updateOrderSuccess: null,
     deleteOrderSuccess: null,
@@ -45,10 +44,6 @@ export const bookReducer = (state: InitialBookStateType = initialState, action: 
     switch (action.type) {
         case "book/SET-BOOK":
             return {...state, book: action.book}
-        case "book/SET-CREATE-ORDER":
-            return {...state, createOrder: action.createOrder}
-
-
         case "book/SET-UPDATE-COMMENT-SUCCESS":
             return {...state, updateCommentSuccess: action.updateCommentSuccess}
         case "book/SET-CREATE-COMMENT-SUCCESS":
@@ -70,12 +65,6 @@ export const setBookAC = (book: BookResponseType) => ({
     type: 'book/SET-BOOK',
     book
 } as const)
-export const setCreateOrderAC = (createOrder: boolean) => ({
-    type: 'book/SET-CREATE-ORDER',
-    createOrder
-} as const)
-
-
 export const setUpdateCommentAC = (updateCommentSuccess: boolean | null) => ({
     type: 'book/SET-UPDATE-COMMENT-SUCCESS',
     updateCommentSuccess
@@ -125,12 +114,10 @@ export const createCommentTC = (commentData: CommentRequestData): AppThunkType =
                     localStorage.setItem('commentByMe', JSON.stringify(commentData.data.book))
                     localStorage.setItem('commentDate', JSON.stringify(new Date()))
             }
-
             dispatch(setCreateCommentSuccessAC(true))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
         } catch (err) {
-            const error = err as AxiosError
             dispatch(setAppStatusAC('failed'))
             dispatch(setCreateCommentSuccessAC(false))
         }
@@ -152,7 +139,6 @@ export const updateCommentTC = (commentData: CommentRequestData): AppThunkType =
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
         } catch (err) {
-            const error = err as AxiosError
             dispatch(setAppStatusAC('failed'))
             dispatch(setUpdateCommentAC(false))
         }
@@ -190,7 +176,6 @@ export const updateOrderTC = (id: number | undefined, bookingByMe: string | null
         try {
             if (id && bookingByMe) {
                 const bookingParced = JSON.parse(bookingByMe);
-
                 if (+bookingParced === id) {
                     localStorage.removeItem('booking');
                     localStorage.removeItem('bookingDate');
@@ -204,7 +189,6 @@ export const updateOrderTC = (id: number | undefined, bookingByMe: string | null
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
         } catch (err) {
-            const error = err as AxiosError
             dispatch(setAppStatusAC('failed'))
             dispatch(setUpdateOrderSuccessAC(false))
         }
@@ -216,12 +200,12 @@ export const deleteOrderTC = (id: number | undefined, bookingByMe: string | null
         try {
             if (id && bookingByMe) {
                 localStorage.removeItem('booking');
+                localStorage.removeItem('bookingDate');
             }
             dispatch(setDeleteOrderSuccessAC(true))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setAppSuccessMessageAC('success'))
         } catch (err) {
-            const error = err as AxiosError
             dispatch(setAppStatusAC('failed'))
             dispatch(setDeleteOrderSuccessAC(false))
         }
@@ -229,11 +213,8 @@ export const deleteOrderTC = (id: number | undefined, bookingByMe: string | null
 
 
 //  types
-
 export type BookActionsType =
     | ReturnType<typeof setBookAC>
-    | ReturnType<typeof setCreateOrderAC>
-
     | ReturnType<typeof setUpdateCommentAC>
     | ReturnType<typeof setCreateCommentSuccessAC>
     | ReturnType<typeof setUpdateOrderSuccessAC>
@@ -245,25 +226,11 @@ type InitialBookStateType = {
     book: BookResponseType
     updateCommentSuccess: null | boolean
     createCommentSuccess: null | boolean
-    createOrder: boolean
     createOrderSuccess: null | boolean
     updateOrderSuccess: null | boolean
     deleteOrderSuccess: null | boolean
 }
 
-export type BookImage = {
-    imageId: string;
-    image: string;
-}
-
-export type CreateBookingDataType = {
-    data: {
-        order: boolean,
-        dateOrder: string,
-        book: string, // book id
-        customer: number //user id, who has booked
-    }
-}
 
 
 

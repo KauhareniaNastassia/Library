@@ -6,7 +6,7 @@ import {BurgerMenu} from '../../features/burger-menu';
 import React, {useRef, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 import {Notification} from "../../common/notification/notification";
-import {isLoggedInAC, logoutTC} from "../../redux/auth-reducer";
+import {logoutTC} from "../../redux/auth-reducer";
 import {useOnClickOutside} from "../../hooks/use-on-click-outside";
 
 export const Header: React.FC = () => {
@@ -25,8 +25,6 @@ export const Header: React.FC = () => {
 
     const onClickLogoutHandler = () => {
         dispatch(logoutTC())
-        /*localStorage.removeItem('token');
-        dispatch(isLoggedInAC(false))*/
         navigate('/auth')
     }
 

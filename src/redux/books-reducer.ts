@@ -60,18 +60,6 @@ type InitialBooksStateType = {
     books: BookResponseType[]
 }
 
-export type BookImage = {
-    imageId: string;
-    image: string;
-}
-
-
-
-
-//=======new=====
-export type BooksArrayType = {
-    books: BookResponseType[];
-}
 export type Book = {
     issueYear: string | null,
     rating: number | null,
@@ -84,4 +72,3 @@ export type Book = {
     delivery: DeliveryType | null,
     histories: HistoriesType | null
 }
-
