@@ -30,8 +30,6 @@ export const Calendar: React.FC<CalendarPropsType> = ({
 
     const {state, functions} = useCalendar({firstWeekDay, locale, selectedDate})
 
-    dateOrder && console.log(new Date(JSON.parse(dateOrder)).getDate())
-    console.log(dateOrder)
 
     return (
         <div className={css.calendar}>
