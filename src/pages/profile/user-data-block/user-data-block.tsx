@@ -193,7 +193,7 @@ export const UserDataBlock: React.FC = () => {
                             onClick={() => {
                                 setIsShowPassword(!isShowPassword)
                             }}>
-                            <img src={isShowPassword ? eyeOpen : eyeClose}/>
+                            <img src={isShowPassword ? eyeOpen : eyeClose} alt={'eye'}/>
                         </button>
 
 

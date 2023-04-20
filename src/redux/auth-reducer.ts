@@ -1,13 +1,6 @@
 import {AppThunkType} from "./store";
-import {
-    authApi,
-    AuthUserResponseType,
-    ForgotPasswordRequestType,
-    ResetPasswordRequestData,
-    UserDataType
-} from "../api/auth-api";
+import {AuthUserResponseType, UserDataType} from "../api/auth-api";
 import {setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
-import {AxiosError} from "axios/index";
 import {setAvatarChangeAC, setUserIdAC, setUserProfileAC} from "./user-reducer";
 
 const initialState: InitialAuthStateType = {

@@ -1,8 +1,7 @@
-import {bookApi, BookResponseType, CommentRequestData, CreateBookingRequestDataType} from "../api/book-api";
+import {BookResponseType, CommentRequestData} from "../api/book-api";
 import {AppThunkType} from "./store";
 import {setAppErrorAC, setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
 import {AxiosError} from "axios";
-import {BookingType} from "../api/books-list-api";
 import {bookInfo} from "../mock-data/books-info";
 
 

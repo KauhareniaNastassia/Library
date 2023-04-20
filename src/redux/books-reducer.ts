@@ -1,15 +1,7 @@
-import {
-    AuthorsType,
-    BookingType,
-    BookListResponseType,
-    booksListApi,
-    CategoriesType, DeliveryType, HistoriesType,
-    ImageType
-} from "../api/books-list-api";
+import {AuthorsType, BookingType, CategoriesType, DeliveryType, HistoriesType, ImageType} from "../api/books-list-api";
 import {AppThunkType} from "./store";
 import {setAppErrorAC, setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
 import {AxiosError} from "axios/index";
-import {booksArray} from "../mock-data/books";
 import {bookInfo} from "../mock-data/books-info";
 import {BookResponseType} from "../api/book-api";
 

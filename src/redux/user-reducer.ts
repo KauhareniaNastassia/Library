@@ -1,7 +1,6 @@
-import {MeResponseType, UpdateUserDataType, userApi} from "../api/user-api";
+import {MeResponseType, UpdateUserDataType} from "../api/user-api";
 import {AppThunkType} from "./store";
-import {setAppErrorAC, setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
-import {AxiosError} from "axios/index";
+import {setAppStatusAC, setAppSuccessMessageAC} from "./app-reducer";
 import {UserDataType} from "../api/auth-api";
 
 
