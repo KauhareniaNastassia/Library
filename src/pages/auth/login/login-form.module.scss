@@ -102,6 +102,11 @@
           visibility: hidden;
         }
 
+        input[type="password"]::-ms-reveal,
+        input[type="password"]::-ms-clear {
+          display: none;
+        }
+
         .login_message {
           top: 58px;
           position: absolute;
