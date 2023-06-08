@@ -139,7 +139,7 @@
   }
 
   .wrapper__login_test_block_button {
-    //@include text(12px, 16px, 400, $main-text-color);
+
     @include text(14px, 16px, 500, #ffffff);
     border: 1px solid #ED5C1D;
     border-radius: 5px;
